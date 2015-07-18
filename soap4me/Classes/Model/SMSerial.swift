@@ -26,6 +26,8 @@ class SMSerial: RLMObject {
     var title_ru: String = ""
     var desc: String = ""
     
+    var my: Bool = false
+    
     func fillWithDict(dict: [String: AnyObject]?) {
         if let d = dict {
             

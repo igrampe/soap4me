@@ -27,4 +27,12 @@ class SMCatalogManager: NSObject {
             success: successBlock,
             failure: failureBlock)
     }
+    
+    func getSerialsMy() -> [SMSerial] {
+        return [SMSerial]()
+    }
+    
+    func getSerialsAll() -> [SMSerial] {
+        return [SMSerial]()
+    }
 }
