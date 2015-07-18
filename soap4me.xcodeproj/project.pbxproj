@@ -1,0 +1,543 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2174A8710ED3E904A6596842 /* Pods_soap4me.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6EB2B97E986C60F42D16DED /* Pods_soap4me.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		530AB3EC1B5ADE6900F5E6B5 /* SMSerialsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530AB3EB1B5ADE6900F5E6B5 /* SMSerialsViewController.swift */; };
+		5328450B1B5B056B00FADC03 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 532845091B5B056B00FADC03 /* LaunchScreen.xib */; };
+		532845131B5B0C5000FADC03 /* NSNotification+APL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532845121B5B0C5000FADC03 /* NSNotification+APL.swift */; };
+		534366511B59809400C2C203 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534366501B59809400C2C203 /* AppDelegate.swift */; };
+		534366561B59809400C2C203 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 534366541B59809400C2C203 /* Main.storyboard */; };
+		534366581B59809400C2C203 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 534366571B59809400C2C203 /* Assets.xcassets */; };
+		534366841B59835900C2C203 /* SMRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534366821B59835900C2C203 /* SMRootViewController.swift */; };
+		534366891B59851F00C2C203 /* SMSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534366881B59851F00C2C203 /* SMSignInViewController.swift */; };
+		537A49141B59B2BE00F81129 /* SMSignInTextFiled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49131B59B2BE00F81129 /* SMSignInTextFiled.swift */; };
+		537A49181B59BAFF00F81129 /* UIColor+APL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49171B59BAFF00F81129 /* UIColor+APL.swift */; };
+		537A491A1B59CACB00F81129 /* APLApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49191B59CACB00F81129 /* APLApiHelper.swift */; };
+		537A491C1B59CE7500F81129 /* SMStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A491B1B59CE7500F81129 /* SMStateManager.swift */; };
+		537A49201B59D84C00F81129 /* SMApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A491F1B59D84C00F81129 /* SMApiHelper.swift */; };
+		537A49221B59E61400F81129 /* SMSerial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49211B59E61400F81129 /* SMSerial.swift */; };
+		537A49241B59E7B400F81129 /* SMCatalogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49231B59E7B400F81129 /* SMCatalogManager.swift */; };
+		537A49261B59F19D00F81129 /* NSObject+APL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49251B59F19D00F81129 /* NSObject+APL.swift */; };
+		537A49281B5AD90900F81129 /* String+APL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49271B5AD90900F81129 /* String+APL.swift */; };
+		537A492A1B5ADABC00F81129 /* SMCatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49291B5ADABC00F81129 /* SMCatalogViewController.swift */; };
+		53C90F381B5AED5200A04687 /* SMCatalogCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C90F361B5AED5200A04687 /* SMCatalogCollectionCell.swift */; };
+		53C90F391B5AED5200A04687 /* SMCatalogCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53C90F371B5AED5200A04687 /* SMCatalogCollectionCell.xib */; };
+		53C90F3C1B5AF8FF00A04687 /* SMCatalogReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C90F3A1B5AF8FF00A04687 /* SMCatalogReusableView.swift */; };
+		53C90F3D1B5AF8FF00A04687 /* SMCatalogReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53C90F3B1B5AF8FF00A04687 /* SMCatalogReusableView.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		27F96E78DEA033962A12D54C /* Pods-soap4me.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-soap4me.release.xcconfig"; path = "Pods/Target Support Files/Pods-soap4me/Pods-soap4me.release.xcconfig"; sourceTree = "<group>"; };
+		28A0ED9DBB05DF658E98BD7A /* Pods-soap4me.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-soap4me.debug.xcconfig"; path = "Pods/Target Support Files/Pods-soap4me/Pods-soap4me.debug.xcconfig"; sourceTree = "<group>"; };
+		530AB3EB1B5ADE6900F5E6B5 /* SMSerialsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSerialsViewController.swift; sourceTree = "<group>"; };
+		5328450A1B5B056B00FADC03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		5328450E1B5B09CA00FADC03 /* soap4me-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "soap4me-Bridging-Header.h"; sourceTree = "<group>"; };
+		532845121B5B0C5000FADC03 /* NSNotification+APL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNotification+APL.swift"; sourceTree = "<group>"; };
+		5343664D1B59809400C2C203 /* soap4me.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = soap4me.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		534366501B59809400C2C203 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		534366551B59809400C2C203 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		534366571B59809400C2C203 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5343665C1B59809400C2C203 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		534366821B59835900C2C203 /* SMRootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMRootViewController.swift; sourceTree = "<group>"; };
+		534366881B59851F00C2C203 /* SMSignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSignInViewController.swift; sourceTree = "<group>"; };
+		537A49131B59B2BE00F81129 /* SMSignInTextFiled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSignInTextFiled.swift; sourceTree = "<group>"; };
+		537A49171B59BAFF00F81129 /* UIColor+APL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+APL.swift"; sourceTree = "<group>"; };
+		537A49191B59CACB00F81129 /* APLApiHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APLApiHelper.swift; sourceTree = "<group>"; };
+		537A491B1B59CE7500F81129 /* SMStateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMStateManager.swift; sourceTree = "<group>"; };
+		537A491F1B59D84C00F81129 /* SMApiHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMApiHelper.swift; sourceTree = "<group>"; };
+		537A49211B59E61400F81129 /* SMSerial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSerial.swift; sourceTree = "<group>"; };
+		537A49231B59E7B400F81129 /* SMCatalogManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMCatalogManager.swift; sourceTree = "<group>"; };
+		537A49251B59F19D00F81129 /* NSObject+APL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+APL.swift"; sourceTree = "<group>"; };
+		537A49271B5AD90900F81129 /* String+APL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+APL.swift"; sourceTree = "<group>"; };
+		537A49291B5ADABC00F81129 /* SMCatalogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMCatalogViewController.swift; sourceTree = "<group>"; };
+		53C90F361B5AED5200A04687 /* SMCatalogCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMCatalogCollectionCell.swift; sourceTree = "<group>"; };
+		53C90F371B5AED5200A04687 /* SMCatalogCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMCatalogCollectionCell.xib; sourceTree = "<group>"; };
+		53C90F3A1B5AF8FF00A04687 /* SMCatalogReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMCatalogReusableView.swift; sourceTree = "<group>"; };
+		53C90F3B1B5AF8FF00A04687 /* SMCatalogReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMCatalogReusableView.xib; sourceTree = "<group>"; };
+		B6EB2B97E986C60F42D16DED /* Pods_soap4me.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_soap4me.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5343664A1B59809300C2C203 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2174A8710ED3E904A6596842 /* Pods_soap4me.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5328450C1B5B094800FADC03 /* Bridging-Headers */ = {
+			isa = PBXGroup;
+			children = (
+				5328450E1B5B09CA00FADC03 /* soap4me-Bridging-Header.h */,
+			);
+			path = "Bridging-Headers";
+			sourceTree = "<group>";
+		};
+		534366441B59809300C2C203 = {
+			isa = PBXGroup;
+			children = (
+				5343664F1B59809400C2C203 /* soap4me */,
+				5343664E1B59809400C2C203 /* Products */,
+				D70F372A80B8AD46292DB2C5 /* Pods */,
+				5E36F8E88289CCE5EA9C79AC /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		5343664E1B59809400C2C203 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5343664D1B59809400C2C203 /* soap4me.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5343664F1B59809400C2C203 /* soap4me */ = {
+			isa = PBXGroup;
+			children = (
+				5328450C1B5B094800FADC03 /* Bridging-Headers */,
+				5343667E1B59835900C2C203 /* Classes */,
+				534366811B59835900C2C203 /* ViewControllers */,
+				534366831B59835900C2C203 /* Views */,
+				534366501B59809400C2C203 /* AppDelegate.swift */,
+				532845091B5B056B00FADC03 /* LaunchScreen.xib */,
+				534366541B59809400C2C203 /* Main.storyboard */,
+				534366571B59809400C2C203 /* Assets.xcassets */,
+				5343665C1B59809400C2C203 /* Info.plist */,
+			);
+			path = soap4me;
+			sourceTree = "<group>";
+		};
+		5343667E1B59835900C2C203 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				537A49151B59BACE00F81129 /* Libs */,
+				5343667F1B59835900C2C203 /* Managers */,
+				534366801B59835900C2C203 /* Model */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		5343667F1B59835900C2C203 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				537A491F1B59D84C00F81129 /* SMApiHelper.swift */,
+				537A491B1B59CE7500F81129 /* SMStateManager.swift */,
+				537A49231B59E7B400F81129 /* SMCatalogManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		534366801B59835900C2C203 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				537A49211B59E61400F81129 /* SMSerial.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		534366811B59835900C2C203 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				534366851B59837900C2C203 /* Catalog */,
+				534366861B59837900C2C203 /* Login */,
+				534366871B59837900C2C203 /* Settings */,
+				534366821B59835900C2C203 /* SMRootViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		534366831B59835900C2C203 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				537A49131B59B2BE00F81129 /* SMSignInTextFiled.swift */,
+				53C90F361B5AED5200A04687 /* SMCatalogCollectionCell.swift */,
+				53C90F371B5AED5200A04687 /* SMCatalogCollectionCell.xib */,
+				53C90F3A1B5AF8FF00A04687 /* SMCatalogReusableView.swift */,
+				53C90F3B1B5AF8FF00A04687 /* SMCatalogReusableView.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		534366851B59837900C2C203 /* Catalog */ = {
+			isa = PBXGroup;
+			children = (
+				537A49291B5ADABC00F81129 /* SMCatalogViewController.swift */,
+				530AB3EB1B5ADE6900F5E6B5 /* SMSerialsViewController.swift */,
+			);
+			path = Catalog;
+			sourceTree = "<group>";
+		};
+		534366861B59837900C2C203 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				534366881B59851F00C2C203 /* SMSignInViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		534366871B59837900C2C203 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		537A49151B59BACE00F81129 /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				537A49161B59BAD600F81129 /* APL */,
+			);
+			path = Libs;
+			sourceTree = "<group>";
+		};
+		537A49161B59BAD600F81129 /* APL */ = {
+			isa = PBXGroup;
+			children = (
+				537A49171B59BAFF00F81129 /* UIColor+APL.swift */,
+				537A49191B59CACB00F81129 /* APLApiHelper.swift */,
+				537A49251B59F19D00F81129 /* NSObject+APL.swift */,
+				537A49271B5AD90900F81129 /* String+APL.swift */,
+				532845121B5B0C5000FADC03 /* NSNotification+APL.swift */,
+			);
+			path = APL;
+			sourceTree = "<group>";
+		};
+		5E36F8E88289CCE5EA9C79AC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B6EB2B97E986C60F42D16DED /* Pods_soap4me.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D70F372A80B8AD46292DB2C5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				28A0ED9DBB05DF658E98BD7A /* Pods-soap4me.debug.xcconfig */,
+				27F96E78DEA033962A12D54C /* Pods-soap4me.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5343664C1B59809300C2C203 /* soap4me */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 534366751B59809400C2C203 /* Build configuration list for PBXNativeTarget "soap4me" */;
+			buildPhases = (
+				B16034A7FDAAC125715C9A7D /* Check Pods Manifest.lock */,
+				534366491B59809300C2C203 /* Sources */,
+				5343664A1B59809300C2C203 /* Frameworks */,
+				5343664B1B59809300C2C203 /* Resources */,
+				98455FAF8E05436E9F938C7C /* Embed Pods Frameworks */,
+				A28C892B5B9C511CB835542D /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = soap4me;
+			productName = soap4me;
+			productReference = 5343664D1B59809400C2C203 /* soap4me.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		534366451B59809300C2C203 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = SM;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "App Plus";
+				TargetAttributes = {
+					5343664C1B59809300C2C203 = {
+						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = 5UBV5976ME;
+					};
+				};
+			};
+			buildConfigurationList = 534366481B59809300C2C203 /* Build configuration list for PBXProject "soap4me" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 534366441B59809300C2C203;
+			productRefGroup = 5343664E1B59809400C2C203 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5343664C1B59809300C2C203 /* soap4me */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5343664B1B59809300C2C203 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5328450B1B5B056B00FADC03 /* LaunchScreen.xib in Resources */,
+				534366581B59809400C2C203 /* Assets.xcassets in Resources */,
+				53C90F3D1B5AF8FF00A04687 /* SMCatalogReusableView.xib in Resources */,
+				534366561B59809400C2C203 /* Main.storyboard in Resources */,
+				53C90F391B5AED5200A04687 /* SMCatalogCollectionCell.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		98455FAF8E05436E9F938C7C /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-soap4me/Pods-soap4me-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A28C892B5B9C511CB835542D /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-soap4me/Pods-soap4me-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B16034A7FDAAC125715C9A7D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		534366491B59809300C2C203 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				530AB3EC1B5ADE6900F5E6B5 /* SMSerialsViewController.swift in Sources */,
+				537A49221B59E61400F81129 /* SMSerial.swift in Sources */,
+				53C90F381B5AED5200A04687 /* SMCatalogCollectionCell.swift in Sources */,
+				537A49241B59E7B400F81129 /* SMCatalogManager.swift in Sources */,
+				534366511B59809400C2C203 /* AppDelegate.swift in Sources */,
+				534366841B59835900C2C203 /* SMRootViewController.swift in Sources */,
+				537A491C1B59CE7500F81129 /* SMStateManager.swift in Sources */,
+				537A492A1B5ADABC00F81129 /* SMCatalogViewController.swift in Sources */,
+				537A491A1B59CACB00F81129 /* APLApiHelper.swift in Sources */,
+				532845131B5B0C5000FADC03 /* NSNotification+APL.swift in Sources */,
+				534366891B59851F00C2C203 /* SMSignInViewController.swift in Sources */,
+				537A49141B59B2BE00F81129 /* SMSignInTextFiled.swift in Sources */,
+				537A49201B59D84C00F81129 /* SMApiHelper.swift in Sources */,
+				537A49181B59BAFF00F81129 /* UIColor+APL.swift in Sources */,
+				537A49281B5AD90900F81129 /* String+APL.swift in Sources */,
+				537A49261B59F19D00F81129 /* NSObject+APL.swift in Sources */,
+				53C90F3C1B5AF8FF00A04687 /* SMCatalogReusableView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		532845091B5B056B00FADC03 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5328450A1B5B056B00FADC03 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		534366541B59809400C2C203 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				534366551B59809400C2C203 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		534366731B59809400C2C203 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		534366741B59809400C2C203 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		534366761B59809400C2C203 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 28A0ED9DBB05DF658E98BD7A /* Pods-soap4me.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Semyon Belokovkskii (VP2HD59A4B)";
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = soap4me/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.appplus.soap4me;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "2ec5a278-2c2d-4366-b460-afcd9b7f5514";
+				SWIFT_OBJC_BRIDGING_HEADER = "soap4me/Bridging-Headers/soap4me-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		534366771B59809400C2C203 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 27F96E78DEA033962A12D54C /* Pods-soap4me.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = soap4me/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.appplus.soap4me;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "soap4me/Bridging-Headers/soap4me-Bridging-Header.h";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		534366481B59809300C2C203 /* Build configuration list for PBXProject "soap4me" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				534366731B59809400C2C203 /* Debug */,
+				534366741B59809400C2C203 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		534366751B59809400C2C203 /* Build configuration list for PBXNativeTarget "soap4me" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				534366761B59809400C2C203 /* Debug */,
+				534366771B59809400C2C203 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 534366451B59809300C2C203 /* Project object */;
+}
