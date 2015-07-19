@@ -8,6 +8,13 @@
 
 import UIKit
 
+protocol SMSerialsViewControllerDataSource: NSObjectProtocol {
+    func numberOfSectionsForSerialsCtl(ctl: SMSerialsViewController) -> Int
+    func serialsCtl(ctl: SMSerialsViewController, numberOfObjectsInSection section: Int) -> Int
+    func serialsCtl(ctl: SMSerialsViewController, objectAtIndexPath indexPath: NSIndexPath) -> NSObject
+    func serialsCtl(ctl: SMSerialsViewController, titleForSection section: Int) -> String?
+}
+
 class SMSerialsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -15,43 +22,64 @@ class SMSerialsViewController: UIViewController, UICollectionViewDataSource, UIC
     let SMSerialCollectionCellIdentifier = "SMSerialCollectionCellIdentifier"
     let SMCatalogReusableViewIdentifier = "SMCatalogReusableViewIdentifier"
     
+    weak var dataSource: SMSerialsViewControllerDataSource?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.observe(selector: "diDrotateNotification", name: UIDeviceOrientationDidChangeNotification)
+        self.observe(selector: "didDrotateNotification", name: UIDeviceOrientationDidChangeNotification)
         
         self.collectionView.delegate = self
         self.collectionView.registerNib(UINib(nibName: "SMCatalogCollectionCell", bundle: nil), forCellWithReuseIdentifier: SMSerialCollectionCellIdentifier)
         self.collectionView.registerNib(UINib(nibName: "SMCatalogReusableView", bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: SMCatalogReusableViewIdentifier)
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        SMCatalogManager.sharedInstance.apiGetSerialsMy()
+    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func reloadUI() {
+        self.collectionView.reloadData()
     }
     
-    func diDrotateNotification() {
+    func didDrotateNotification() {
         self.collectionView.reloadData()
     }
     
     //MARK: UICollectionViewDataSource
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 3
+        var result = 0
+        if let n = self.dataSource?.numberOfSectionsForSerialsCtl(self) {
+            result = n
+        }
+        return result
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        var result = 0
+        if let n = self.dataSource?.serialsCtl(self, numberOfObjectsInSection: section) {
+            result = n
+        }
+        return result
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell: SMCatalogCollectionCell  = collectionView.dequeueReusableCellWithReuseIdentifier(SMSerialCollectionCellIdentifier, forIndexPath: indexPath) as! SMCatalogCollectionCell
         cell.titleLabel.text = "Title \(indexPath.row)"
+        
+        var object = self.dataSource?.serialsCtl(self, objectAtIndexPath: indexPath)
+        
+        if let serial = object as? SMSerial {
+            cell.titleLabel.text = serial.valueForKey("title_ru") as? String
+        }
+        
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         let view: SMCatalogReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: SMCatalogReusableViewIdentifier, forIndexPath: indexPath) as! SMCatalogReusableView
-        view.titleLabel.text = "\(indexPath.section)"
+        view.titleLabel.text = self.dataSource?.serialsCtl(self, titleForSection: indexPath.section)
         return view
     }
     
@@ -83,6 +111,6 @@ class SMSerialsViewController: UIViewController, UICollectionViewDataSource, UIC
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSizeMake(self.view.bounds.size.width, 22)
+        return CGSizeMake(self.view.bounds.size.width, 30)
     }
 }

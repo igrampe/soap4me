@@ -75,7 +75,7 @@ class SMRootViewController: UIViewController, SignInViewControllerProtocol {
     
     func signInSucceed() {
         self.hideCtl(self.signInVC)
-        self.showCatalogCtl()
+        self.showCatalogCtl()        
     }
 }
 

@@ -9,6 +9,12 @@
 import UIKit
 import Realm
 
+public enum SMSerialStatus: Int {
+    case open = 0
+    case ended = 1
+    case closed = 2
+}
+
 class SMSerial: RLMObject {
     var sid: Int = 0
     var status: Int = 0
@@ -16,7 +22,7 @@ class SMSerial: RLMObject {
     var unwatched: Int = 0
     
     var year: Int = 0
-    var imdb_id: Int = 0
+    var imdb_id: String = ""
     var imdb_rating: Int = 0
     var imdb_votes: Int = 0
     
@@ -28,6 +34,10 @@ class SMSerial: RLMObject {
     
     var my: Bool = false
     
+    override init() {
+        super.init()
+    }
+    
     func fillWithDict(dict: [String: AnyObject]?) {
         if let d = dict {
             
@@ -35,9 +45,9 @@ class SMSerial: RLMObject {
             
             for prop in props {
                 if prop.name == "desc" {
-                    setPropertyForObject(prop, d[prop.name], self)
+                    setPropertyForObject(prop, d["description"], self)
                 } else {
-                    setPropertyForObject(prop, d["decription"], self)
+                    setPropertyForObject(prop, d[prop.name], self)
                 }
             }
         }

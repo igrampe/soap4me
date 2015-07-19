@@ -39,6 +39,7 @@ class SMStateManager: NSObject {
     override init() {
         if let t = NSUserDefaults.standardUserDefaults().stringForKey(UserDefaultsKeys.Token.rawValue) {
             token = t
+            SMApiHelper.sharedInstance.setToken(self.token!)
         }
         if let tt = NSUserDefaults.standardUserDefaults().valueForKey(UserDefaultsKeys.TokenTill.rawValue) as? NSDate  {
             tokenTill = tt
@@ -48,6 +49,9 @@ class SMStateManager: NSObject {
     private(set) var token: String? {
         didSet {
             self.saveValue(token, key: UserDefaultsKeys.Token.rawValue)
+            if let t = self.token {
+                SMApiHelper.sharedInstance.setToken(t)
+            }
         }
     }
     private(set) var tokenTill: NSDate? {

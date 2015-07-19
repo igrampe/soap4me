@@ -22,15 +22,27 @@ class SMApiHelper: APLApiHelper {
     
     override init() {
         super.init()
-        if var headers = Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders {
-            headers["User-Agent"] = "xbmc for soap"
-            Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = headers
+        
+        self.setHTTPHeader("xbmc for soap", forKey: "User-Agent")
+    }
+    
+    func setHTTPHeader(header: AnyObject, forKey key: NSObject) {
+        var headers = [NSObject: AnyObject]()
+        if (Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders != nil) {
+            headers = Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders!
         }
+        headers[key] = header
+        Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = headers
+    }
+    
+    func setToken(token: String) {
+        self.setHTTPHeader(token, forKey: "x-api-token")
     }
     
     //MARK: API methods names
     let API_LOGIN: String = "\(HOST_URL)/login"
-    let API_SERIALS: String = "\(HOST_URL)/soap"
+    let API_SERIALS: String = "\(API_URL)/soap"
+    let API_SERIALS_MY: String = "\(API_URL)/soap/my"
     
     //MARK: Methods    
     func performPostRequest(urlStr: String, parameters: [String:AnyObject]?, success: SMApiSuccessBlock?, failure: APLApiFailureBlock?) {
@@ -38,11 +50,12 @@ class SMApiHelper: APLApiHelper {
     }
     
     func performGetRequest(urlStr: String, parameters: [String:AnyObject]?, success: SMApiSuccessBlock?, failure: APLApiFailureBlock?) {
+        NSLog("%@", Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders!)
         self.performRequest(Alamofire.Method.GET, urlStr: urlStr, parameters: parameters, success: success, failure: failure)
     }
     
     func performGetRequest(urlStr: String, success: SMApiSuccessBlock?, failure: APLApiFailureBlock?) {
-        self.performRequest(Alamofire.Method.GET, urlStr: urlStr, parameters: nil, success: success, failure: failure)
+        self.performGetRequest(urlStr, parameters: nil, success: success, failure: failure)
     }
     
     //MARK: -Helpers
