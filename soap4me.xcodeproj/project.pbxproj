@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2174A8710ED3E904A6596842 /* Pods_soap4me.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6EB2B97E986C60F42D16DED /* Pods_soap4me.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		530AB3EC1B5ADE6900F5E6B5 /* SMSerialsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530AB3EB1B5ADE6900F5E6B5 /* SMSerialsViewController.swift */; };
+		531D9C6A1B5B54EB00014FFB /* SMPaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531D9C691B5B54EB00014FFB /* SMPaddingLabel.swift */; };
 		5328450B1B5B056B00FADC03 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 532845091B5B056B00FADC03 /* LaunchScreen.xib */; };
 		532845131B5B0C5000FADC03 /* NSNotification+APL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532845121B5B0C5000FADC03 /* NSNotification+APL.swift */; };
 		534366511B59809400C2C203 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534366501B59809400C2C203 /* AppDelegate.swift */; };
@@ -36,6 +37,7 @@
 		27F96E78DEA033962A12D54C /* Pods-soap4me.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-soap4me.release.xcconfig"; path = "Pods/Target Support Files/Pods-soap4me/Pods-soap4me.release.xcconfig"; sourceTree = "<group>"; };
 		28A0ED9DBB05DF658E98BD7A /* Pods-soap4me.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-soap4me.debug.xcconfig"; path = "Pods/Target Support Files/Pods-soap4me/Pods-soap4me.debug.xcconfig"; sourceTree = "<group>"; };
 		530AB3EB1B5ADE6900F5E6B5 /* SMSerialsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSerialsViewController.swift; sourceTree = "<group>"; };
+		531D9C691B5B54EB00014FFB /* SMPaddingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMPaddingLabel.swift; sourceTree = "<group>"; };
 		5328450A1B5B056B00FADC03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5328450E1B5B09CA00FADC03 /* soap4me-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "soap4me-Bridging-Header.h"; sourceTree = "<group>"; };
 		532845121B5B0C5000FADC03 /* NSNotification+APL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNotification+APL.swift"; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				53C90F371B5AED5200A04687 /* SMCatalogCollectionCell.xib */,
 				53C90F3A1B5AF8FF00A04687 /* SMCatalogReusableView.swift */,
 				53C90F3B1B5AF8FF00A04687 /* SMCatalogReusableView.xib */,
+				531D9C691B5B54EB00014FFB /* SMPaddingLabel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				534366841B59835900C2C203 /* SMRootViewController.swift in Sources */,
 				537A491C1B59CE7500F81129 /* SMStateManager.swift in Sources */,
 				537A492A1B5ADABC00F81129 /* SMCatalogViewController.swift in Sources */,
+				531D9C6A1B5B54EB00014FFB /* SMPaddingLabel.swift in Sources */,
 				537A491A1B59CACB00F81129 /* APLApiHelper.swift in Sources */,
 				532845131B5B0C5000FADC03 /* NSNotification+APL.swift in Sources */,
 				534366891B59851F00C2C203 /* SMSignInViewController.swift in Sources */,

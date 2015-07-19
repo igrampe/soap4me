@@ -6,4 +6,5 @@ target :soap4me do
 	pod 'RealmSwift'
     pod 'Alamofire'
     pod 'SVProgressHUD'
+    pod 'SDWebImage'
 end

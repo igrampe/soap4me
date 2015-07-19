@@ -20,7 +20,7 @@ private enum SerialCategory: String {
     case Ended = "ended"
 }
 
-class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSource {
+class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSource, SMSerialsViewControllerDelegate {
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var myBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var allBarButtonItem: UIBarButtonItem!
@@ -44,18 +44,27 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         return self.mySerials[category.rawValue]?.count > 0
     }
     
+    func isOrderedBeforeAlphabetcally(obj1: SMSerial, obj2: SMSerial) -> Bool {
+        var result = (obj1.valueForKey("title_ru") as! String).caseInsensitiveCompare((obj2.valueForKey("title_ru") as! String))
+        if result == NSComparisonResult.OrderedAscending || result == NSComparisonResult.OrderedSame {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     func reloadData() {
         if (self.mode == .My) {
             self.serialsMask = 0
-            self.mySerials[SerialCategory.Unwatched.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyUnwatched()
+            self.mySerials[SerialCategory.Unwatched.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyUnwatched().sorted(self.isOrderedBeforeAlphabetcally)
             if (self.hasMySerialsForCategory(.Unwatched)) {
                 self.serialsMask |= 0b100
             }
-            self.mySerials[SerialCategory.Watched.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyWatched()
+            self.mySerials[SerialCategory.Watched.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyWatched().sorted(self.isOrderedBeforeAlphabetcally)
             if (self.hasMySerialsForCategory(.Watched)) {
                 self.serialsMask |= 0b010
             }
-            self.mySerials[SerialCategory.Ended.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyEnded()
+            self.mySerials[SerialCategory.Ended.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyEnded().sorted(self.isOrderedBeforeAlphabetcally)
             if (self.hasMySerialsForCategory(.Ended)) {
                 self.serialsMask |= 0b001
             }
@@ -121,6 +130,7 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         } else {
             self.serialsCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SerialsVC") as! SMSerialsViewController
             self.serialsCtl.dataSource = self
+            self.serialsCtl.delegate = self
             self.showCtl(self.serialsCtl!)
         }
     }
@@ -153,7 +163,9 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     
     func apiGetSerialsMySucceed(notification: NSNotification) {
         self.reloadData()
+        self.serialsCtl.collectionView.hidden = false
         self.serialsCtl.reloadUI()
+        self.serialsCtl.activityIndicator.stopAnimating()
     }
     
     //MARK: SMSerialsViewControllerDataSource
@@ -207,5 +219,12 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
             }
         }
         return title
+    }
+    
+    //MARK: SMSerialsViewControllerDelegate
+    
+    func serialsCtl(ctl: SMSerialsViewController, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        var c = self.storyboard?.instantiateViewControllerWithIdentifier("SeasonsVC") as! UIViewController
+        self.navigationController?.pushViewController(c, animated: true)
     }
 }

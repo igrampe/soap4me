@@ -63,6 +63,10 @@ func setPropertyForObject(objectProperty: ObjectProperty, value: AnyObject?, obj
         if let v = intFromObject(value) {
             object.setValue(v, forKey: objectProperty.name)
         }
+    } else if (objectProperty.type == "l") {
+        if let v = intFromObject(value) {
+            object.setValue(v, forKey: objectProperty.name)
+        }
     } else if (objectProperty.type == "d") {
         if let v = doubleFromObject(value) {
             object.setValue(v, forKey: objectProperty.name)
