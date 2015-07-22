@@ -20,9 +20,11 @@ class APLApiHelper: NSObject {
         parameters: [String:AnyObject]?,
         success: APLApiSuccessBlock?,
         failure: APLApiFailureBlock?) {
-            
+        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         Alamofire.request(method, urlStr, parameters: parameters, encoding: .URL)
             .responseJSON { (_, _, JSON, error) in
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 if let err = error {
                     if let fb = failure {
                         fb(err)
