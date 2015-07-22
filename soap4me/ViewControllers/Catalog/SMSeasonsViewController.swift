@@ -14,6 +14,7 @@ class SMSeasonsViewController: SMCollectionViewController, SMSerialHeaderDelegat
     var seasons = [NSObject]()
     var serial: SMSerial?
     var isWatching = false
+    var metaEpisodes = [Int:[SMMetaEpisode]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +49,14 @@ class SMSeasonsViewController: SMCollectionViewController, SMSerialHeaderDelegat
         self.seasons = SMCatalogManager.sharedInstance.getSeasonsForSid(sid).sorted(SMSeason.isOrderedBefore)
         self.serial = SMCatalogManager.sharedInstance.getSerialWithSid(self.sid)
         self.isWatching = SMCatalogManager.sharedInstance.getIsWatchingSerialWithSid(self.sid)
+        var mes = SMCatalogManager.sharedInstance.getMetaEpisodesForSid(self.sid)
+        self.metaEpisodes.removeAll(keepCapacity: false)
+        for me: SMMetaEpisode in mes {
+            if self.metaEpisodes[me.season] == nil {
+               self.metaEpisodes[me.season] = [SMMetaEpisode]()
+            }
+            self.metaEpisodes[me.season]?.append(me)
+        }
     }
     
     override func reloadUI() {
@@ -88,7 +97,22 @@ class SMSeasonsViewController: SMCollectionViewController, SMSerialHeaderDelegat
         var object = self.seasons[indexPath.row]
         
         if let season = object as? SMSeason {
-            cell.titleLabel.text = String(format: "%@ %d", NSLocalizedString("Сезон"), season.season_number)
+            var seasonTitle: String = String(format: "%@ %d", NSLocalizedString("Сезон"), season.season_number)
+            var unwatched = 0
+            if let mes: [SMMetaEpisode] = self.metaEpisodes[season.season_number] {
+                seasonTitle = seasonTitle.stringByAppendingFormat("\n%d %@", mes.count, NSLocalizedString("Серий"))
+                if self.isWatching {
+                    for me: SMMetaEpisode in mes {
+                        if !me.watched {
+                            unwatched++
+                        }
+                    }
+                    cell.setBadgeCount(unwatched)
+                } else {
+                    cell.setBadgeCount(0)
+                }
+            }
+            cell.titleLabel.text = seasonTitle
             let urlStr = String(format: SMApiHelper.ASSET_COVER_SEASON_BIG, season.season_id)
             if let url = NSURL(string: urlStr) {
                 cell.imageView.sd_setImageWithURL(url)
@@ -142,6 +166,10 @@ class SMSeasonsViewController: SMCollectionViewController, SMSerialHeaderDelegat
             result = CGSizeMake(self.view.bounds.size.width, 116)
         }
         return result
+    }
+    
+    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(8, 8, 8, 8)
     }
 
     //MARK: Notifications

@@ -10,18 +10,6 @@ import UIKit
 import Realm
 import RealmSwift
 
-enum SMEpisodeQualityMask: Int {
-    case None   = 0b00
-    case SD     = 0b01
-    case HD     = 0b10
-}
-
-enum SMEpisodeTranslationMask: Int {
-    case None   = 0b00
-    case Subs   = 0b01
-    case Voice  = 0b10
-}
-
 class SMMetaEpisode: RLMObject {
     dynamic var sid: Int = 0
     dynamic var season_id: Int = 0
@@ -30,8 +18,12 @@ class SMMetaEpisode: RLMObject {
     dynamic var title_ru: String = ""
     dynamic var title_en: String = ""
     dynamic var watched: Bool = false
-    dynamic var qualityMask: Int = SMEpisodeQualityMask.None.rawValue
-    dynamic var translationMask: Int = SMEpisodeTranslationMask.None.rawValue
+    
+    dynamic var hasHD: Bool = false
+    dynamic var hasSD: Bool = false
+    
+    dynamic var hasSub: Bool = false
+    dynamic var hasVoice: Bool = false
     
     dynamic var episodes = RLMArray(objectClassName: "SMEpisode")
     
@@ -45,15 +37,15 @@ class SMMetaEpisode: RLMObject {
         self.watched = episode.watched
         
         if episode.translate_type == SMEpisodeTranslateType.Subs.rawValue {
-            self.translationMask = self.translationMask|SMEpisodeTranslationMask.Subs.rawValue
+            self.hasSub = true
         } else if episode.translate_type == SMEpisodeTranslateType.Voice.rawValue {
-            self.translationMask = self.translationMask|SMEpisodeTranslationMask.Voice.rawValue
+            self.hasVoice = true
         }
         
         if episode.quality == SMEpisodeQuality.SD.rawValue {
-            self.qualityMask = self.qualityMask|SMEpisodeQualityMask.SD.rawValue
+            self.hasSD = true
         } else if episode.quality == SMEpisodeQuality.HD.rawValue {
-            self.qualityMask = self.qualityMask|SMEpisodeQualityMask.HD.rawValue
+            self.hasHD = true
         }
         
         self.episodes.addObject(episode)

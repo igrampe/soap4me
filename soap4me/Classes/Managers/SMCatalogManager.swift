@@ -356,9 +356,24 @@ class SMCatalogManager: NSObject {
         return objects
     }
     
+    private func getMetaEpisodesWithPredicate(predicate: NSPredicate) -> [SMMetaEpisode] {
+        var results = SMMetaEpisode.objectsInRealm(self.realm(), withPredicate: predicate)
+        var objects = [SMMetaEpisode]()
+        for var i: UInt = 0; i < results.count; i++ {
+            let object: SMMetaEpisode = results.objectAtIndex(i) as! SMMetaEpisode
+            objects.append(object)
+        }
+        return objects
+    }
+    
     func getEpisodesForSid(sid: Int) -> [SMEpisode] {
         var p = NSPredicate(format: "sid == %d", sid)
         return self.getEpisodesWithPredicate(p)
+    }
+    
+    func getMetaEpisodesForSid(sid: Int) -> [SMMetaEpisode] {
+        var p = NSPredicate(format: "sid == %d", sid)
+        return self.getMetaEpisodesWithPredicate(p)
     }
 }
 

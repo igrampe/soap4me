@@ -32,10 +32,6 @@ class SMSerial: RLMObject {
     dynamic var title_ru: String = ""
     dynamic var desc: String = ""
     
-    override init() {
-        super.init()
-    }
-    
     func fillWithDict(dict: [String: AnyObject]?) {
         if let d = dict {
             
