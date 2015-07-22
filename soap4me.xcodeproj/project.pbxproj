@@ -19,6 +19,7 @@
 		533FC5C01B5E7E38006061C8 /* SMSerialReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 533FC5BE1B5E7E38006061C8 /* SMSerialReusableView.xib */; };
 		533FC5C21B5EFD68006061C8 /* SMSeason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533FC5C11B5EFD68006061C8 /* SMSeason.swift */; };
 		533FC5C41B5F01ED006061C8 /* SMCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533FC5C31B5F01ED006061C8 /* SMCollectionViewController.swift */; };
+		533FC5C61B6020A2006061C8 /* SMMetaEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533FC5C51B6020A2006061C8 /* SMMetaEpisode.swift */; };
 		534366511B59809400C2C203 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534366501B59809400C2C203 /* AppDelegate.swift */; };
 		534366561B59809400C2C203 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 534366541B59809400C2C203 /* Main.storyboard */; };
 		534366581B59809400C2C203 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 534366571B59809400C2C203 /* Assets.xcassets */; };
@@ -55,6 +56,7 @@
 		533FC5BE1B5E7E38006061C8 /* SMSerialReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMSerialReusableView.xib; sourceTree = "<group>"; };
 		533FC5C11B5EFD68006061C8 /* SMSeason.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSeason.swift; sourceTree = "<group>"; };
 		533FC5C31B5F01ED006061C8 /* SMCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMCollectionViewController.swift; sourceTree = "<group>"; };
+		533FC5C51B6020A2006061C8 /* SMMetaEpisode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMMetaEpisode.swift; sourceTree = "<group>"; };
 		5343664D1B59809400C2C203 /* soap4me.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = soap4me.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		534366501B59809400C2C203 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		534366551B59809400C2C203 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				531D9C6B1B5C3EF900014FFB /* SMMySerial.swift */,
 				531D9C6F1B5C424C00014FFB /* SMEpisode.swift */,
 				533FC5C11B5EFD68006061C8 /* SMSeason.swift */,
+				533FC5C51B6020A2006061C8 /* SMMetaEpisode.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 				534366891B59851F00C2C203 /* SMSignInViewController.swift in Sources */,
 				537A49141B59B2BE00F81129 /* SMSignInTextFiled.swift in Sources */,
 				537A49201B59D84C00F81129 /* SMApiHelper.swift in Sources */,
+				533FC5C61B6020A2006061C8 /* SMMetaEpisode.swift in Sources */,
 				537A49181B59BAFF00F81129 /* UIColor+APL.swift in Sources */,
 				537A49281B5AD90900F81129 /* String+APL.swift in Sources */,
 				533FC5C21B5EFD68006061C8 /* SMSeason.swift in Sources */,

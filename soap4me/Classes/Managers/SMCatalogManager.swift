@@ -145,6 +145,8 @@ class SMCatalogManager: NSObject {
                 self.realm().deleteObjects(results)
                 results = SMSeason.objectsInRealm(self.realm(), withPredicate: p)
                 self.realm().deleteObjects(results)
+                results = SMMetaEpisode.objectsInRealm(self.realm(), withPredicate: p)
+                self.realm().deleteObjects(results)
                 
                 for object in objects {
                     if let objectDict = object as? [String: AnyObject] {
@@ -169,6 +171,17 @@ class SMCatalogManager: NSObject {
                             season.sid = episode.sid
                             season.season_number = episode.season
                         }
+                        
+                        p = NSPredicate(format: "sid = %d and season_id = %d and episode = %d", episode.sid, episode.season_id, episode.episode)
+                        results = SMMetaEpisode.objectsInRealm(self.realm(), withPredicate: p)
+                        var metaEpisode: SMMetaEpisode
+                        if (results.count < 1) {
+                            metaEpisode = SMMetaEpisode()
+                            self.realm().addObject(metaEpisode)
+                        } else {
+                            metaEpisode = results.firstObject() as! SMMetaEpisode
+                        }
+                        metaEpisode.appendEpisode(episode)                                                
                     }
                 }
                 self.realm().commitWriteTransaction()

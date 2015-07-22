@@ -9,14 +9,24 @@
 import UIKit
 import Realm
 
+enum SMEpisodeTranslateType: Int {
+    case Subs = 0
+    case Voice = 1
+}
+
+enum SMEpisodeQuality: Int {
+    case SD = 0
+    case HD = 1
+}
+
 class SMEpisode: RLMObject {
     
     dynamic var eid: Int = 0
     dynamic var sid: Int = 0
     dynamic var episode: Int = 0
     dynamic var season: Int = 0
-    dynamic var quality: Int = 0
-    dynamic var translate_type: Int = 0
+    dynamic var quality: Int = SMEpisodeQuality.SD.rawValue
+    dynamic var translate_type: Int = SMEpisodeTranslateType.Subs.rawValue
     dynamic var translate: String = ""
     dynamic var hsh: String = ""
     dynamic var title_en: String = ""
@@ -29,21 +39,21 @@ class SMEpisode: RLMObject {
         if let d = dict {
             let props = propertyListForClass(SMEpisode.self)
             for prop in props {
-                if prop.name == "hash" {
-                    setPropertyForObject(prop, d["hsh"], self)
+                if prop.name == "hsh" {
+                    setPropertyForObject(prop, d["hash"], self)
                 } else if (prop.name == "quality") {
                     if let value = d["quality"] as? String {
                         switch value {
-                        case "SD": self.quality = 0
-                        case "720p": self.quality = 1
+                        case "SD": self.quality = SMEpisodeQuality.SD.rawValue
+                        case "720p": self.quality = SMEpisodeQuality.HD.rawValue
                         default: break
                         }
                     }
                 } else if (prop.name == "translate_type") {
                     if let value = d["translate"] as? String {
                         switch value {
-                        case " Субтитры": self.translate_type = 0
-                        default: self.translate_type = 1
+                        case " Субтитры": self.translate_type = SMEpisodeTranslateType.Subs.rawValue
+                        default: self.translate_type = SMEpisodeTranslateType.Voice.rawValue
                         }
                     }
                 } else {
