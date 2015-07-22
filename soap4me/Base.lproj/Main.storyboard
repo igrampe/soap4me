@@ -63,12 +63,21 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="tVG-Ng-wV5"/>
                                     <barButtonItem title="Мои" width="100" style="plain" id="9xn-uN-puf">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="modeAction:" destination="CKE-dG-ZWN" id="isM-hJ-EHn"/>
+                                        </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Все" width="100" id="8LB-jK-kZS">
+                                    <barButtonItem tag="1" title="Все" width="100" id="8LB-jK-kZS">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="modeAction:" destination="CKE-dG-ZWN" id="Ltg-F1-Oqt"/>
+                                        </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Расписание" width="100" id="Aix-GZ-4Vf">
+                                    <barButtonItem tag="2" title="Расписание" width="100" id="Aix-GZ-4Vf">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="modeAction:" destination="CKE-dG-ZWN" id="mgT-2M-05r"/>
+                                        </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="JYh-e1-mRe"/>
                                 </items>
@@ -85,7 +94,7 @@
                             <constraint firstAttribute="trailing" secondItem="v92-sO-2ha" secondAttribute="trailing" id="xbO-qm-4B2"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Мои" id="l6M-XJ-NaV"/>
+                    <navigationItem key="navigationItem" title="Сериалы" id="l6M-XJ-NaV"/>
                     <connections>
                         <outlet property="allBarButtonItem" destination="8LB-jK-kZS" id="YoH-ec-cTX"/>
                         <outlet property="containerView" destination="v92-sO-2ha" id="1dG-pK-Cgc"/>
@@ -159,10 +168,10 @@
             </objects>
             <point key="canvasLocation" x="1678" y="1102"/>
         </scene>
-        <!--View Controller-->
+        <!--Seasons View Controller-->
         <scene sceneID="lOb-i4-cpK">
             <objects>
-                <viewController storyboardIdentifier="Seasons" id="49J-5h-TYk" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SeasonsVC" id="49J-5h-TYk" customClass="SMSeasonsViewController" customModule="soap4me" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lh9-ee-qA0"/>
                         <viewControllerLayoutGuide type="bottom" id="XWN-Ne-Lb8"/>
@@ -170,8 +179,50 @@
                     <view key="view" contentMode="scaleToFill" id="OD4-Ic-7FP">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="IN7-dG-Nlt">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="8" minimumInteritemSpacing="8" id="XC0-fO-TAo">
+                                    <size key="itemSize" width="148" height="197"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Ekh-Dz-Jbt">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="148" height="197"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <size key="customSize" width="148" height="197"/>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="49J-5h-TYk" id="8Tt-OX-HN8"/>
+                                    <outlet property="delegate" destination="49J-5h-TYk" id="xTK-AI-IaS"/>
+                                </connections>
+                            </collectionView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="qaM-Wo-zRg">
+                                <rect key="frame" x="281.5" y="281.5" width="37" height="37"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="qaM-Wo-zRg" secondAttribute="centerY" id="6OD-xz-dsy"/>
+                            <constraint firstItem="IN7-dG-Nlt" firstAttribute="leading" secondItem="OD4-Ic-7FP" secondAttribute="leading" id="7dC-yf-XLU"/>
+                            <constraint firstAttribute="trailing" secondItem="IN7-dG-Nlt" secondAttribute="trailing" id="Cil-nw-SrU"/>
+                            <constraint firstItem="IN7-dG-Nlt" firstAttribute="top" secondItem="OD4-Ic-7FP" secondAttribute="top" id="If7-mM-Sv3"/>
+                            <constraint firstAttribute="centerX" secondItem="qaM-Wo-zRg" secondAttribute="centerX" id="N1G-wt-IgJ"/>
+                            <constraint firstItem="XWN-Ne-Lb8" firstAttribute="top" secondItem="IN7-dG-Nlt" secondAttribute="bottom" id="rlq-f0-1qb"/>
+                        </constraints>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
+                    <connections>
+                        <outlet property="collectionView" destination="IN7-dG-Nlt" id="HAh-hN-kNc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zfp-J6-SFe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

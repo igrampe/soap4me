@@ -40,9 +40,18 @@ class SMApiHelper: APLApiHelper {
     }
     
     //MARK: API methods names
-    let API_LOGIN: String = "\(HOST_URL)/login"
-    let API_SERIALS: String = "\(API_URL)/soap"
-    let API_SERIALS_MY: String = "\(API_URL)/soap/my"
+    static let ASSET_COVER_SERIAL_BIG: String = "\(HOST_URL)/assets/covers/soap/big/%d.jpg"
+    static let ASSET_COVER_SEASON_BIG: String = "\(HOST_URL)/assets/covers/season/big/%d.jpg"
+    
+    static let API_LOGIN: String = "\(HOST_URL)/login"
+    
+    static let API_SERIALS: String = "\(API_URL)/soap"
+    static let API_SERIALS_MY: String = "\(API_URL)/soap/my"
+    static let API_SERIALS_ALL: String = "\(API_URL)/soap"
+    static let API_EPISODES: String = "\(API_URL)/episodes"
+    
+    static let API_SERIAL_MARK_WATCHING: String = "\(API_URL)/soap/watch"
+    static let API_SERIAL_MARK_NOT_WATCHING: String = "\(API_URL)/soap/unwatch"
     
     //MARK: Methods    
     func performPostRequest(urlStr: String, parameters: [String:AnyObject]?, success: SMApiSuccessBlock?, failure: APLApiFailureBlock?) {

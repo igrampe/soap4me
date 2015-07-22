@@ -10,8 +10,15 @@
 		2174A8710ED3E904A6596842 /* Pods_soap4me.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6EB2B97E986C60F42D16DED /* Pods_soap4me.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		530AB3EC1B5ADE6900F5E6B5 /* SMSerialsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530AB3EB1B5ADE6900F5E6B5 /* SMSerialsViewController.swift */; };
 		531D9C6A1B5B54EB00014FFB /* SMPaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531D9C691B5B54EB00014FFB /* SMPaddingLabel.swift */; };
+		531D9C6C1B5C3EF900014FFB /* SMMySerial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531D9C6B1B5C3EF900014FFB /* SMMySerial.swift */; };
+		531D9C6E1B5C420800014FFB /* SMSeasonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531D9C6D1B5C420800014FFB /* SMSeasonsViewController.swift */; };
+		531D9C701B5C424C00014FFB /* SMEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531D9C6F1B5C424C00014FFB /* SMEpisode.swift */; };
 		5328450B1B5B056B00FADC03 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 532845091B5B056B00FADC03 /* LaunchScreen.xib */; };
 		532845131B5B0C5000FADC03 /* NSNotification+APL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532845121B5B0C5000FADC03 /* NSNotification+APL.swift */; };
+		533FC5BF1B5E7E38006061C8 /* SMSerialReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533FC5BD1B5E7E38006061C8 /* SMSerialReusableView.swift */; };
+		533FC5C01B5E7E38006061C8 /* SMSerialReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 533FC5BE1B5E7E38006061C8 /* SMSerialReusableView.xib */; };
+		533FC5C21B5EFD68006061C8 /* SMSeason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533FC5C11B5EFD68006061C8 /* SMSeason.swift */; };
+		533FC5C41B5F01ED006061C8 /* SMCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533FC5C31B5F01ED006061C8 /* SMCollectionViewController.swift */; };
 		534366511B59809400C2C203 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534366501B59809400C2C203 /* AppDelegate.swift */; };
 		534366561B59809400C2C203 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 534366541B59809400C2C203 /* Main.storyboard */; };
 		534366581B59809400C2C203 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 534366571B59809400C2C203 /* Assets.xcassets */; };
@@ -38,9 +45,16 @@
 		28A0ED9DBB05DF658E98BD7A /* Pods-soap4me.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-soap4me.debug.xcconfig"; path = "Pods/Target Support Files/Pods-soap4me/Pods-soap4me.debug.xcconfig"; sourceTree = "<group>"; };
 		530AB3EB1B5ADE6900F5E6B5 /* SMSerialsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSerialsViewController.swift; sourceTree = "<group>"; };
 		531D9C691B5B54EB00014FFB /* SMPaddingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMPaddingLabel.swift; sourceTree = "<group>"; };
+		531D9C6B1B5C3EF900014FFB /* SMMySerial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMMySerial.swift; sourceTree = "<group>"; };
+		531D9C6D1B5C420800014FFB /* SMSeasonsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSeasonsViewController.swift; sourceTree = "<group>"; };
+		531D9C6F1B5C424C00014FFB /* SMEpisode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMEpisode.swift; sourceTree = "<group>"; };
 		5328450A1B5B056B00FADC03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5328450E1B5B09CA00FADC03 /* soap4me-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "soap4me-Bridging-Header.h"; sourceTree = "<group>"; };
 		532845121B5B0C5000FADC03 /* NSNotification+APL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNotification+APL.swift"; sourceTree = "<group>"; };
+		533FC5BD1B5E7E38006061C8 /* SMSerialReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSerialReusableView.swift; sourceTree = "<group>"; };
+		533FC5BE1B5E7E38006061C8 /* SMSerialReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMSerialReusableView.xib; sourceTree = "<group>"; };
+		533FC5C11B5EFD68006061C8 /* SMSeason.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSeason.swift; sourceTree = "<group>"; };
+		533FC5C31B5F01ED006061C8 /* SMCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMCollectionViewController.swift; sourceTree = "<group>"; };
 		5343664D1B59809400C2C203 /* soap4me.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = soap4me.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		534366501B59809400C2C203 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		534366551B59809400C2C203 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -143,6 +157,9 @@
 			isa = PBXGroup;
 			children = (
 				537A49211B59E61400F81129 /* SMSerial.swift */,
+				531D9C6B1B5C3EF900014FFB /* SMMySerial.swift */,
+				531D9C6F1B5C424C00014FFB /* SMEpisode.swift */,
+				533FC5C11B5EFD68006061C8 /* SMSeason.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -167,6 +184,8 @@
 				53C90F3A1B5AF8FF00A04687 /* SMCatalogReusableView.swift */,
 				53C90F3B1B5AF8FF00A04687 /* SMCatalogReusableView.xib */,
 				531D9C691B5B54EB00014FFB /* SMPaddingLabel.swift */,
+				533FC5BD1B5E7E38006061C8 /* SMSerialReusableView.swift */,
+				533FC5BE1B5E7E38006061C8 /* SMSerialReusableView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -174,8 +193,10 @@
 		534366851B59837900C2C203 /* Catalog */ = {
 			isa = PBXGroup;
 			children = (
+				533FC5C31B5F01ED006061C8 /* SMCollectionViewController.swift */,
 				537A49291B5ADABC00F81129 /* SMCatalogViewController.swift */,
 				530AB3EB1B5ADE6900F5E6B5 /* SMSerialsViewController.swift */,
+				531D9C6D1B5C420800014FFB /* SMSeasonsViewController.swift */,
 			);
 			path = Catalog;
 			sourceTree = "<group>";
@@ -296,6 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5328450B1B5B056B00FADC03 /* LaunchScreen.xib in Resources */,
+				533FC5C01B5E7E38006061C8 /* SMSerialReusableView.xib in Resources */,
 				534366581B59809400C2C203 /* Assets.xcassets in Resources */,
 				53C90F3D1B5AF8FF00A04687 /* SMCatalogReusableView.xib in Resources */,
 				534366561B59809400C2C203 /* Main.storyboard in Resources */,
@@ -362,10 +384,15 @@
 				537A49221B59E61400F81129 /* SMSerial.swift in Sources */,
 				53C90F381B5AED5200A04687 /* SMCatalogCollectionCell.swift in Sources */,
 				537A49241B59E7B400F81129 /* SMCatalogManager.swift in Sources */,
+				533FC5C41B5F01ED006061C8 /* SMCollectionViewController.swift in Sources */,
+				531D9C701B5C424C00014FFB /* SMEpisode.swift in Sources */,
 				534366511B59809400C2C203 /* AppDelegate.swift in Sources */,
 				534366841B59835900C2C203 /* SMRootViewController.swift in Sources */,
 				537A491C1B59CE7500F81129 /* SMStateManager.swift in Sources */,
+				531D9C6E1B5C420800014FFB /* SMSeasonsViewController.swift in Sources */,
 				537A492A1B5ADABC00F81129 /* SMCatalogViewController.swift in Sources */,
+				531D9C6C1B5C3EF900014FFB /* SMMySerial.swift in Sources */,
+				533FC5BF1B5E7E38006061C8 /* SMSerialReusableView.swift in Sources */,
 				531D9C6A1B5B54EB00014FFB /* SMPaddingLabel.swift in Sources */,
 				537A491A1B59CACB00F81129 /* APLApiHelper.swift in Sources */,
 				532845131B5B0C5000FADC03 /* NSNotification+APL.swift in Sources */,
@@ -374,6 +401,7 @@
 				537A49201B59D84C00F81129 /* SMApiHelper.swift in Sources */,
 				537A49181B59BAFF00F81129 /* UIColor+APL.swift in Sources */,
 				537A49281B5AD90900F81129 /* String+APL.swift in Sources */,
+				533FC5C21B5EFD68006061C8 /* SMSeason.swift in Sources */,
 				537A49261B59F19D00F81129 /* NSObject+APL.swift in Sources */,
 				53C90F3C1B5AF8FF00A04687 /* SMCatalogReusableView.swift in Sources */,
 			);

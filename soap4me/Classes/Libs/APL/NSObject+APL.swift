@@ -58,7 +58,7 @@ func stringFromObject(object: AnyObject?) -> String? {
     return result
 }
 
-func setPropertyForObject(objectProperty: ObjectProperty, value: AnyObject?, object: AnyObject) {
+func setPropertyForObject(objectProperty: ObjectProperty, value: AnyObject?, object: NSObject) {
     if (objectProperty.type == "q") {
         if let v = intFromObject(value) {
             object.setValue(v, forKey: objectProperty.name)

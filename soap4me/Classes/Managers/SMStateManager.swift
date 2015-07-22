@@ -85,7 +85,7 @@ class SMStateManager: NSObject {
     //MARK: API
     func signIn(login: String, password: String) {
         
-        let urlStr = "\(SMApiHelper.sharedInstance.API_LOGIN)"
+        let urlStr = "\(SMApiHelper.API_LOGIN)"
         let successBlock = {(responseObject: [String:AnyObject]) -> Void in
             if let t = responseObject["token"] as? String {
                 self.token = t

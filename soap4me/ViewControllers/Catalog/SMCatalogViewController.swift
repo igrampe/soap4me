@@ -9,6 +9,7 @@
 import UIKit
 
 enum SMCatalogViewControllerMode: Int {
+    case None
     case My
     case All
     case Schedule
@@ -27,47 +28,61 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     @IBOutlet weak var scheduleBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var containerView: UIView!
     
-    var serialsCtl: SMSerialsViewController!
-    var mode: SMCatalogViewControllerMode = .My
+    var serialsMyCtl: SMSerialsViewController!
+    var serialsAllCtl: SMSerialsViewController!
+    var activeSerialsCtl: SMSerialsViewController?
+    var mode: SMCatalogViewControllerMode = .None
     
+    var allSerials = [SMSerial]()
     var mySerials = [NSObject:[SMSerial]]()
     var serialsMask: Int = 0b000
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.reloadData()
+        
         self.observe(selector: "apiGetSerialsMySucceed:", name: SMCatalogManagerNotification.ApiGetSerialsMySucceed.rawValue)
-        self.showMyCtl()
+        self.observe(selector: "apiGetSerialsAllSucceed:", name: SMCatalogManagerNotification.ApiGetSerialsAllSucceed.rawValue)
+        
+        self.changeMode(.My)
     }
     
     private func hasMySerialsForCategory(category: SerialCategory) -> Bool {
         return self.mySerials[category.rawValue]?.count > 0
     }
     
-    func isOrderedBeforeAlphabetcally(obj1: SMSerial, obj2: SMSerial) -> Bool {
-        var result = (obj1.valueForKey("title_ru") as! String).caseInsensitiveCompare((obj2.valueForKey("title_ru") as! String))
-        if result == NSComparisonResult.OrderedAscending || result == NSComparisonResult.OrderedSame {
-            return true
-        } else {
-            return false
+    private func obtainData() {
+        
+    }
+    
+    private func reloadUI() {
+        self.myBarButtonItem.tintColor = UIColor.whiteColor()
+        self.allBarButtonItem.tintColor = UIColor.whiteColor()
+        self.scheduleBarButtonItem.tintColor = UIColor.whiteColor()
+        switch self.mode {
+            case .My: self.myBarButtonItem.tintColor = UIColor.colorWithString("33bbff")
+            case .All: self.allBarButtonItem.tintColor = UIColor.colorWithString("33bbff")
+            case .Schedule: self.scheduleBarButtonItem.tintColor = UIColor.colorWithString("33bbff")
+            default: break
         }
     }
     
-    func reloadData() {
+    private func reloadData() {
         if (self.mode == .My) {
             self.serialsMask = 0
-            self.mySerials[SerialCategory.Unwatched.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyUnwatched().sorted(self.isOrderedBeforeAlphabetcally)
+            self.mySerials[SerialCategory.Unwatched.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyUnwatched().sorted(SMSerial.isOrderedBefore)
             if (self.hasMySerialsForCategory(.Unwatched)) {
                 self.serialsMask |= 0b100
             }
-            self.mySerials[SerialCategory.Watched.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyWatched().sorted(self.isOrderedBeforeAlphabetcally)
+            self.mySerials[SerialCategory.Watched.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyWatched().sorted(SMSerial.isOrderedBefore)
             if (self.hasMySerialsForCategory(.Watched)) {
                 self.serialsMask |= 0b010
             }
-            self.mySerials[SerialCategory.Ended.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyEnded().sorted(self.isOrderedBeforeAlphabetcally)
+            self.mySerials[SerialCategory.Ended.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyEnded().sorted(SMSerial.isOrderedBefore)
             if (self.hasMySerialsForCategory(.Ended)) {
                 self.serialsMask |= 0b001
             }
+        } else if (self.mode == .All) {
+            self.allSerials = SMCatalogManager.sharedInstance.getSerialsAll().sorted(SMSerial.isOrderedBefore)
         }
     }
     
@@ -112,45 +127,54 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     }
     
     func changeMode(mode: SMCatalogViewControllerMode) {
-        self.mode = mode
-        switch self.mode {
-        case .My:
-            self.showMyCtl()
-        case .All:
-            self.showAllCtl()
-        case .Schedule:
-            self.showScheduleCtl()
-            break
+        if (self.mode != mode) {
+            if let pCtl = self.serialsMyCtl?.parentViewController {
+                self.serialsMyCtl.view.removeFromSuperview()
+                self.serialsMyCtl.removeFromParentViewController()
+            }
+            if let pCtl = self.serialsAllCtl?.parentViewController {
+                self.serialsAllCtl.view.removeFromSuperview()
+                self.serialsAllCtl.removeFromParentViewController()
+            }
+            self.mode = mode
+            self.reloadData()
+            switch self.mode {
+                case .My: self.showMyCtl()
+                case .All: self.showAllCtl()
+                case .Schedule: self.showScheduleCtl()
+                default: break
+            }
+            
+            self.reloadUI()
         }
+    }
+    
+    func showSerialsCtl(ctl: SMSerialsViewController) {
+        ctl.dataSource = self
+        ctl.delegate = self
+        self.activeSerialsCtl = ctl
+        self.showCtl(ctl)
     }
 
     func showMyCtl() {
-        if let sCtl = self.serialsCtl {
-            self.showCtl(sCtl)
-        } else {
-            self.serialsCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SerialsVC") as! SMSerialsViewController
-            self.serialsCtl.dataSource = self
-            self.serialsCtl.delegate = self
-            self.showCtl(self.serialsCtl!)
+        if self.serialsMyCtl == nil {
+            self.serialsMyCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SerialsVC") as! SMSerialsViewController
+            
         }
+        self.serialsMyCtl.mySerials = true
+        self.showSerialsCtl(self.serialsMyCtl!)
     }
     
     func showAllCtl() {
-        if let sCtl = self.serialsCtl {
-            self.showCtl(sCtl)
-        } else {
-            self.serialsCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SerialsVC") as! SMSerialsViewController
-            self.showCtl(self.serialsCtl!)
+        if self.serialsAllCtl == nil {
+            self.serialsAllCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SerialsVC") as! SMSerialsViewController
         }
+        self.serialsAllCtl.mySerials = false
+        self.showSerialsCtl(self.serialsAllCtl!)
     }
     
     func showScheduleCtl() {
-        if let sCtl = self.serialsCtl {
-            self.showCtl(sCtl)
-        } else {
-            self.serialsCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SerialsVC") as! SMSerialsViewController
-            self.showCtl(self.serialsCtl!)
-        }
+        //TODO: schedule
     }
     
     func showCtl(ctl: UIViewController) {
@@ -159,33 +183,58 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         self.containerView.addSubview(ctl.view)
     }
     
+    //MARK: Actions
+    
+    @IBAction func modeAction(sender: UIBarButtonItem) {
+        if sender.tag == 0 {
+            self.changeMode(.My)
+        } else if (sender.tag == 1) {
+            self.changeMode(.All)
+        }
+    }
+    
     //MARK: Notifications
     
     func apiGetSerialsMySucceed(notification: NSNotification) {
         self.reloadData()
-        self.serialsCtl.collectionView.hidden = false
-        self.serialsCtl.reloadUI()
-        self.serialsCtl.activityIndicator.stopAnimating()
+        self.serialsMyCtl.collectionView.hidden = false
+        self.serialsMyCtl.reloadUI()
+        self.serialsMyCtl.activityIndicator.stopAnimating()
+    }
+    
+    func apiGetSerialsAllSucceed(notification: NSNotification) {
+        self.reloadData()
+        self.serialsAllCtl.collectionView.hidden = false
+        self.serialsAllCtl.reloadUI()
+        self.serialsAllCtl.activityIndicator.stopAnimating()
     }
     
     //MARK: SMSerialsViewControllerDataSource
     
     func numberOfSectionsForSerialsCtl(ctl: SMSerialsViewController) -> Int {
         var result = 0
-        for m in [0b001, 0b010, 0b100] {
-            if (self.serialsMask & m == m) {
-                result++
+        if self.mode == .My {
+            for m in [0b001, 0b010, 0b100] {
+                if (self.serialsMask & m == m) {
+                    result++
+                }
             }
+        } else if self.mode == .All {
+            result = 1
         }
         return result
     }
     
     func serialsCtl(ctl: SMSerialsViewController, numberOfObjectsInSection section: Int) -> Int {
         var result = 0
-        var category: SerialCategory?
-        
-        if let category = self.categoryForSection(section) {
-            result = self.mySerials[category.rawValue]!.count
+        if self.mode == .My {
+            var category: SerialCategory?
+            
+            if let category = self.categoryForSection(section) {
+                result = self.mySerials[category.rawValue]!.count
+            }
+        } else if self.mode == .All {
+            result = self.allSerials.count
         }
         
         return result
@@ -193,10 +242,15 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     
     func serialsCtl(ctl: SMSerialsViewController, objectAtIndexPath indexPath: NSIndexPath) -> NSObject {
         var object = SMSerial()
-        var category: SerialCategory?
         
-        if let category = self.categoryForSection(indexPath.section) {
-            object = self.mySerials[category.rawValue]![indexPath.row]
+        if self.mode == .My {
+            var category: SerialCategory?
+            
+            if let category = self.categoryForSection(indexPath.section) {
+                object = self.mySerials[category.rawValue]![indexPath.row]
+            }
+        } else if self.mode == .All {
+            object = self.allSerials[indexPath.row]
         }
         
         return object
@@ -217,6 +271,8 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
                     break
                 }
             }
+        } else if (self.mode == .All) {
+            title = "All"
         }
         return title
     }
@@ -224,7 +280,27 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     //MARK: SMSerialsViewControllerDelegate
     
     func serialsCtl(ctl: SMSerialsViewController, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        var c = self.storyboard?.instantiateViewControllerWithIdentifier("SeasonsVC") as! UIViewController
+        var c: SMSeasonsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SeasonsVC") as! SMSeasonsViewController
+        var object = SMSerial()
+        
+        if self.mode == .My {
+            var category: SerialCategory?
+            
+            if let category = self.categoryForSection(indexPath.section) {
+                object = self.mySerials[category.rawValue]![indexPath.row]
+            }
+        } else if self.mode == .All {
+            object = self.allSerials[indexPath.row]
+        }
+        c.sid = object.sid
         self.navigationController?.pushViewController(c, animated: true)
+    }
+    
+    func serialsCtlNeedObtainData(ctl: SMSerialsViewController) {
+        switch self.mode {
+            case .My: SMCatalogManager.sharedInstance.apiGetSerialsMy()
+            case .All: SMCatalogManager.sharedInstance.apiGetSerialsAll()
+            default: break
+        }
     }
 }

@@ -10,29 +10,27 @@ import UIKit
 import Realm
 
 public enum SMSerialStatus: Int {
-    case open = 0
-    case ended = 1
-    case closed = 2
+    case Open = 0
+    case Ended = 1
+    case Closed = 2
 }
 
 class SMSerial: RLMObject {
-    var sid: Int = 0
-    var status: Int = 0
-    var watching: Int = 0
-    var unwatched: Int = 0
+    dynamic var sid: Int = 0
+    dynamic var status: Int = 0
+    dynamic var watching: Int = 0
+    dynamic var unwatched: Int = 0
     
-    var year: Int = 0
-    var imdb_id: String = ""
-    var imdb_rating: Int = 0
-    var imdb_votes: Int = 0
+    dynamic var year: Int = 0
+    dynamic var imdb_id: String = ""
+    dynamic var imdb_rating: Double = 0
+    dynamic var imdb_votes: Int = 0
     
-    var tvdb_id: Double = 0
+    dynamic var tvdb_id: Double = 0
     
-    var title: String = ""
-    var title_ru: String = ""
-    var desc: String = ""
-    
-    var my: Bool = false
+    dynamic var title: String = ""
+    dynamic var title_ru: String = ""
+    dynamic var desc: String = ""
     
     override init() {
         super.init()
@@ -50,6 +48,15 @@ class SMSerial: RLMObject {
                     setPropertyForObject(prop, d[prop.name], self)
                 }
             }
+        }
+    }
+    
+    static func isOrderedBefore(obj1: SMSerial, obj2: SMSerial) -> Bool {
+        var result = obj1.title.caseInsensitiveCompare(obj2.title)
+        if result == NSComparisonResult.OrderedAscending || result == NSComparisonResult.OrderedSame {
+            return true
+        } else {
+            return false
         }
     }
 }
