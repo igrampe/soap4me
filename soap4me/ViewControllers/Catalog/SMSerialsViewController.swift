@@ -31,12 +31,13 @@ class SMSerialsViewController: SMCollectionViewController, UICollectionViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.registerNib(UINib(nibName: "SMCatalogReusableView", bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: self.headerIdentifier)
+        self.refreshControl.endRefreshing()
+        self.collectionView.setContentOffset(CGPointMake(0, 0), animated: false)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.obtainData()
-        self.reloadUI()
     }
     
     override func obtainData() {

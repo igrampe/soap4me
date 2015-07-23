@@ -20,7 +20,7 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.refreshControlContainer = UIView()
+        self.refreshControlContainer = UIView(frame: CGRectMake(0, 0, 0, 0))
         self.collectionView.addSubview(self.refreshControlContainer)
         
         self.refreshControl = UIRefreshControl()
@@ -45,7 +45,7 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     func layoutOffset() {
         var offset: CGFloat = 0
         if let navCtl = self.navigationController {
-            offset = 44+20//navCtl.navigationBar.bounds.size.height + 20//UIApplication.sharedApplication().statusBarFrame.size.height
+            offset = 44+20
         }
         self.collectionView.contentInset = UIEdgeInsetsMake(offset, 0, 0, 0)
         self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(offset, 0, 0, 0)

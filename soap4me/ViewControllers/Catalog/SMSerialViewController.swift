@@ -53,6 +53,10 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
     
     override func layoutOffset() {
         var offset: CGFloat = 0
+        var shouldScroll = false
+        if (self.collectionView.contentOffset.y == -self.collectionView.contentInset.top) {
+            shouldScroll = true
+        }
         if let navCtl = self.navigationController {
             offset = navCtl.navigationBar.bounds.size.height + UIApplication.sharedApplication().statusBarFrame.size.height
         }
@@ -61,7 +65,9 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
         self.collectionView.contentInset = UIEdgeInsetsMake(self.headerView.frame.size.height+offset, 0, 0, 0)
         self.descriptionView.contentInset = UIEdgeInsetsMake(self.headerView.frame.size.height+offset, 0, 0, 0)
         self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(offset, 0, 0, 0)
-        self.collectionView.setContentOffset(CGPointMake(0, -self.collectionView.contentInset.top), animated: false)
+        if shouldScroll {
+            self.collectionView.setContentOffset(CGPointMake(0, -self.collectionView.contentInset.top), animated: false)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -72,6 +78,7 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
         self.obtainData()
         self.observe(selector: "apiGetEpisodesSucceed:", name: SMCatalogManagerNotification.ApiGetEpisodesSucceed.rawValue)
         self.observe(selector: "apiSerialToggleWatchingSucceed:", name: SMCatalogManagerNotification.ApiSerialToggleWatchingSucceed.rawValue)
+        self.observe(selector: "apiSerialToggleWatchingFailed:", name: SMCatalogManagerNotification.ApiSerialToggleWatchingFailed.rawValue)
     }
     
     override func obtainData() {
@@ -240,6 +247,15 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
     }
     
     func apiSerialToggleWatchingSucceed(notification: NSNotification) {
+        self.headerView.watchActivityIndicator.stopAnimating()
+        self.headerView.watchButton.hidden = false
+        self.reloadData()
+        self.reloadUI()
+    }
+    
+    func apiSerialToggleWatchingFailed(notification: NSNotification) {
+        self.headerView.watchActivityIndicator.stopAnimating()
+        self.headerView.watchButton.hidden = false
         self.reloadData()
         self.reloadUI()
     }
@@ -247,6 +263,8 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
     //MARK: SMSerialHeaderDelegate
     
     func serialHeaderWatchAction(header: SMSerialHeader) {
+        self.headerView.watchActivityIndicator.startAnimating()
+        self.headerView.watchButton.hidden = true
         self.toggleWatching()
     }
     

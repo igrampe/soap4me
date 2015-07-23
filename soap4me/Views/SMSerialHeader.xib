@@ -10,6 +10,7 @@
                 <outlet property="metaLabel" destination="p7B-ye-vGu" id="oAk-qy-qcc"/>
                 <outlet property="segmentControl" destination="jYp-8v-PTH" id="bGV-uB-rzt"/>
                 <outlet property="titleLabel" destination="J2J-pG-o0H" id="bKr-u1-mo6"/>
+                <outlet property="watchActivityIndicator" destination="Ta5-DL-PJ9" id="VDe-G6-4GG"/>
                 <outlet property="watchButton" destination="yWX-UO-jAS" id="Th9-MK-cyP"/>
             </connections>
         </placeholder>
@@ -37,8 +38,8 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yWX-UO-jAS" customClass="SMPaddingButton" customModule="soap4me" customModuleProvider="target">
-                    <rect key="frame" x="116" y="57" width="66" height="28"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yWX-UO-jAS" customClass="SMPaddingButton" customModule="soap4me" customModuleProvider="target">
+                    <rect key="frame" x="116" y="57" width="76" height="28"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="28" id="4o4-av-k7v"/>
                     </constraints>
@@ -51,6 +52,9 @@
                         <action selector="watchAction" destination="-1" eventType="touchUpInside" id="ha3-VS-sBi"/>
                     </connections>
                 </button>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Ta5-DL-PJ9">
+                    <rect key="frame" x="116" y="57" width="20" height="28"/>
+                </activityIndicatorView>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jYp-8v-PTH">
                     <rect key="frame" x="53" y="116" width="269" height="29"/>
                     <constraints>
@@ -70,6 +74,7 @@
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="p7B-ye-vGu" secondAttribute="trailing" constant="8" id="1JK-gj-IdO"/>
+                <constraint firstItem="yWX-UO-jAS" firstAttribute="centerY" secondItem="Ta5-DL-PJ9" secondAttribute="centerY" id="21c-KR-eNe"/>
                 <constraint firstItem="yWX-UO-jAS" firstAttribute="top" secondItem="p7B-ye-vGu" secondAttribute="bottom" constant="8" id="Bo8-ti-O1o"/>
                 <constraint firstItem="J2J-pG-o0H" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="CcB-q0-4yc"/>
                 <constraint firstItem="L57-PK-JRZ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="DkE-Kf-EXy"/>
@@ -81,7 +86,9 @@
                 <constraint firstAttribute="trailing" secondItem="J2J-pG-o0H" secondAttribute="trailing" constant="8" id="WUl-6E-Z6W"/>
                 <constraint firstItem="L57-PK-JRZ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="bSq-UA-Iit"/>
                 <constraint firstItem="J2J-pG-o0H" firstAttribute="leading" secondItem="L57-PK-JRZ" secondAttribute="trailing" constant="8" id="gmk-vK-gee"/>
+                <constraint firstItem="yWX-UO-jAS" firstAttribute="leading" secondItem="Ta5-DL-PJ9" secondAttribute="leading" id="koL-Oe-vJJ"/>
                 <constraint firstItem="yWX-UO-jAS" firstAttribute="top" secondItem="p7B-ye-vGu" secondAttribute="bottom" constant="4" id="mjw-Pl-aAz"/>
+                <constraint firstItem="yWX-UO-jAS" firstAttribute="height" secondItem="Ta5-DL-PJ9" secondAttribute="height" id="vGP-OT-aVI"/>
                 <constraint firstItem="L57-PK-JRZ" firstAttribute="bottom" secondItem="yWX-UO-jAS" secondAttribute="bottom" id="xRr-Lv-BXT"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
