@@ -51,6 +51,18 @@ class SMMetaEpisode: RLMObject {
         self.episodes.addObject(episode)
     }
     
+    func episodeWithQuality(quality: SMEpisodeQuality, translationType: SMEpisodeTranslateType) -> SMEpisode? {
+        var episode: SMEpisode?
+        
+        for var i: UInt = 0; i < self.episodes.count; i++ {
+            let e:SMEpisode = self.episodes.objectAtIndex(i) as! SMEpisode
+            if e.quality == quality.rawValue && e.translate_type == translationType.rawValue {
+                episode = e
+            }
+        }
+        return episode
+    }
+    
     static func isOrderedBefore(obj1: SMMetaEpisode, obj2: SMMetaEpisode) -> Bool {
         var result = obj1.episode < obj2.episode
         return result

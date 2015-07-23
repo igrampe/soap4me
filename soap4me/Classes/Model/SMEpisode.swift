@@ -34,6 +34,7 @@ class SMEpisode: RLMObject {
     dynamic var spoiler: String = ""
     dynamic var season_id: Int = 0
     dynamic var watched: Bool = false
+    dynamic var link: String = ""
     
     func fillWithDict(dict: [String: AnyObject]?) {
         if let d = dict {

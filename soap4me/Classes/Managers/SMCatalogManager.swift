@@ -27,6 +27,9 @@ enum SMCatalogManagerNotification: String {
     
     case ApiEpisodeToggleWatchedSucceed = "ApiEpisodeToggleWatchedSucceed"
     case ApiEpisodeToggleWatchedFailed = "ApiEpisodeToggleWatchedFailed"
+    
+    case ApiEpisodeGetLinkInfoSucceed = "ApiEpisodeGetLinkInfoSucceed"
+    case ApiEpisodeGetLinkInfoFailed = "ApiEpisodeGetLinkInfoFailed"
 }
 
 class SMCatalogManager: NSObject {
@@ -198,6 +201,47 @@ class SMCatalogManager: NSObject {
         }
         
         SMApiHelper.sharedInstance.performGetRequest(urlStr,
+            success: successBlock,
+            failure: failureBlock)
+    }
+    
+    func apiGetLinkInfoForEid(eid: Int, sid: Int, hash: String) {
+        let urlStr = "\(SMApiHelper.API_EPISODE_TOGGLE_WATCHED)"
+        var link: String?
+        let successBlock = {(responseObject: [String:AnyObject]) -> Void in
+            if let server = responseObject["server"] as? String {
+                if let t = SMStateManager.sharedInstance.token {
+                    self.realm().beginWriteTransaction()
+                    let p = NSPredicate(format: "eid = %d", eid)
+                    var results = SMEpisode.objectsInRealm(self.realm(), withPredicate: p)
+                    link = SMApiHelper.makeLink(server, token: t, eid: eid, sid: sid, hash: hash)
+                    for var i:UInt = 0; i < results.count; i++ {
+                        var episode:SMEpisode = results.objectAtIndex(i) as! SMEpisode
+                        episode.link = link!
+                    }
+                    self.realm().commitWriteTransaction()
+                }
+            }
+            
+            postNotification(SMCatalogManagerNotification.ApiEpisodeGetLinkInfoSucceed.rawValue, link)
+        }
+        
+        let failureBlock = {(error: NSError) -> Void in
+            postNotification(SMCatalogManagerNotification.ApiEpisodeGetLinkInfoFailed.rawValue, error)
+        }
+        
+        var params = [String:NSObject]()
+        if let t = SMStateManager.sharedInstance.token {
+            params["token"] = t
+            params["hash"] = SMApiHelper.makeHash(t, eid: eid, hash: hash, sid: sid)
+        }
+        
+        params["what"] = "player"
+        params["do"] = "load"
+        params["eid"] = eid
+        
+        SMApiHelper.sharedInstance.performPostRequest(urlStr,
+            parameters: params,
             success: successBlock,
             failure: failureBlock)
     }
@@ -430,6 +474,24 @@ class SMCatalogManager: NSObject {
     func getMetaEpisodesForSeasonId(season_id: Int) -> [SMMetaEpisode] {
         var p = NSPredicate(format: "season_id == %d", season_id)
         return self.getMetaEpisodesWithPredicate(p)
+    }
+    
+    func setPlayingProgress(progress: Double, forSeasonId season_id: Int, episodeNumber episode_number: Int) {
+        self.realm().beginWriteTransaction()
+        var p = NSPredicate(format: "season_id == %d and episode_number == %d", season_id, episode_number)
+        var results = SMEpisodeProgress.objectsInRealm(self.realm(), withPredicate: p)
+        var episodeProgress: SMEpisodeProgress
+        if results.count < 1 {
+            episodeProgress = SMEpisodeProgress()
+            self.realm().addObject(episodeProgress)
+        } else {
+            episodeProgress = results.firstObject() as! SMEpisodeProgress
+        }
+        episodeProgress.season_id = season_id
+        episodeProgress.episode_number = episode_number
+        episodeProgress.progress = progress
+        
+        self.realm().commitWriteTransaction()
     }
 }
 

@@ -31,13 +31,28 @@ class SMSerialsViewController: SMCollectionViewController, UICollectionViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.registerNib(UINib(nibName: "SMCatalogReusableView", bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: self.headerIdentifier)
-        self.refreshControl.endRefreshing()
-        self.collectionView.setContentOffset(CGPointMake(0, 0), animated: false)
+        self.obtainData()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.obtainData()
+        self.reloadData()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.reloadUI()
+    }
+    
+    override func layoutOffset() {
+        var shouldScroll = false
+        if (self.collectionView.contentOffset.y == -self.collectionView.contentInset.top) {
+            shouldScroll = true
+        }
+        super.layoutOffset()
+        if shouldScroll {
+            self.collectionView.setContentOffset(CGPointMake(0, -self.collectionView.contentInset.top), animated: false)
+        }
     }
     
     override func obtainData() {

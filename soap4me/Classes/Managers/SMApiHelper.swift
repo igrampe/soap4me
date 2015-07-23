@@ -54,6 +54,7 @@ class SMApiHelper: APLApiHelper {
     static let API_SERIAL_MARK_NOT_WATCHING: String = "\(API_URL)/soap/unwatch"
     
     static let API_EPISODE_TOGGLE_WATCHED: String = "\(HOST_URL)/callback"
+    static let API_EPISODE_LINK_INFO: String = "\(HOST_URL)/callback"
     
     //MARK: Methods    
     func performPostRequest(urlStr: String, parameters: [String:AnyObject]?, success: SMApiSuccessBlock?, failure: APLApiFailureBlock?) {
@@ -105,5 +106,16 @@ class SMApiHelper: APLApiHelper {
             }
         }
         return sb
+    }
+    
+    static func makeHash(token: String, eid: Int, hash: String, sid: Int) -> String {
+        var h = "\(token)\(eid)\(sid)\(hash)".md5()
+        return h
+    }
+    
+    static func makeLink(server: String, token: String, eid: Int, sid: Int, hash: String) -> String {
+        let h = self.makeHash(token, eid: eid, hash: hash, sid: sid)
+        var link = String(format: "https://%@.%@/%@/%d/%@", server, HOST, token, eid, h)
+        return link
     }
 }

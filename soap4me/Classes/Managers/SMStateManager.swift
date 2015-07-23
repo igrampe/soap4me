@@ -11,7 +11,8 @@ import UIKit
 private enum UserDefaultsKeys: String {
     case Token = "Token"
     case TokenTill = "TokenTill"
-    
+    case PreferedQuality = "PreferedQuality"
+    case PreferedTranslation = "PreferedTranslation"
 //    var stringValue: String {
 //        switch self {
 //            case .Token: return "TOKEN"
@@ -37,12 +38,36 @@ class SMStateManager: NSObject {
     static let sharedInstance = SMStateManager()
     
     override init() {
+        if let pq = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.PreferedQuality.rawValue) as? SMEpisodeQuality.RawValue {
+            preferedQuality = SMEpisodeQuality(rawValue: pq)
+        } else {
+            preferedQuality = SMEpisodeQuality.HD
+        }
+        
+        if let pt = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.PreferedTranslation.rawValue) as? SMEpisodeTranslateType.RawValue {
+            preferedTranslation = SMEpisodeTranslateType(rawValue: pt)
+        } else {
+            preferedTranslation = SMEpisodeTranslateType.Voice
+        }
+        
         if let t = NSUserDefaults.standardUserDefaults().stringForKey(UserDefaultsKeys.Token.rawValue) {
             token = t
             SMApiHelper.sharedInstance.setToken(self.token!)
         }
         if let tt = NSUserDefaults.standardUserDefaults().valueForKey(UserDefaultsKeys.TokenTill.rawValue) as? NSDate  {
             tokenTill = tt
+        }
+    }
+    
+    var preferedQuality: SMEpisodeQuality! {
+        didSet {
+            self.saveValue(preferedQuality.rawValue, key: UserDefaultsKeys.PreferedQuality.rawValue)
+        }
+    }
+    
+    var preferedTranslation: SMEpisodeTranslateType! {
+        didSet {
+            self.saveValue(preferedTranslation.rawValue, key: UserDefaultsKeys.PreferedTranslation.rawValue)
         }
     }
     

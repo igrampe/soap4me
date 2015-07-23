@@ -80,6 +80,27 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
     
+    //MARK: UITableViewDelegate
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        
+        
+        let metaEpisode = self.metaEpisodes[indexPath.row]
+        
+        if let episode = metaEpisode.episodeWithQuality(SMStateManager.sharedInstance.preferedQuality,
+            translationType: SMStateManager.sharedInstance.preferedTranslation) {
+                var c: SMPlayerViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PlayerVC") as! SMPlayerViewController
+                c.eid = episode.eid
+                c.hsh = episode.hsh
+                c.sid = episode.sid
+                c.episode = episode.episode
+                c.season_id = episode.season_id
+                
+                self.navigationController?.presentViewController(c, animated: true, completion: nil)
+        }
+    }
+    
     //MARK: SMEpisodeCellDelegate
     
     func episodeCellWatchAction(cell: SMEpisodeCell) {
