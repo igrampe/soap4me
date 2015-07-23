@@ -7,4 +7,6 @@ target :soap4me do
     pod 'Alamofire'
     pod 'SVProgressHUD'
     pod 'SDWebImage'
+    pod 'Fabric'
+    pod 'Crashlytics'
 end

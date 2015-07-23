@@ -352,7 +352,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="6gO-41-ewq"/>
                                         </constraints>
-                                        <state key="normal" title="Sign In"/>
+                                        <state key="normal" title="Войти"/>
                                         <connections>
                                             <action selector="signInAction:" destination="485-Br-0ai" eventType="touchUpInside" id="OmT-fB-gTZ"/>
                                         </connections>

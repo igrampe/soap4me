@@ -298,6 +298,7 @@
 				5343664B1B59809300C2C203 /* Resources */,
 				98455FAF8E05436E9F938C7C /* Embed Pods Frameworks */,
 				A28C892B5B9C511CB835542D /* Copy Pods Resources */,
+				53C71D9E1B61164900E7B2C5 /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -362,6 +363,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		53C71D9E1B61164900E7B2C5 /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Fabric;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/Fabric.framework/run\" ee5810eb927c4568372067364505185e41ef254f dc271ec9810e511e950f904e08f2a7ac2ffd7c9d65b12e1c61497d05827fd517";
+		};
 		98455FAF8E05436E9F938C7C /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -559,6 +574,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Semyon Belokovkskii (VP2HD59A4B)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = soap4me/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -584,6 +600,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.appplus.soap4me;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "a172a29d-0f15-440b-b22b-21275e051bc2";
 				SWIFT_OBJC_BRIDGING_HEADER = "soap4me/Bridging-Headers/soap4me-Bridging-Header.h";
 			};
 			name = Release;
