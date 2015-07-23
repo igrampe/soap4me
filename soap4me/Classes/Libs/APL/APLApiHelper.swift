@@ -15,16 +15,17 @@ typealias APLApiFailureBlock = (NSError) -> Void
 
 class APLApiHelper: NSObject {
     
+    var networkActivityIndicatorCount = 0
+    
     func pRequest(method: Alamofire.Method,
         urlStr: String,
         parameters: [String:AnyObject]?,
         success: APLApiSuccessBlock?,
         failure: APLApiFailureBlock?) {
-        
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        self.networkActivityIndicatorRetain()
         Alamofire.request(method, urlStr, parameters: parameters, encoding: .URL)
             .responseJSON { (_, _, JSON, error) in
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                self.networkActivityIndicatorRelease()
                 if let err = error {
                     if let fb = failure {
                         fb(err)
@@ -64,5 +65,23 @@ class APLApiHelper: NSObject {
             parameters: parameters,
             success: success,
             failure: failure)
+    }
+    
+    func networkActivityIndicatorRetain() {
+        self.networkActivityIndicatorCount++
+        self.checkActivityIndicator()
+    }
+    
+    func networkActivityIndicatorRelease() {
+        self.networkActivityIndicatorCount--
+        self.checkActivityIndicator()
+    }
+    
+    func checkActivityIndicator() {
+        if self.networkActivityIndicatorCount > 0 {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        } else {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        }
     }
 }

@@ -39,7 +39,6 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.observe(selector: "apiGetSerialsMySucceed:", name: SMCatalogManagerNotification.ApiGetSerialsMySucceed.rawValue)
         self.observe(selector: "apiGetSerialsAllSucceed:", name: SMCatalogManagerNotification.ApiGetSerialsAllSucceed.rawValue)
         

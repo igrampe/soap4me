@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -15,11 +14,11 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vg5-9a-6Jp">
-                        <rect key="frame" x="8" y="12" width="20" height="20"/>
+                        <rect key="frame" x="8" y="7" width="30" height="30"/>
                         <color key="backgroundColor" red="0.20000000000000001" green="0.73333333329999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="20" id="AMw-wu-tFf"/>
-                            <constraint firstAttribute="height" constant="20" id="sWO-pj-Sxd"/>
+                            <constraint firstAttribute="width" constant="30" id="AMw-wu-tFf"/>
+                            <constraint firstAttribute="height" constant="30" id="sWO-pj-Sxd"/>
                         </constraints>
                         <state key="normal">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -29,16 +28,16 @@
                         </connections>
                     </button>
                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="1hL-fd-KGT">
-                        <rect key="frame" x="8" y="12" width="20" height="20"/>
+                        <rect key="frame" x="8" y="7" width="30" height="30"/>
                     </activityIndicatorView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nQI-s1-Ivz">
-                        <rect key="frame" x="32" y="9.5" width="11.5" height="24"/>
+                        <rect key="frame" x="42" y="9.5" width="11.5" height="24"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Q6-wP-LAo">
-                        <rect key="frame" x="47" y="11" width="264.5" height="20.5"/>
+                        <rect key="frame" x="57" y="11" width="254.5" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -46,10 +45,9 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
-                    <constraint firstItem="vg5-9a-6Jp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="023-MA-G0Q"/>
+                    <constraint firstItem="vg5-9a-6Jp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="023-MA-G0Q"/>
                     <constraint firstAttribute="centerY" secondItem="vg5-9a-6Jp" secondAttribute="centerY" id="1mY-Jg-EXq"/>
                     <constraint firstAttribute="centerY" secondItem="nQI-s1-Ivz" secondAttribute="centerY" id="9Ko-yL-Ebw"/>
-                    <constraint firstItem="6Q6-wP-LAo" firstAttribute="leading" secondItem="vg5-9a-6Jp" secondAttribute="trailing" constant="8" id="A8K-aS-7LB"/>
                     <constraint firstItem="6Q6-wP-LAo" firstAttribute="leading" secondItem="nQI-s1-Ivz" secondAttribute="trailing" constant="4" id="Aus-zJ-dDH"/>
                     <constraint firstItem="1hL-fd-KGT" firstAttribute="centerX" secondItem="vg5-9a-6Jp" secondAttribute="centerX" id="Ejx-mx-4nN"/>
                     <constraint firstItem="nQI-s1-Ivz" firstAttribute="leading" secondItem="1hL-fd-KGT" secondAttribute="trailing" constant="4" id="HYP-WR-2js"/>
@@ -59,11 +57,6 @@
                     <constraint firstItem="1hL-fd-KGT" firstAttribute="width" secondItem="vg5-9a-6Jp" secondAttribute="width" id="qql-pm-VKV"/>
                     <constraint firstAttribute="centerY" secondItem="6Q6-wP-LAo" secondAttribute="centerY" id="upc-gf-ni5"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="A8K-aS-7LB"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="activityIndicator" destination="1hL-fd-KGT" id="H5g-i1-xGu"/>

@@ -25,7 +25,7 @@ class SMEpisodeCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.selectionStyle = UITableViewCellSelectionStyle.None
-        self.watchButton.layer.cornerRadius = 10
+        self.watchButton.layer.cornerRadius = 15
         self.watchButton.layer.masksToBounds = true
         self.watchButton.layer.borderColor = UIColor.colorWithString("33bbff").CGColor
         self.watchButton.backgroundColor = UIColor.colorWithString("33bbff")

@@ -103,7 +103,7 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         var width: CGFloat = 0
         var columns: CGFloat = 0
-        var isLandscape = UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)
+        var isLandscape = UIApplication.sharedApplication().statusBarOrientation == UIInterfaceOrientation.LandscapeLeft || UIApplication.sharedApplication().statusBarOrientation == UIInterfaceOrientation.LandscapeRight
         
         switch UIDevice.currentDevice().userInterfaceIdiom {
         case .Phone:
