@@ -46,15 +46,8 @@ class SMSerialsViewController: SMCollectionViewController, UICollectionViewDataS
     override func reloadUI() {
         self.collectionView.reloadData()
         self.refreshControl.endRefreshing()
+        self.layoutOffset()
     }
-    
-//    func didRotateNotification() {
-//        self.collectionView.reloadData()
-//    }
-    
-//    func refreshTrigger() {
-//        SMCatalogManager.sharedInstance.apiGetSerialsMy()
-//    }
     
     //MARK: UICollectionViewDataSource
     

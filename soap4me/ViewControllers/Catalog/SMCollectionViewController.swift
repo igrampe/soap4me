@@ -13,16 +13,20 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     var refreshControl: UIRefreshControl!
+    var refreshControlContainer: UIView!
     
     let cellIdentifier = "cellIdentifier"
     let headerIdentifier = "headerIdentifier"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.refreshControlContainer = UIView()
+        self.collectionView.addSubview(self.refreshControlContainer)
+        
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = UIColor.whiteColor()
         self.refreshControl.addTarget(self, action: "refreshTrigger", forControlEvents: UIControlEvents.ValueChanged)
-        self.collectionView.addSubview(self.refreshControl!)
+        self.refreshControlContainer.addSubview(self.refreshControl!)
         self.collectionView.alwaysBounceVertical = true
         
         self.collectionView.delegate = self
@@ -38,8 +42,18 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
         self.stopObserve()
     }
     
+    func layoutOffset() {
+        var offset: CGFloat = 0
+        if let navCtl = self.navigationController {
+            offset = 44+20//navCtl.navigationBar.bounds.size.height + 20//UIApplication.sharedApplication().statusBarFrame.size.height
+        }
+        self.collectionView.contentInset = UIEdgeInsetsMake(offset, 0, 0, 0)
+        self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(offset, 0, 0, 0)
+    }
+    
     func didRotateNotification() {
         self.collectionView.reloadData()
+        self.layoutOffset()
     }
     
     func refreshTrigger() {
@@ -55,7 +69,7 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     func reloadUI() {
-        
+        self.layoutOffset()
     }
     
     //MARK: UICollectionViewDataSource
@@ -116,6 +130,6 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        return UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 8)
     }
 }

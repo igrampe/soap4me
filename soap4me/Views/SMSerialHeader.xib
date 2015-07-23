@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SMSerialHeader" customModule="soap4me" customModuleProvider="target">
+            <connections>
+                <outlet property="imageView" destination="L57-PK-JRZ" id="kEe-Ci-1Th"/>
+                <outlet property="metaLabel" destination="p7B-ye-vGu" id="oAk-qy-qcc"/>
+                <outlet property="segmentControl" destination="jYp-8v-PTH" id="bGV-uB-rzt"/>
+                <outlet property="titleLabel" destination="J2J-pG-o0H" id="bKr-u1-mo6"/>
+                <outlet property="watchButton" destination="yWX-UO-jAS" id="Th9-MK-cyP"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="154"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L57-PK-JRZ">
+                    <rect key="frame" x="8" y="8" width="100" height="100"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="2Rf-op-ATS"/>
+                        <constraint firstAttribute="height" constant="100" id="SI7-cc-IPY"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="статус" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p7B-ye-vGu">
+                    <rect key="frame" x="116" y="32" width="251" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SerialName" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J2J-pG-o0H">
+                    <rect key="frame" x="116" y="8" width="251" height="20.5"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yWX-UO-jAS" customClass="SMPaddingButton" customModule="soap4me" customModuleProvider="target">
+                    <rect key="frame" x="116" y="57" width="66" height="28"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="28" id="4o4-av-k7v"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
+                    <state key="normal" title="Я смотрю">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="watchAction" destination="-1" eventType="touchUpInside" id="ha3-VS-sBi"/>
+                    </connections>
+                </button>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jYp-8v-PTH">
+                    <rect key="frame" x="53" y="116" width="269" height="29"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="28" id="EEF-OW-q8W"/>
+                    </constraints>
+                    <segments>
+                        <segment title="Сезоны"/>
+                        <segment title="Описание"/>
+                        <segment title="Расписание" enabled="NO"/>
+                    </segments>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <action selector="segmentControlValueChanged:" destination="-1" eventType="valueChanged" id="yAK-ez-dTi"/>
+                    </connections>
+                </segmentedControl>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="p7B-ye-vGu" secondAttribute="trailing" constant="8" id="1JK-gj-IdO"/>
+                <constraint firstItem="yWX-UO-jAS" firstAttribute="top" secondItem="p7B-ye-vGu" secondAttribute="bottom" constant="8" id="Bo8-ti-O1o"/>
+                <constraint firstItem="J2J-pG-o0H" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="CcB-q0-4yc"/>
+                <constraint firstItem="L57-PK-JRZ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="DkE-Kf-EXy"/>
+                <constraint firstItem="p7B-ye-vGu" firstAttribute="top" secondItem="J2J-pG-o0H" secondAttribute="bottom" constant="4" id="FeB-Il-Nc7"/>
+                <constraint firstItem="yWX-UO-jAS" firstAttribute="leading" secondItem="J2J-pG-o0H" secondAttribute="leading" id="HJo-BL-LOO"/>
+                <constraint firstAttribute="centerX" secondItem="jYp-8v-PTH" secondAttribute="centerX" id="Ib4-dZ-Ryi"/>
+                <constraint firstItem="jYp-8v-PTH" firstAttribute="top" secondItem="L57-PK-JRZ" secondAttribute="bottom" constant="8" id="OwE-6k-ngn"/>
+                <constraint firstItem="yWX-UO-jAS" firstAttribute="leading" secondItem="p7B-ye-vGu" secondAttribute="leading" id="QlX-1k-SEm"/>
+                <constraint firstAttribute="trailing" secondItem="J2J-pG-o0H" secondAttribute="trailing" constant="8" id="WUl-6E-Z6W"/>
+                <constraint firstItem="L57-PK-JRZ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="bSq-UA-Iit"/>
+                <constraint firstItem="J2J-pG-o0H" firstAttribute="leading" secondItem="L57-PK-JRZ" secondAttribute="trailing" constant="8" id="gmk-vK-gee"/>
+                <constraint firstItem="yWX-UO-jAS" firstAttribute="top" secondItem="p7B-ye-vGu" secondAttribute="bottom" constant="4" id="mjw-Pl-aAz"/>
+                <constraint firstItem="L57-PK-JRZ" firstAttribute="bottom" secondItem="yWX-UO-jAS" secondAttribute="bottom" id="xRr-Lv-BXT"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="xRr-Lv-BXT"/>
+                    <exclude reference="mjw-Pl-aAz"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="261.5" y="386"/>
+        </view>
+    </objects>
+</document>

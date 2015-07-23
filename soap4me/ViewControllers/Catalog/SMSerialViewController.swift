@@ -1,5 +1,5 @@
 //
-//  SMSeasonsViewController.swift
+//  SMSerialViewController.swift
 //  soap4me
 //
 //  Created by Sema Belokovsky on 20/07/15.
@@ -8,16 +8,31 @@
 
 import UIKit
 
-class SMSeasonsViewController: SMCollectionViewController, SMSerialHeaderDelegate {
+enum SMSerialViewControllerMode: Int {
+    case None           = 0
+    case Episodes       = 1
+    case Description    = 2
+    case Schedule       = 3
+}
+
+class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate, UITableViewDataSource, UITableViewDelegate {
+    
+    var headerView: SMSerialHeader!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var descriptionView: UITextView!
     
     var sid: Int = 0
     var seasons = [NSObject]()
     var serial: SMSerial?
     var isWatching = false
     var metaEpisodes = [Int:[SMMetaEpisode]]()
+    var mode: SMSerialViewControllerMode = .None
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.headerView = SMSerialHeader()
+        self.headerView.delegate = self;
         
         var backButton = UIButton()
         backButton.setImage(UIImage(named: "back"), forState: UIControlState.Normal)
@@ -26,9 +41,27 @@ class SMSeasonsViewController: SMCollectionViewController, SMSerialHeaderDelegat
         backButton.addTarget(self, action: "goBack", forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         
-        self.collectionView.registerNib(UINib(nibName: "SMSerialReusableView", bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: self.headerIdentifier)
-        
         SMCatalogManager.sharedInstance.apiGetEpisodesForSid(self.sid)
+        
+        self.changeMode(.Episodes)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.headerView.frame = CGRectMake(0, -146, self.view.bounds.size.width, 146)
+    }
+    
+    override func layoutOffset() {
+        var offset: CGFloat = 0
+        if let navCtl = self.navigationController {
+            offset = navCtl.navigationBar.bounds.size.height + UIApplication.sharedApplication().statusBarFrame.size.height
+        }
+        self.headerView.frame = CGRectMake(0, -144, self.view.bounds.size.width, 146)
+        self.refreshControlContainer.frame = CGRectMake(0, -self.headerView.frame.size.height, 0, 0)
+        self.collectionView.contentInset = UIEdgeInsetsMake(self.headerView.frame.size.height+offset, 0, 0, 0)
+        self.descriptionView.contentInset = UIEdgeInsetsMake(self.headerView.frame.size.height+offset, 0, 0, 0)
+        self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(offset, 0, 0, 0)
+        self.collectionView.setContentOffset(CGPointMake(0, -self.collectionView.contentInset.top), animated: false)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -60,10 +93,54 @@ class SMSeasonsViewController: SMCollectionViewController, SMSerialHeaderDelegat
     }
     
     override func reloadUI() {
-        self.collectionView.reloadData()
+        
         self.refreshControl.endRefreshing()
         self.title = self.serial?.title
-        self.collectionView.reloadData()
+        
+        if let s = self.serial {
+            self.headerView.titleLabel.text = s.title_ru
+            var meta: String = "\(s.year)"
+            var status = ""
+            switch s.status {
+            case 0: status = NSLocalizedString("Снимается")
+            case 1: status = NSLocalizedString("Закончен")
+            case 2: status = NSLocalizedString("Закрыт")
+            default: break
+            }
+            meta = meta.stringByAppendingFormat(", %@", status)
+            meta = meta.stringByAppendingFormat(", ☆%1.1f", s.imdb_rating)
+            self.headerView.metaLabel.text = meta
+            status = NSLocalizedString("Не смотрю")
+            if self.isWatching {
+                status = NSLocalizedString("Смотрю")
+            }
+            self.headerView.watchButton.setTitle(status, forState: UIControlState.Normal)
+            let urlStr = String(format: SMApiHelper.ASSET_COVER_SERIAL_BIG, s.sid)
+            if let url = NSURL(string: urlStr) {
+                self.headerView.imageView.sd_setImageWithURL(url)
+            }
+        }
+        
+        self.collectionView.hidden = true
+        self.descriptionView.hidden = true
+        self.tableView.hidden = true
+        
+        self.headerView.removeFromSuperview()
+        self.refreshControlContainer.removeFromSuperview()
+
+        if self.mode == .Episodes {
+            self.collectionView.hidden = false
+            self.collectionView.reloadData()
+            self.collectionView.addSubview(self.headerView)
+            self.collectionView.addSubview(self.refreshControlContainer)
+        } else if self.mode == .Description {
+            self.descriptionView.text = self.serial?.desc
+            self.descriptionView.hidden = false
+            self.descriptionView.addSubview(self.headerView)
+            self.descriptionView.addSubview(self.refreshControlContainer)
+            
+        }
+        self.layoutOffset()
     }
     
     //MARK: Actions
@@ -78,6 +155,14 @@ class SMSeasonsViewController: SMCollectionViewController, SMSerialHeaderDelegat
         } else {
             SMCatalogManager.sharedInstance.apiMarkSerialWatching(self.sid)
         }
+    }
+    
+    func changeMode(aMode: SMSerialViewControllerMode) {
+        if (self.mode == aMode) {
+            return
+        }
+        self.mode = aMode
+        self.reloadUI()
     }
     
     //MARK: UICollectionViewDataSource
@@ -122,38 +207,6 @@ class SMSeasonsViewController: SMCollectionViewController, SMSerialHeaderDelegat
         return cell
     }
     
-    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        let view: SMSerialReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: self.headerIdentifier, forIndexPath: indexPath) as! SMSerialReusableView
-        
-        view.delegate = self
-        
-        if let s = self.serial {
-            view.titleLabel.text = s.title_ru
-            var meta: String = "\(s.year)"
-            var status = ""
-            switch s.status {
-                case 0: status = NSLocalizedString("Снимается")
-                case 1: status = NSLocalizedString("Закончен")
-                case 2: status = NSLocalizedString("Закрыт")
-                default: break
-            }
-            meta = meta.stringByAppendingFormat(", %@", status)
-            meta = meta.stringByAppendingFormat(", ☆%1.1f", s.imdb_rating)
-            view.metaLabel.text = meta
-            status = NSLocalizedString("Не смотрю")
-            if self.isWatching {
-                status = NSLocalizedString("Смотрю")
-            }
-            view.watchButton.setTitle(status, forState: UIControlState.Normal)
-            let urlStr = String(format: SMApiHelper.ASSET_COVER_SERIAL_BIG, s.sid)
-            if let url = NSURL(string: urlStr) {
-                view.imageView.sd_setImageWithURL(url)
-            }
-        }
-        
-        return view
-    }
-    
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
     }
@@ -163,7 +216,7 @@ class SMSeasonsViewController: SMCollectionViewController, SMSerialHeaderDelegat
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         var result = CGSizeZero
         if section == 0 {
-            result = CGSizeMake(self.view.bounds.size.width, 116)
+//            result = CGSizeMake(self.view.bounds.size.width, 154)
         }
         return result
     }
@@ -186,15 +239,34 @@ class SMSeasonsViewController: SMCollectionViewController, SMSerialHeaderDelegat
     
     //MARK: SMSerialHeaderDelegate
     
-    func serialHeaderWatchAction(header: SMSerialReusableView) {
+    func serialHeaderWatchAction(header: SMSerialHeader) {
         self.toggleWatching()
     }
     
-    func serialHeaderDescriptionAction(header: SMSerialReusableView) {
-        
+    func serialHeaderSeasonsAction(header: SMSerialHeader) {
+        self.changeMode(.Episodes)
     }
     
-    func serialHeaderScheduleAction(header: SMSerialReusableView) {
-        
+    func serialHeaderDescriptionAction(header: SMSerialHeader) {
+        self.changeMode(.Description)
+    }
+    
+    func serialHeaderScheduleAction(header: SMSerialHeader) {
+//        self.changeMode(.Schedule)
+    }
+    
+    //MARK: UITableViewDataSource
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 0
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCellWithIdentifier("") as! UITableViewCell
+        return cell
     }
 }

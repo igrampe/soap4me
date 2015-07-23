@@ -280,7 +280,7 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     //MARK: SMSerialsViewControllerDelegate
     
     func serialsCtl(ctl: SMSerialsViewController, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        var c: SMSeasonsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SeasonsVC") as! SMSeasonsViewController
+        var c: SMSerialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SerialVC") as! SMSerialViewController
         var object = SMSerial()
         
         if self.mode == .My {
