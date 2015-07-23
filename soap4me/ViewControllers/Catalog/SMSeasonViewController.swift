@@ -46,6 +46,17 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
     func goBack() {
         self.navigationController?.popViewControllerAnimated(true)
     }
+    
+    func showPlayer(eid: Int, hsh: String, sid: Int, episode_number: Int, season_id: Int, progress: Double) {
+        var c: SMPlayerViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PlayerVC") as! SMPlayerViewController
+        c.eid = eid
+        c.hsh = hsh
+        c.sid = sid
+        c.episode = episode_number
+        c.season_id = season_id
+        
+        self.navigationController?.presentViewController(c, animated: true, completion: nil)
+    }
 
     //MARK: UITableViewDataSource
     
@@ -90,14 +101,24 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         
         if let episode = metaEpisode.episodeWithQuality(SMStateManager.sharedInstance.preferedQuality,
             translationType: SMStateManager.sharedInstance.preferedTranslation) {
-                var c: SMPlayerViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PlayerVC") as! SMPlayerViewController
-                c.eid = episode.eid
-                c.hsh = episode.hsh
-                c.sid = episode.sid
-                c.episode = episode.episode
-                c.season_id = episode.season_id
+                var shouldAscContinue = false
+                if let ep: SMEpisodeProgress = SMCatalogManager.sharedInstance.getEpisodeProgress(forSeasonId: episode.season_id, episodeNumber: episode.episode) {
+                    if ep.progress > 15 {
+                        shouldAscContinue = true
+                    }
+                }
+                if shouldAscContinue {
+                    var alertView = UIAlertView()
+                    alertView.delegate = self
+                    alertView.title = NSLocalizedString("Продолжить воспроизведение?")
+                    alertView.addButtonWithTitle(NSLocalizedString("Нет"))
+                    alertView.addButtonWithTitle(NSLocalizedString("Да"))
+                    alertView.cancelButtonIndex = 0
+                    alertView.show()
+                } else {
+                    self.showPlayer(episode.eid, hsh: episode.hsh, sid: episode.sid, episode_number: episode.episode, season_id: episode.season_id, progress: 0)
+                }
                 
-                self.navigationController?.presentViewController(c, animated: true, completion: nil)
         }
     }
     

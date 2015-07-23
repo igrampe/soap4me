@@ -21,6 +21,7 @@ class SMPlayerViewController: UIViewController {
     var episode: Int = 0
     var hsh: String = ""
     var shouldRequestLink: Bool = true
+    var startPosition: Double = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,7 +95,7 @@ class SMPlayerViewController: UIViewController {
     }
     
     func finishPlayer() {
-        SMCatalogManager.sharedInstance.setPlayingProgress(self.player.playableDuration/self.player.duration, forSeasonId: self.season_id, episodeNumber: self.episode)
+        SMCatalogManager.sharedInstance.setPlayingProgress(self.player.currentPlaybackTime, forSeasonId: self.season_id, episodeNumber: self.episode)
         self.shouldRequestLink = false
         self.player.stop()
         self.dismissViewControllerAnimated(false, completion: nil)
