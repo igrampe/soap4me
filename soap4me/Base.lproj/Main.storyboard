@@ -317,10 +317,6 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="0US-0p-6I4">
                                 <rect key="frame" x="-250" y="-250" width="1100" height="1100"/>
                             </imageView>
-                            <view alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="70f-rk-QSv">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uFb-gO-SLT">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <subviews>
@@ -409,14 +405,10 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="70f-rk-QSv" secondAttribute="trailing" id="9sv-HG-jjo"/>
                             <constraint firstItem="uFb-gO-SLT" firstAttribute="top" secondItem="sLA-Ay-4zo" secondAttribute="bottom" id="JVl-7P-Oby"/>
-                            <constraint firstItem="70f-rk-QSv" firstAttribute="top" secondItem="sLA-Ay-4zo" secondAttribute="bottom" constant="-20" id="Ybt-2w-lsD"/>
                             <constraint firstItem="uFb-gO-SLT" firstAttribute="leading" secondItem="c8b-yr-2sv" secondAttribute="leading" id="Z30-yx-nub"/>
-                            <constraint firstItem="WNe-3u-vrQ" firstAttribute="top" secondItem="70f-rk-QSv" secondAttribute="bottom" id="fTr-P5-UUB"/>
                             <constraint firstItem="WNe-3u-vrQ" firstAttribute="top" secondItem="uFb-gO-SLT" secondAttribute="bottom" id="gJm-VI-Mbg"/>
                             <constraint firstAttribute="trailing" secondItem="uFb-gO-SLT" secondAttribute="trailing" id="jHk-dP-kNB"/>
-                            <constraint firstItem="70f-rk-QSv" firstAttribute="leading" secondItem="c8b-yr-2sv" secondAttribute="leading" id="zaI-R5-mNA"/>
                         </constraints>
                     </view>
                     <connections>

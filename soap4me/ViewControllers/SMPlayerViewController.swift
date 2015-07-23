@@ -8,12 +8,14 @@
 
 import UIKit
 import MediaPlayer
+import AVKit
+import AVFoundation
 
 class SMPlayerViewController: UIViewController {
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    var player: MPMoviePlayerController!
+    var player: AVPlayerViewController!
     
     var eid: Int = 0
     var sid: Int = 0
@@ -25,18 +27,17 @@ class SMPlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.player = MPMoviePlayerController()
+        self.player = AVPlayerViewController()
+        AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, error: nil)
         self.player.view.backgroundColor = UIColor.blackColor()
         
-        self.observe(selector: "playbackStateChanged:", name: MPMoviePlayerPlaybackStateDidChangeNotification)
-        self.observe(selector: "playerDidFinish", name: MPMoviePlayerPlaybackDidFinishNotification)
-        self.observe(selector: "playerDidExiFullScreen", name: MPMoviePlayerDidExitFullscreenNotification)
         self.observe(selector: "apiEpisodeGetLinkInfoSucceed:", name: SMCatalogManagerNotification.ApiEpisodeGetLinkInfoSucceed.rawValue)
         self.observe(selector: "apiEpisodeGetLinkInfoFailed:", name: SMCatalogManagerNotification.ApiEpisodeGetLinkInfoFailed.rawValue)
         
+        self.addChildViewController(self.player)
         self.view.addSubview(self.player.view)
+        
         self.player.view.hidden = true
-        self.player.movieSourceType = MPMovieSourceType.File
     }
 
     override func viewDidLayoutSubviews() {
@@ -65,20 +66,12 @@ class SMPlayerViewController: UIViewController {
     
     func apiEpisodeGetLinkInfoSucceed(notification: NSNotification) {
         if let link = notification.object as? String {
+            self.activityIndicator.stopAnimating()
             self.player.view.hidden = false
-            self.player.contentURL = NSURL(string: link)
-            self.player.prepareToPlay()
-            self.player.setFullscreen(true, animated: false)
-            self.player.controlStyle = MPMovieControlStyle.Fullscreen
-            self.player.play()
-        }
-    }
-    
-    func playbackStateChanged(notification: NSNotification) {
-        if self.player.playbackState == MPMoviePlaybackState.Playing {
-            if self.activityIndicator.isAnimating() {
-                self.activityIndicator.stopAnimating()
-            }
+            self.player.player = AVPlayer(URL: NSURL(string: link))
+            self.player.player.play()
+            var targetTime: CMTime = CMTimeMakeWithSeconds(self.startPosition, self.player.player.currentTime().timescale)
+            self.player.player.seekToTime(targetTime)
         }
     }
     
@@ -86,18 +79,7 @@ class SMPlayerViewController: UIViewController {
         
     }
     
-    func playerDidFinish() {
-        self.finishPlayer()
-    }
-    
-    func playerDidExiFullScreen() {
-        self.finishPlayer()
-    }
-    
-    func finishPlayer() {
-        SMCatalogManager.sharedInstance.setPlayingProgress(self.player.currentPlaybackTime, forSeasonId: self.season_id, episodeNumber: self.episode)
-        self.shouldRequestLink = false
-        self.player.stop()
-        self.dismissViewControllerAnimated(false, completion: nil)
+    func goBack() {
+        
     }
 }
