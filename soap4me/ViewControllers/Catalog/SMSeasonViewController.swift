@@ -8,7 +8,16 @@
 
 import UIKit
 
-class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SMEpisodeCellDelegate {
+struct SelectedEpisode {
+    var eid: Int = 0
+    var hsh: String = ""
+    var sid: Int = 0
+    var episode_number: Int = 0
+    var season_id: Int = 0
+    var progress: Double = 0
+}
+
+class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SMEpisodeCellDelegate, UIAlertViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -17,6 +26,8 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
     var tryToWatchEpisodes = [Int:Bool]()
     var metaEpisodes = [SMMetaEpisode]()
     let cellIdentifier = "cellIdentifier"
+    
+    var selectedEpisode: SelectedEpisode?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,15 +58,18 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    func showPlayer(eid: Int, hsh: String, sid: Int, episode_number: Int, season_id: Int, progress: Double) {
-        var c: SMPlayerViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PlayerVC") as! SMPlayerViewController
-        c.eid = eid
-        c.hsh = hsh
-        c.sid = sid
-        c.episode = episode_number
-        c.season_id = season_id
-        
-        self.navigationController?.presentViewController(c, animated: true, completion: nil)
+    func showPlayer() {
+        if let se = self.selectedEpisode {
+            var c: SMPlayerViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PlayerVC") as! SMPlayerViewController
+            c.eid = se.eid
+            c.hsh = se.hsh
+            c.sid = se.sid
+            c.episode = se.episode_number
+            c.season_id = se.season_id
+            c.startPosition = se.progress
+            
+            self.navigationController?.presentViewController(c, animated: true, completion: nil)
+        }
     }
 
     //MARK: UITableViewDataSource
@@ -102,11 +116,16 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         if let episode = metaEpisode.episodeWithQuality(SMStateManager.sharedInstance.preferedQuality,
             translationType: SMStateManager.sharedInstance.preferedTranslation) {
                 var shouldAscContinue = false
+                var progress: Double = 0
                 if let ep: SMEpisodeProgress = SMCatalogManager.sharedInstance.getEpisodeProgress(forSeasonId: episode.season_id, episodeNumber: episode.episode) {
-                    if ep.progress > 15 {
+                    if ep.progress > 10 {
                         shouldAscContinue = true
+                        progress = ep.progress
                     }
                 }
+                
+                self.selectedEpisode = SelectedEpisode(eid: episode.eid, hsh: episode.hsh, sid: episode.sid, episode_number: episode.episode, season_id: episode.season_id, progress: progress)
+                
                 if shouldAscContinue {
                     var alertView = UIAlertView()
                     alertView.delegate = self
@@ -116,7 +135,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
                     alertView.cancelButtonIndex = 0
                     alertView.show()
                 } else {
-                    self.showPlayer(episode.eid, hsh: episode.hsh, sid: episode.sid, episode_number: episode.episode, season_id: episode.season_id, progress: 0)
+                    self.showPlayer()
                 }
                 
         }
@@ -141,5 +160,13 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         self.reloadData()
         self.reloadUI()
+    }
+    
+    //MARK: UIAlertViewDelegate
+    
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+        if buttonIndex == 1 {
+            self.showPlayer()
+        }
     }
 }

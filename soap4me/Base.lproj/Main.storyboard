@@ -272,35 +272,13 @@
             </objects>
             <point key="canvasLocation" x="3094" y="1102"/>
         </scene>
-        <!--Player View Controller-->
-        <scene sceneID="j44-tS-DA8">
+        <!--AV Player View Controller-->
+        <scene sceneID="BK2-Mz-Di9">
             <objects>
-                <viewController storyboardIdentifier="PlayerVC" id="G8s-D7-VYp" customClass="SMPlayerViewController" customModule="soap4me" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="oa2-TW-I40"/>
-                        <viewControllerLayoutGuide type="bottom" id="Avr-YO-Dlz"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Y8R-Nj-7r9">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Auq-hg-SKt">
-                                <rect key="frame" x="281.5" y="281.5" width="37" height="37"/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="Auq-hg-SKt" secondAttribute="centerX" id="2AK-RT-wQe"/>
-                            <constraint firstAttribute="centerY" secondItem="Auq-hg-SKt" secondAttribute="centerY" id="vLX-tK-YQN"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="activityIndicator" destination="Auq-hg-SKt" id="hK9-YA-lAI"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iTp-UE-Kjt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <avPlayerViewController storyboardIdentifier="PlayerVC" videoGravity="AVLayerVideoGravityResizeAspect" id="ggF-8T-zpq" customClass="SMPlayerViewController" customModule="soap4me" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="haP-u5-ymU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3840" y="1129"/>
+            <point key="canvasLocation" x="3788" y="1102"/>
         </scene>
         <!--Sign In View Controller-->
         <scene sceneID="c7r-RY-T0H">

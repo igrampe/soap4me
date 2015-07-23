@@ -11,11 +11,7 @@ import MediaPlayer
 import AVKit
 import AVFoundation
 
-class SMPlayerViewController: UIViewController {
-
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
-    var player: AVPlayerViewController!
+class SMPlayerViewController: AVPlayerViewController {
     
     var eid: Int = 0
     var sid: Int = 0
@@ -24,54 +20,49 @@ class SMPlayerViewController: UIViewController {
     var hsh: String = ""
     var shouldRequestLink: Bool = true
     var startPosition: Double = 0
+    var timer: NSTimer?
+    
+    private var сontext = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.player = AVPlayerViewController()
-        AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, error: nil)
-        self.player.view.backgroundColor = UIColor.blackColor()
+        self.view.backgroundColor = UIColor.blackColor()
         
         self.observe(selector: "apiEpisodeGetLinkInfoSucceed:", name: SMCatalogManagerNotification.ApiEpisodeGetLinkInfoSucceed.rawValue)
         self.observe(selector: "apiEpisodeGetLinkInfoFailed:", name: SMCatalogManagerNotification.ApiEpisodeGetLinkInfoFailed.rawValue)
-        
-        self.addChildViewController(self.player)
-        self.view.addSubview(self.player.view)
-        
-        self.player.view.hidden = true
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.player.view.frame = self.view.bounds;
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
         if (self.shouldRequestLink) {
-            self.activityIndicator.startAnimating()
             SMCatalogManager.sharedInstance.apiGetLinkInfoForEid(self.eid, sid: self.sid, hash: self.hsh)
         }
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
     override func viewWillDisappear(animated: Bool) {
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+        if let t = self.timer {
+            t.invalidate()
+        }
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
     }
     
     //MARK: Notifications
     
     func apiEpisodeGetLinkInfoSucceed(notification: NSNotification) {
         if let link = notification.object as? String {
-            self.activityIndicator.stopAnimating()
-            self.player.view.hidden = false
-            self.player.player = AVPlayer(URL: NSURL(string: link))
-            self.player.player.play()
-            var targetTime: CMTime = CMTimeMakeWithSeconds(self.startPosition, self.player.player.currentTime().timescale)
-            self.player.player.seekToTime(targetTime)
+            self.player = AVPlayer(URL: NSURL(string: link))
+            self.player.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: &сontext)
+            self.player.status
+            
         }
     }
     
@@ -79,7 +70,30 @@ class SMPlayerViewController: UIViewController {
         
     }
     
-    func goBack() {
-        
+    func timerTick() {
+        let progress = Double(self.player.currentTime().value)/Double(self.player.currentTime().timescale)
+        SMCatalogManager.sharedInstance.setPlayingProgress(progress, forSeasonId: self.season_id, episodeNumber: self.episode)
+    }
+    
+    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
+        if context == &сontext {
+            if self.player.status == AVPlayerStatus.ReadyToPlay {
+                var targetTime: CMTime = CMTimeMakeWithSeconds(self.startPosition, self.player.currentTime().timescale)
+                self.player.seekToTime(targetTime, completionHandler: { (_) -> Void in
+                    self.player.play()
+                })
+                if let t = self.timer {
+                    t.invalidate()
+                }
+                self.timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "timerTick", userInfo: nil, repeats: true)
+                
+            }
+        } else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        }
+    }
+    
+    deinit {
+        self.player.removeObserver(self, forKeyPath: "status", context: &сontext)
     }
 }
