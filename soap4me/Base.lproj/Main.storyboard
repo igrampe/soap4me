@@ -306,9 +306,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="0US-0p-6I4">
+                                <rect key="frame" x="-250" y="-250" width="1100" height="1100"/>
+                            </imageView>
+                            <view alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="70f-rk-QSv">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uFb-gO-SLT">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Войдите под своей учетной записью soap4me" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Lq-d4-CCk">
+                                        <rect key="frame" x="8" y="64" width="584" height="128"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k59-kw-ERw">
                                         <rect key="frame" x="8" y="256" width="584" height="68"/>
                                         <subviews>
@@ -364,27 +377,42 @@
                                     </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="4Lq-d4-CCk" firstAttribute="top" secondItem="uFb-gO-SLT" secondAttribute="top" constant="64" id="6iC-31-ujg"/>
                                     <constraint firstItem="Q4q-iW-6YQ" firstAttribute="leading" secondItem="k59-kw-ERw" secondAttribute="leading" id="ChM-mB-5iR"/>
                                     <constraint firstItem="k59-kw-ERw" firstAttribute="top" relation="greaterThanOrEqual" secondItem="uFb-gO-SLT" secondAttribute="top" constant="8" id="GK5-5Z-oHQ"/>
+                                    <constraint firstAttribute="centerX" secondItem="4Lq-d4-CCk" secondAttribute="centerX" id="LZw-IS-eG7"/>
                                     <constraint firstItem="k59-kw-ERw" firstAttribute="centerY" secondItem="uFb-gO-SLT" secondAttribute="centerY" id="Rvb-ma-SFX"/>
                                     <constraint firstItem="k59-kw-ERw" firstAttribute="centerX" secondItem="uFb-gO-SLT" secondAttribute="centerX" id="YOH-Ri-snJ"/>
                                     <constraint firstAttribute="bottom" secondItem="Q4q-iW-6YQ" secondAttribute="bottom" constant="8" id="YgZ-UO-xFG"/>
                                     <constraint firstAttribute="trailing" secondItem="k59-kw-ERw" secondAttribute="trailing" constant="8" id="ail-Jb-s56"/>
                                     <constraint firstItem="Q4q-iW-6YQ" firstAttribute="top" secondItem="k59-kw-ERw" secondAttribute="bottom" constant="48" id="cL7-it-KNa"/>
+                                    <constraint firstAttribute="trailing" secondItem="4Lq-d4-CCk" secondAttribute="trailing" constant="8" id="djR-Fx-jkx"/>
+                                    <constraint firstItem="4Lq-d4-CCk" firstAttribute="leading" secondItem="uFb-gO-SLT" secondAttribute="leading" constant="8" id="ihV-Cf-GVv"/>
+                                    <constraint firstItem="k59-kw-ERw" firstAttribute="top" secondItem="4Lq-d4-CCk" secondAttribute="bottom" constant="64" id="tIf-sU-jpb"/>
                                     <constraint firstItem="Q4q-iW-6YQ" firstAttribute="width" secondItem="k59-kw-ERw" secondAttribute="width" id="uac-Me-EwA"/>
                                     <constraint firstItem="k59-kw-ERw" firstAttribute="leading" secondItem="uFb-gO-SLT" secondAttribute="leading" constant="8" id="wQK-Ab-HSI"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="LZw-IS-eG7"/>
+                                    </mask>
+                                </variation>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="70f-rk-QSv" secondAttribute="trailing" id="9sv-HG-jjo"/>
                             <constraint firstItem="uFb-gO-SLT" firstAttribute="top" secondItem="sLA-Ay-4zo" secondAttribute="bottom" id="JVl-7P-Oby"/>
+                            <constraint firstItem="70f-rk-QSv" firstAttribute="top" secondItem="sLA-Ay-4zo" secondAttribute="bottom" constant="-20" id="Ybt-2w-lsD"/>
                             <constraint firstItem="uFb-gO-SLT" firstAttribute="leading" secondItem="c8b-yr-2sv" secondAttribute="leading" id="Z30-yx-nub"/>
+                            <constraint firstItem="WNe-3u-vrQ" firstAttribute="top" secondItem="70f-rk-QSv" secondAttribute="bottom" id="fTr-P5-UUB"/>
                             <constraint firstItem="WNe-3u-vrQ" firstAttribute="top" secondItem="uFb-gO-SLT" secondAttribute="bottom" id="gJm-VI-Mbg"/>
                             <constraint firstAttribute="trailing" secondItem="uFb-gO-SLT" secondAttribute="trailing" id="jHk-dP-kNB"/>
+                            <constraint firstItem="70f-rk-QSv" firstAttribute="leading" secondItem="c8b-yr-2sv" secondAttribute="leading" id="zaI-R5-mNA"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bgImageView" destination="0US-0p-6I4" id="ypO-yT-tko"/>
                         <outlet property="loginField" destination="CDL-0R-JaU" id="bJc-ep-5C4"/>
                         <outlet property="passwordField" destination="GCm-By-n3J" id="dcs-Gr-1es"/>
                         <outlet property="scrollView" destination="uFb-gO-SLT" id="ltN-cO-V97"/>
@@ -396,4 +424,7 @@
             <point key="canvasLocation" x="968" y="1102"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="bg.jpg" width="2200" height="2200"/>
+    </resources>
 </document>

@@ -19,6 +19,7 @@ class SMSignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordField: SMSignInTextFiled!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var bgImageView: UIImageView!
     
     var activeField: UITextField?
     weak var delegate: SignInViewControllerProtocol?
@@ -33,10 +34,31 @@ class SMSignInViewController: UIViewController, UITextFieldDelegate {
         self.observe(selector: "keyBoardWillHideWithNotification:", name: UIKeyboardWillHideNotification)
         self.observe(selector: "signInSucceed:", name: SMStateManagerNotification.SignInSucceed.rawValue)
         self.observe(selector: "signInFailed:", name: SMStateManagerNotification.SignInFailed.rawValue)
+        
+        let verticalMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.y",
+            type: .TiltAlongVerticalAxis)
+        verticalMotionEffect.minimumRelativeValue = -50
+        verticalMotionEffect.maximumRelativeValue = 50
+        let horizontalMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.x",
+            type: .TiltAlongHorizontalAxis)
+        horizontalMotionEffect.minimumRelativeValue = -50
+        horizontalMotionEffect.maximumRelativeValue = 50
+        let group = UIMotionEffectGroup()
+        group.motionEffects = [horizontalMotionEffect, verticalMotionEffect]
+        self.bgImageView.addMotionEffect(group)
     }
     
     override func viewWillDisappear(animated: Bool) {
         self.stopObserve()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        var maxSize = self.view.bounds.size.height
+        if self.view.bounds.size.width > maxSize {
+            maxSize = self.view.bounds.size.width
+        }
+        self.bgImageView.frame = CGRectMake(-100, -100, maxSize+200, maxSize+200)
     }
 
     override func didReceiveMemoryWarning() {

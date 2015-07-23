@@ -18,6 +18,7 @@
 		5329B6401B6078DF00678A50 /* SMSeasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5329B63F1B6078DF00678A50 /* SMSeasonViewController.swift */; };
 		5329B6431B60793200678A50 /* SMEpisodeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5329B6411B60793200678A50 /* SMEpisodeCell.swift */; };
 		5329B6441B60793200678A50 /* SMEpisodeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5329B6421B60793200678A50 /* SMEpisodeCell.xib */; };
+		5329B64C1B60973C00678A50 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5329B64B1B60973C00678A50 /* bg.jpg */; };
 		533FC5C21B5EFD68006061C8 /* SMSeason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533FC5C11B5EFD68006061C8 /* SMSeason.swift */; };
 		533FC5C41B5F01ED006061C8 /* SMCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533FC5C31B5F01ED006061C8 /* SMCollectionViewController.swift */; };
 		533FC5C61B6020A2006061C8 /* SMMetaEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533FC5C51B6020A2006061C8 /* SMMetaEpisode.swift */; };
@@ -59,6 +60,7 @@
 		5329B63F1B6078DF00678A50 /* SMSeasonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSeasonViewController.swift; sourceTree = "<group>"; };
 		5329B6411B60793200678A50 /* SMEpisodeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMEpisodeCell.swift; sourceTree = "<group>"; };
 		5329B6421B60793200678A50 /* SMEpisodeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMEpisodeCell.xib; sourceTree = "<group>"; };
+		5329B64B1B60973C00678A50 /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
 		533FC5C11B5EFD68006061C8 /* SMSeason.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSeason.swift; sourceTree = "<group>"; };
 		533FC5C31B5F01ED006061C8 /* SMCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMCollectionViewController.swift; sourceTree = "<group>"; };
 		533FC5C51B6020A2006061C8 /* SMMetaEpisode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMMetaEpisode.swift; sourceTree = "<group>"; };
@@ -109,6 +111,14 @@
 			path = "Bridging-Headers";
 			sourceTree = "<group>";
 		};
+		5329B6481B6095C300678A50 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5329B64B1B60973C00678A50 /* bg.jpg */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		534366441B59809300C2C203 = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +140,7 @@
 		5343664F1B59809400C2C203 /* soap4me */ = {
 			isa = PBXGroup;
 			children = (
+				5329B6481B6095C300678A50 /* Resources */,
 				5328450C1B5B094800FADC03 /* Bridging-Headers */,
 				5343667E1B59835900C2C203 /* Classes */,
 				534366811B59835900C2C203 /* ViewControllers */,
@@ -332,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5328450B1B5B056B00FADC03 /* LaunchScreen.xib in Resources */,
+				5329B64C1B60973C00678A50 /* bg.jpg in Resources */,
 				5329B6441B60793200678A50 /* SMEpisodeCell.xib in Resources */,
 				533FC5C81B604A4C006061C8 /* SMSerialHeader.xib in Resources */,
 				534366581B59809400C2C203 /* Assets.xcassets in Resources */,
