@@ -53,6 +53,8 @@ class SMApiHelper: APLApiHelper {
     static let API_SERIAL_MARK_WATCHING: String = "\(API_URL)/soap/watch"
     static let API_SERIAL_MARK_NOT_WATCHING: String = "\(API_URL)/soap/unwatch"
     
+    static let API_EPISODE_TOGGLE_WATCHED: String = "\(HOST_URL)/callback"
+    
     //MARK: Methods    
     func performPostRequest(urlStr: String, parameters: [String:AnyObject]?, success: SMApiSuccessBlock?, failure: APLApiFailureBlock?) {
         self.performRequest(Alamofire.Method.POST, urlStr: urlStr, parameters: parameters, success: success, failure: failure)

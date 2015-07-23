@@ -50,4 +50,9 @@ class SMMetaEpisode: RLMObject {
         
         self.episodes.addObject(episode)
     }
+    
+    static func isOrderedBefore(obj1: SMMetaEpisode, obj2: SMMetaEpisode) -> Bool {
+        var result = obj1.episode < obj2.episode
+        return result
+    }
 }

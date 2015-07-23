@@ -24,6 +24,9 @@ enum SMCatalogManagerNotification: String {
     
     case ApiSerialToggleWatchingSucceed = "ApiSerialToggleWatchingSucceed"
     case ApiSerialToggleWatchingFailed = "ApiSerialToggleWatchingFailed"
+    
+    case ApiEpisodeToggleWatchedSucceed = "ApiEpisodeToggleWatchedSucceed"
+    case ApiEpisodeToggleWatchedFailed = "ApiEpisodeToggleWatchedFailed"
 }
 
 class SMCatalogManager: NSObject {
@@ -263,6 +266,54 @@ class SMCatalogManager: NSObject {
             failure: failureBlock)
     }
     
+    func apiMarkEpisodeWatched(eid: Int, watched: Bool) {
+        let urlStr = "\(SMApiHelper.API_EPISODE_TOGGLE_WATCHED)"
+        
+        let successBlock = {(responseObject: [String:AnyObject]) -> Void in
+            var metaEpisode: SMMetaEpisode?
+            self.realm().beginWriteTransaction()
+            var p = NSPredicate(format: "eid = %d", eid)
+            var results = SMEpisode.objectsInRealm(self.realm(), withPredicate: p)
+            if results.count > 0 {
+                let episode:SMEpisode = results.firstObject() as! SMEpisode
+                p = NSPredicate(format: "season_id = %d and episode = %d", episode.season_id, episode.episode)
+                results = SMMetaEpisode.objectsInRealm(self.realm(), withPredicate: p)
+                if let me = results.firstObject() as? SMMetaEpisode {
+                    for var i: UInt = 0; i < me.episodes.count; i++ {
+                        var episode:SMEpisode = me.episodes.objectAtIndex(i) as! SMEpisode
+                        episode.watched = watched
+                    }
+                    me.watched = watched
+                    metaEpisode = me
+                }
+            }
+            self.realm().commitWriteTransaction()
+            
+            postNotification(SMCatalogManagerNotification.ApiEpisodeToggleWatchedSucceed.rawValue, metaEpisode?.episode)
+        }
+        
+        let failureBlock = {(error: NSError) -> Void in
+            postNotification(SMCatalogManagerNotification.ApiEpisodeToggleWatchedFailed.rawValue, error)
+        }
+        
+        var params = [String:NSObject]()
+        if let t = SMStateManager.sharedInstance.token {
+            params["token"] = t
+        }
+        if watched {
+            params["what"] = "mark_watched"
+        } else {
+            params["what"] = "mark_unwatched"
+        }
+        
+        params["eid"] = eid
+        
+        SMApiHelper.sharedInstance.performPostRequest(urlStr,
+            parameters: params,
+            success: successBlock,
+            failure: failureBlock)
+    }
+    
     //MARK: DB
     
     //MARK: -Serials
@@ -373,6 +424,11 @@ class SMCatalogManager: NSObject {
     
     func getMetaEpisodesForSid(sid: Int) -> [SMMetaEpisode] {
         var p = NSPredicate(format: "sid == %d", sid)
+        return self.getMetaEpisodesWithPredicate(p)
+    }
+    
+    func getMetaEpisodesForSeasonId(season_id: Int) -> [SMMetaEpisode] {
+        var p = NSPredicate(format: "season_id == %d", season_id)
         return self.getMetaEpisodesWithPredicate(p)
     }
 }

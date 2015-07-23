@@ -208,7 +208,14 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        var c: SMSeasonViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SeasonVC") as! SMSeasonViewController
+        var object: SMSeason!
         
+        object = self.seasons[indexPath.row] as! SMSeason
+        c.season_id = object.season_id
+        c.season_number = object.season_number
+        
+        self.navigationController?.pushViewController(c, animated: true)
     }
     
     //MARK: UICollectionViewDelegateFlowLayout
