@@ -49,6 +49,30 @@ extension UIColor {
         return color
     }
     
+    func hexValue() -> NSString {
+        let cn = CGColorGetNumberOfComponents(self.CGColor);
+        var r:CGFloat = 0.0
+        var g:CGFloat = 0.0
+        var b:CGFloat = 0.0
+        var a:CGFloat = 0.0
+        
+        let comps = CGColorGetComponents(self.CGColor)
+        
+        if cn == 4 {
+            r = comps[0];
+            g = comps[1];
+            b = comps[2];
+            a = comps[3];
+        } else {
+            r = comps[0];
+            g = comps[0];
+            b = comps[0];
+            a = comps[1];
+        }
+        var hex = String(format: "%02x%02x%02x%02x", Int(r*255), Int(g*255), Int(b*255), Int(a*255))
+        return hex
+    }
+    
     static func colorComponentsWithString(string: String) -> (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) {
         var lcs = string.lowercaseString
         
