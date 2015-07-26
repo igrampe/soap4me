@@ -13,7 +13,7 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="148" height="197"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oTz-jE-gNb">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oTz-jE-gNb" customClass="SMAsyncImageView" customModule="soap4me" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="148" height="148"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="oTz-jE-gNb" secondAttribute="height" multiplier="1:1" id="n0g-Cz-L1v"/>

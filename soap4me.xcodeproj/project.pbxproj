@@ -46,6 +46,7 @@
 		53C90F391B5AED5200A04687 /* SMCatalogCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53C90F371B5AED5200A04687 /* SMCatalogCollectionCell.xib */; };
 		53C90F3C1B5AF8FF00A04687 /* SMCatalogReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C90F3A1B5AF8FF00A04687 /* SMCatalogReusableView.swift */; };
 		53C90F3D1B5AF8FF00A04687 /* SMCatalogReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53C90F3B1B5AF8FF00A04687 /* SMCatalogReusableView.xib */; };
+		53E5E8951B64BB0300EC7A38 /* SMAsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5E8941B64BB0300EC7A38 /* SMAsyncImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +93,7 @@
 		53C90F371B5AED5200A04687 /* SMCatalogCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMCatalogCollectionCell.xib; sourceTree = "<group>"; };
 		53C90F3A1B5AF8FF00A04687 /* SMCatalogReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMCatalogReusableView.swift; sourceTree = "<group>"; };
 		53C90F3B1B5AF8FF00A04687 /* SMCatalogReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMCatalogReusableView.xib; sourceTree = "<group>"; };
+		53E5E8941B64BB0300EC7A38 /* SMAsyncImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMAsyncImageView.swift; sourceTree = "<group>"; };
 		B6EB2B97E986C60F42D16DED /* Pods_soap4me.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_soap4me.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -217,6 +219,7 @@
 				533FC5CD1B60615D006061C8 /* SMPaddingButton.swift */,
 				5329B6411B60793200678A50 /* SMEpisodeCell.swift */,
 				5329B6421B60793200678A50 /* SMEpisodeCell.xib */,
+				53E5E8941B64BB0300EC7A38 /* SMAsyncImageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -473,6 +476,7 @@
 				537A49281B5AD90900F81129 /* String+APL.swift in Sources */,
 				533FC5C21B5EFD68006061C8 /* SMSeason.swift in Sources */,
 				537A49261B59F19D00F81129 /* NSObject+APL.swift in Sources */,
+				53E5E8951B64BB0300EC7A38 /* SMAsyncImageView.swift in Sources */,
 				53C90F3C1B5AF8FF00A04687 /* SMCatalogReusableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

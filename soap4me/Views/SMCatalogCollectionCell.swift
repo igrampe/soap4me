@@ -9,7 +9,7 @@
 import UIKit
 
 class SMCatalogCollectionCell: UICollectionViewCell {
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var imageView: SMAsyncImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var badgeLabel: SMPaddingLabel!
     

@@ -123,9 +123,7 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
             }
             self.headerView.watchButton.setTitle(status, forState: UIControlState.Normal)
             let urlStr = String(format: SMApiHelper.ASSET_COVER_SERIAL_BIG, s.sid)
-            if let url = NSURL(string: urlStr) {
-                self.headerView.imageView.sd_setImageWithURL(url)
-            }
+            self.headerView.imageView.setImageUrl(urlStr)
         }
         
         self.collectionView.hidden = true

@@ -92,9 +92,7 @@ class SMSerialsViewController: SMCollectionViewController, UICollectionViewDataS
         if let serial = object as? SMSerial {
             cell.titleLabel.text = serial.title
             let urlStr = String(format: SMApiHelper.ASSET_COVER_SERIAL_BIG, serial.sid)            
-            if let url = NSURL(string: urlStr) {
-                cell.imageView.sd_setImageWithURL(url)
-            }
+            cell.imageView.setImageUrl(urlStr)
             if (self.mySerials) {
                 cell.setBadgeCount(serial.unwatched)
             } else {

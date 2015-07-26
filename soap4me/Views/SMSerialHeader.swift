@@ -17,7 +17,7 @@ protocol SMSerialHeaderDelegate: NSObjectProtocol {
 }
 
 class SMSerialHeader: UIView {
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var imageView: SMAsyncImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var metaLabel: UILabel!
     @IBOutlet weak var watchActivityIndicator: UIActivityIndicatorView!
