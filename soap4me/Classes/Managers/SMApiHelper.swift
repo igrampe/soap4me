@@ -58,6 +58,7 @@ class SMApiHelper: APLApiHelper {
     
     //MARK: Methods    
     func performPostRequest(urlStr: String, parameters: [String:AnyObject]?, success: SMApiSuccessBlock?, failure: APLApiFailureBlock?) {
+        
         self.performRequest(Alamofire.Method.POST, urlStr: urlStr, parameters: parameters, success: success, failure: failure)
     }
     
@@ -71,6 +72,11 @@ class SMApiHelper: APLApiHelper {
     
     //MARK: -Helpers
     func performRequest(method: Alamofire.Method, urlStr: String, parameters: [String:AnyObject]?, success: SMApiSuccessBlock?, failure: APLApiFailureBlock?) {
+        
+        if let h = Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders {
+            NSLog("%@", h)
+        }
+        
         let fb = self.buildFailureBlock(failure)
         let sb = self.buildSuccessBlock(success, failure: fb)
         super.pRequest(method, urlStr: urlStr, parameters: parameters, success: sb, failure: fb)
@@ -87,7 +93,10 @@ class SMApiHelper: APLApiHelper {
                 responseDict["ok"] = 1
             }
             
-            let ok: Bool = responseDict["ok"] as! Bool
+            var ok: Bool = false
+            if let o = responseDict["ok"] as? Bool {
+                ok = o
+            }
             if ok {
                 if let isb = success {
                     isb(responseDict)
