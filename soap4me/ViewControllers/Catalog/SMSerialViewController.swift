@@ -123,13 +123,13 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
             let urlStr = String(format: SMApiHelper.ASSET_COVER_SERIAL_BIG, s.sid)
             
             var animated = true
-            if let iu = imgsUrls[-1] {
+            if let iu = imgsUrls[NSIndexPath(forRow: 0, inSection: -1)] {
                 if iu == urlStr {
                     animated = false
                 }
             }
             if animated {
-                imgsUrls[-1] = urlStr
+                imgsUrls[NSIndexPath(forRow: 0, inSection: -1)] = urlStr
             }
             
             self.headerView.imageView.setImageUrl(urlStr, animated: animated)
@@ -215,13 +215,13 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
             let urlStr = String(format: SMApiHelper.ASSET_COVER_SEASON_BIG, season.season_id)
             
             var animated = true
-            if let iu = imgsUrls[indexPath.row] {
+            if let iu = imgsUrls[indexPath] {
                 if iu == urlStr {
                     animated = false
                 }
             }
             if animated {
-                imgsUrls[indexPath.row] = urlStr
+                imgsUrls[indexPath] = urlStr
             }
             
             cell.imageView.setImageUrl(urlStr, animated: animated)

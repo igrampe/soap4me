@@ -46,9 +46,9 @@
 		53C90F391B5AED5200A04687 /* SMCatalogCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53C90F371B5AED5200A04687 /* SMCatalogCollectionCell.xib */; };
 		53C90F3C1B5AF8FF00A04687 /* SMCatalogReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C90F3A1B5AF8FF00A04687 /* SMCatalogReusableView.swift */; };
 		53C90F3D1B5AF8FF00A04687 /* SMCatalogReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53C90F3B1B5AF8FF00A04687 /* SMCatalogReusableView.xib */; };
-		53E5E8951B64BB0300EC7A38 /* SMAsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5E8941B64BB0300EC7A38 /* SMAsyncImageView.swift */; };
 		53E5E88F1B64ADDF00EC7A38 /* SMSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5E88E1B64ADDF00EC7A38 /* SMSettingsViewController.swift */; };
 		53E5E8921B64B01F00EC7A38 /* SMSettingsCellCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5E8901B64B01F00EC7A38 /* SMSettingsCellCommon.swift */; };
+		53E5E8951B64BB0300EC7A38 /* SMAsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5E8941B64BB0300EC7A38 /* SMAsyncImageView.swift */; };
 		53E5E8971B64D1DF00EC7A38 /* SMSettingsCellAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5E8961B64D1DF00EC7A38 /* SMSettingsCellAction.swift */; };
 /* End PBXBuildFile section */
 
@@ -96,9 +96,9 @@
 		53C90F371B5AED5200A04687 /* SMCatalogCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMCatalogCollectionCell.xib; sourceTree = "<group>"; };
 		53C90F3A1B5AF8FF00A04687 /* SMCatalogReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMCatalogReusableView.swift; sourceTree = "<group>"; };
 		53C90F3B1B5AF8FF00A04687 /* SMCatalogReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMCatalogReusableView.xib; sourceTree = "<group>"; };
-		53E5E8941B64BB0300EC7A38 /* SMAsyncImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMAsyncImageView.swift; sourceTree = "<group>"; };
 		53E5E88E1B64ADDF00EC7A38 /* SMSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSettingsViewController.swift; sourceTree = "<group>"; };
 		53E5E8901B64B01F00EC7A38 /* SMSettingsCellCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSettingsCellCommon.swift; sourceTree = "<group>"; };
+		53E5E8941B64BB0300EC7A38 /* SMAsyncImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMAsyncImageView.swift; sourceTree = "<group>"; };
 		53E5E8961B64D1DF00EC7A38 /* SMSettingsCellAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSettingsCellAction.swift; sourceTree = "<group>"; };
 		B6EB2B97E986C60F42D16DED /* Pods_soap4me.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_soap4me.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */

@@ -18,7 +18,7 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     let cellIdentifier = "cellIdentifier"
     let headerIdentifier = "headerIdentifier"
     
-    var imgsUrls = [Int:String]()
+    var imgsUrls = [NSIndexPath:String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
