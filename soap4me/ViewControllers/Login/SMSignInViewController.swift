@@ -29,6 +29,10 @@ class SMSignInViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    override func viewWillAppear(animated: Bool) {
+        self.reloadUI()
+    }
+    
     override func viewDidAppear(animated: Bool) {
         self.observe(selector: "keyBoardWillChangeWithNotification:", name: UIKeyboardWillChangeFrameNotification)
         self.observe(selector: "keyBoardWillHideWithNotification:", name: UIKeyboardWillHideNotification)
@@ -61,9 +65,9 @@ class SMSignInViewController: UIViewController, UITextFieldDelegate {
         self.bgImageView.frame = CGRectMake(-100, -100, maxSize+200, maxSize+200)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func reloadUI() {
+        self.loginField.text = SMStateManager.sharedInstance.userLogin
+        self.passwordField.text = SMStateManager.sharedInstance.userPassoword
     }
     
     //MARK: Notifications
@@ -126,6 +130,8 @@ class SMSignInViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func signInAction(sener: UIButton?) {
         if let login = self.loginField.text, password = self.passwordField.text {
+            SMStateManager.sharedInstance.userLogin = login
+            SMStateManager.sharedInstance.userPassoword = password
             SMStateManager.sharedInstance.signIn(login, password: password)
             SVProgressHUD.show()
         }

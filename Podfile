@@ -9,4 +9,5 @@ target :soap4me do
     pod 'SDWebImage'
     pod 'Fabric'
     pod 'Crashlytics'
+    pod 'KeychainAccess'
 end

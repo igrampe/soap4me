@@ -7,12 +7,18 @@
 //
 
 import UIKit
+import KeychainAccess
 
 private enum UserDefaultsKeys: String {
     case Token = "Token"
     case TokenTill = "TokenTill"
+    
+    case UserLogin = "UserLogin"
+    case UserPassowrd = "UserPassowrd"
+    
     case PreferedQuality = "PreferedQuality"
     case PreferedTranslation = "PreferedTranslation"
+    
 //    var stringValue: String {
 //        switch self {
 //            case .Token: return "TOKEN"
@@ -37,25 +43,15 @@ public enum SMStateManagerNotification: String {
 class SMStateManager: NSObject {
     static let sharedInstance = SMStateManager()
     
-    override init() {
-        if let pq = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.PreferedQuality.rawValue) as? SMEpisodeQuality.RawValue {
-            preferedQuality = SMEpisodeQuality(rawValue: pq)
-        } else {
-            preferedQuality = SMEpisodeQuality.HD
+    var keychain: Keychain!
+    var userLogin: String? {
+        didSet {
+            self.saveKeychainValue(userLogin, key: UserDefaultsKeys.UserLogin.rawValue)
         }
-        
-        if let pt = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.PreferedTranslation.rawValue) as? SMEpisodeTranslateType.RawValue {
-            preferedTranslation = SMEpisodeTranslateType(rawValue: pt)
-        } else {
-            preferedTranslation = SMEpisodeTranslateType.Voice
-        }
-        
-        if let t = NSUserDefaults.standardUserDefaults().stringForKey(UserDefaultsKeys.Token.rawValue) {
-            token = t
-            SMApiHelper.sharedInstance.setToken(self.token!)
-        }
-        if let tt = NSUserDefaults.standardUserDefaults().valueForKey(UserDefaultsKeys.TokenTill.rawValue) as? NSDate  {
-            tokenTill = tt
+    }
+    var userPassoword: String? {
+        didSet {
+            self.saveKeychainValue(userPassoword, key: UserDefaultsKeys.UserPassowrd.rawValue)
         }
     }
     
@@ -73,7 +69,7 @@ class SMStateManager: NSObject {
     
     private(set) var token: String? {
         didSet {
-            self.saveValue(token, key: UserDefaultsKeys.Token.rawValue)
+            self.saveKeychainValue(token, key: UserDefaultsKeys.Token.rawValue)
             if let t = self.token {
                 SMApiHelper.sharedInstance.setToken(t)
             }
@@ -81,7 +77,42 @@ class SMStateManager: NSObject {
     }
     private(set) var tokenTill: NSDate? {
         didSet {
-            self.saveValue(tokenTill, key: UserDefaultsKeys.TokenTill.rawValue)
+            self.saveKeychainValue(tokenTill, key: UserDefaultsKeys.TokenTill.rawValue)
+        }
+    }
+    
+    override init() {
+        super.init()
+        
+        if let bundleId = NSBundle.mainBundle().infoDictionary?["CFBundleIdentifier"] as? String {
+            self.keychain = Keychain(service: bundleId)
+        }
+        
+        if let pq = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.PreferedQuality.rawValue) as? SMEpisodeQuality.RawValue {
+            preferedQuality = SMEpisodeQuality(rawValue: pq)
+        } else {
+            preferedQuality = SMEpisodeQuality.HD
+        }
+        
+        if let pt = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.PreferedTranslation.rawValue) as? SMEpisodeTranslateType.RawValue {
+            preferedTranslation = SMEpisodeTranslateType(rawValue: pt)
+        } else {
+            preferedTranslation = SMEpisodeTranslateType.Voice
+        }
+        
+        if let t = self.getKeychainValueForKey(UserDefaultsKeys.Token.rawValue) {
+            token = t
+            SMApiHelper.sharedInstance.setToken(self.token!)
+        }
+        if let tt = self.getKeychainAnyObjectForKey(UserDefaultsKeys.TokenTill.rawValue) as? NSDate {
+            tokenTill = tt
+        }
+        
+        if let uLogin = self.getKeychainValueForKey(UserDefaultsKeys.UserLogin.rawValue) {
+            self.userLogin = uLogin
+        }
+        if let uPassword = self.getKeychainValueForKey(UserDefaultsKeys.UserPassowrd.rawValue) {
+            self.userPassoword = uPassword
         }
     }
     
@@ -92,6 +123,35 @@ class SMStateManager: NSObject {
         } else {
             NSUserDefaults.standardUserDefaults().removeObjectForKey(key)
         }
+    }
+    
+    private func saveKeychainValue(value: String?, key: String) {
+        if let v = value {
+            self.keychain.set(v, key: key)
+        } else {
+            self.keychain.remove(key)
+        }
+    }
+    
+    private func saveKeychainValue(value: AnyObject?, key: String) {
+        if let v: AnyObject = value {
+            var data = NSKeyedArchiver.archivedDataWithRootObject(v)
+            self.keychain.set(data, key: key)
+        } else {
+            self.keychain.remove(key)
+        }
+    }
+    
+    private func getKeychainValueForKey(key: String) -> String? {
+        return self.keychain.get(key)
+    }
+    
+    private func getKeychainAnyObjectForKey(key: String) -> AnyObject? {
+        var object: AnyObject?
+        if let data = self.keychain.getData(key) {
+            object = NSKeyedUnarchiver.unarchiveObjectWithData(data)
+        }
+        return object
     }
     
     //MARK: Getters
