@@ -154,6 +154,12 @@ class SMStateManager: NSObject {
         return object
     }
     
+    //MARK: Actions
+    
+    func logout() {
+        //TODO: perform logout and clear state
+    }
+    
     //MARK: Getters
     func hasValidToken() -> Bool {
         var result = false
