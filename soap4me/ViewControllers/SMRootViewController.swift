@@ -24,6 +24,8 @@ class SMRootViewController: UIViewController, SignInViewControllerProtocol {
         SVProgressHUD.setDefaultMaskType(SVProgressHUDMaskType.Gradient)
         
         self.observe(selector: "hideCtlNotification:", name: SMRootViewControllerNotification.HideCtl.rawValue)
+        self.observe(selector: "handleClearState:", name: SMStateManagerNotification.StateCleared.rawValue)
+        
         
         if (SMStateManager.sharedInstance.hasValidToken()) {
             self.showCatalogCtl()
@@ -68,6 +70,13 @@ class SMRootViewController: UIViewController, SignInViewControllerProtocol {
     func hideCtlNotification(notification: NSNotification) {
         if let ctl = notification.object as? UIViewController {
             self.hideCtl(ctl)
+        }
+    }
+    
+    func handleClearState(notification: NSNotification) {
+        self.hideCtl(self.catalogNC)
+        if self.signInVC?.parentViewController == nil {
+            self.showSignInVC()
         }
     }
     

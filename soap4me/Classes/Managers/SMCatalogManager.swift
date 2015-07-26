@@ -38,7 +38,7 @@ class SMCatalogManager: NSObject {
     
     private var _realm: RLMRealm?
     
-    func realm() -> RLMRealm {
+    private func realm() -> RLMRealm {
         if _realm == nil {
 //            var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentationDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String
 //            path = path.stringByAppendingPathComponent("db_\(DB_VERSION).realm")
@@ -55,6 +55,24 @@ class SMCatalogManager: NSObject {
         }
         
         return _realm!
+    }
+    
+    func clearState() {
+        self.realm().beginWriteTransaction()
+        
+        var results = SMMySerial.allObjectsInRealm(self.realm())
+        self.realm().deleteObjects(results)
+        
+        results = SMMetaEpisode.allObjectsInRealm(self.realm())
+        self.realm().deleteObjects(results)
+        
+        results = SMEpisode.allObjectsInRealm(self.realm())
+        self.realm().deleteObjects(results)
+        
+        results = SMMySerial.allObjectsInRealm(self.realm())
+        self.realm().deleteObjects(results)
+        
+        self.realm().commitWriteTransaction()
     }
     
     //MARK: API

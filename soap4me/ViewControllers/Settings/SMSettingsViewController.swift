@@ -56,9 +56,8 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate {
     
     func logoutAction() {
         YMMYandexMetrica.reportEvent("APP.ACTION.SIGNOUT", onFailure: nil)
-        self.navigationController?.dismissViewControllerAnimated(true, completion: { () -> Void in
-            SMStateManager.sharedInstance.logout()
-        })
+        SMStateManager.sharedInstance.logout()
+        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
 
     // MARK: - Table view data source

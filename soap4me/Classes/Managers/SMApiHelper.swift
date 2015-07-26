@@ -95,8 +95,14 @@ class SMApiHelper: APLApiHelper {
             } else {
                 let desc = responseDict["error"] as! String?
                 var userInfo: [NSObject : AnyObject]
+                var code = -1
                 if let v = desc {
-                    userInfo = ["NSLocalizedDescription":v]
+                    if v == "wrong token" {
+                        code = 1
+                        userInfo = ["NSLocalizedDescription":NSLocalizedString("Неверный токен авторизации")]
+                    } else {
+                        userInfo = ["NSLocalizedDescription":v]
+                    }
                 } else {
                     userInfo = ["NSLocalizedDescription":NSLocalizedString("Неизвестная ошибка", comment: "")]
                 }
@@ -113,6 +119,9 @@ class SMApiHelper: APLApiHelper {
         let fb: APLApiFailureBlock = {(error: NSError) -> Void in
             var exception = NSException(name: "API", reason: error.description, userInfo: error.userInfo)
             YMMYandexMetrica.reportError("API.ERROR", exception: exception, onFailure: nil)
+            if error.code == 1 {
+                SMStateManager.sharedInstance.clearState()
+            }
             if let f = failure {
                 f(error)
             }

@@ -31,6 +31,8 @@ public enum SMStateManagerNotification: String {
     case SignInSucceed = "SignInSucceed"
     case SignInFailed = "SignInFailed"
     
+    case StateCleared = "StateCleared"
+    
 //    var stringVale: String {
 //        switch self {
 //        case .SignInSucceed: return "SMStateManagerNotification.\(SignInSucceed)";
@@ -156,8 +158,20 @@ class SMStateManager: NSObject {
     
     //MARK: Actions
     
-    func logout() {        
-        //TODO: perform logout and clear state
+    func logout() {
+        self.userLogin = nil
+        self.userPassoword = nil
+        
+        self.clearState()
+    }
+    
+    func clearState() {
+        self.token = nil
+        self.tokenTill = nil
+        
+        SMCatalogManager.sharedInstance.clearState()
+        
+        postNotification(SMStateManagerNotification.StateCleared.rawValue, nil)
     }
     
     //MARK: Getters
