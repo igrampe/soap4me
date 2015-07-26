@@ -48,6 +48,7 @@
 		53C90F3D1B5AF8FF00A04687 /* SMCatalogReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53C90F3B1B5AF8FF00A04687 /* SMCatalogReusableView.xib */; };
 		53E5E88F1B64ADDF00EC7A38 /* SMSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5E88E1B64ADDF00EC7A38 /* SMSettingsViewController.swift */; };
 		53E5E8921B64B01F00EC7A38 /* SMSettingsCellCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5E8901B64B01F00EC7A38 /* SMSettingsCellCommon.swift */; };
+		53E5E8971B64D1DF00EC7A38 /* SMSettingsCellAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5E8961B64D1DF00EC7A38 /* SMSettingsCellAction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,6 +97,7 @@
 		53C90F3B1B5AF8FF00A04687 /* SMCatalogReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMCatalogReusableView.xib; sourceTree = "<group>"; };
 		53E5E88E1B64ADDF00EC7A38 /* SMSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSettingsViewController.swift; sourceTree = "<group>"; };
 		53E5E8901B64B01F00EC7A38 /* SMSettingsCellCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSettingsCellCommon.swift; sourceTree = "<group>"; };
+		53E5E8961B64D1DF00EC7A38 /* SMSettingsCellAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSettingsCellAction.swift; sourceTree = "<group>"; };
 		B6EB2B97E986C60F42D16DED /* Pods_soap4me.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_soap4me.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -222,6 +224,7 @@
 				5329B6411B60793200678A50 /* SMEpisodeCell.swift */,
 				5329B6421B60793200678A50 /* SMEpisodeCell.xib */,
 				53E5E8901B64B01F00EC7A38 /* SMSettingsCellCommon.swift */,
+				53E5E8961B64D1DF00EC7A38 /* SMSettingsCellAction.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53E5E8971B64D1DF00EC7A38 /* SMSettingsCellAction.swift in Sources */,
 				533FC5CA1B604A60006061C8 /* SMSerialHeader.swift in Sources */,
 				53E5E88F1B64ADDF00EC7A38 /* SMSettingsViewController.swift in Sources */,
 				530AB3EC1B5ADE6900F5E6B5 /* SMSerialsViewController.swift in Sources */,

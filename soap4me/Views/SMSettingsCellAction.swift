@@ -1,5 +1,5 @@
 //
-//  SMSettingsCellCommon.swift
+//  SMSettingsCellAction.swift
 //  soap4me
 //
 //  Created by Sema Belokovsky on 26/07/15.
@@ -8,10 +8,10 @@
 
 import UIKit
 
-class SMSettingsCellCommon: UITableViewCell {
+class SMSettingsCellAction: UITableViewCell {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: UITableViewCellStyle.Value1, reuseIdentifier: reuseIdentifier)
+        super.init(style: UITableViewCellStyle.Default, reuseIdentifier: reuseIdentifier)
         self.commonInit()
     }
     
@@ -20,13 +20,11 @@ class SMSettingsCellCommon: UITableViewCell {
         self.backgroundColor = UIColor.blackColor()
         
         self.textLabel?.font = UIFont.boldSystemFontOfSize(17)
+        self.textLabel?.textAlignment = NSTextAlignment.Center
         self.textLabel?.backgroundColor = UIColor.clearColor()
-        self.textLabel?.textColor = UIColor.whiteColor()
-        
-        self.detailTextLabel?.backgroundColor = UIColor.clearColor()
-        self.detailTextLabel?.textColor = UIColor.whiteColor()
+        self.textLabel?.textColor = UIColor(hex: "33bbff")
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
