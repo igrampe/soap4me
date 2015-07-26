@@ -18,6 +18,8 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     let cellIdentifier = "cellIdentifier"
     let headerIdentifier = "headerIdentifier"
     
+    var imgsUrls = [Int:String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.refreshControlContainer = UIView(frame: CGRectMake(0, 0, 0, 0))

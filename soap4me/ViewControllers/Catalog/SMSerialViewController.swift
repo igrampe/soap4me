@@ -123,7 +123,18 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
             }
             self.headerView.watchButton.setTitle(status, forState: UIControlState.Normal)
             let urlStr = String(format: SMApiHelper.ASSET_COVER_SERIAL_BIG, s.sid)
-            self.headerView.imageView.setImageUrl(urlStr)
+            
+            var animated = true
+            if let iu = imgsUrls[-1] {
+                if iu == urlStr {
+                    animated = false
+                }
+            }
+            if animated {
+                imgsUrls[-1] = urlStr
+            }
+            
+            self.headerView.imageView.setImageUrl(urlStr, animated: animated)
         }
         
         self.collectionView.hidden = true
@@ -204,9 +215,18 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
             }
             cell.titleLabel.text = seasonTitle
             let urlStr = String(format: SMApiHelper.ASSET_COVER_SEASON_BIG, season.season_id)
-            if let url = NSURL(string: urlStr) {
-                cell.imageView.sd_setImageWithURL(url)
+            
+            var animated = true
+            if let iu = imgsUrls[indexPath.row] {
+                if iu == urlStr {
+                    animated = false
+                }
             }
+            if animated {
+                imgsUrls[indexPath.row] = urlStr
+            }
+            
+            cell.imageView.setImageUrl(urlStr, animated: animated)
         }
         
         return cell

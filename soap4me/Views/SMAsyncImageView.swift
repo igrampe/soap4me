@@ -35,14 +35,20 @@ class SMAsyncImageView: UIImageView {
     }
     
     func setImageUrl(urlStr: String) {
+        self.setImageUrl(urlStr, animated: true)
+    }
+    
+    func setImageUrl(urlStr: String, animated: Bool) {
         self.activityIndicator.startAnimating()
         if let url = NSURL(string: urlStr) {
             self.sd_setImageWithURL(url, completed: { (image, error, _, _) -> Void in
                 self.activityIndicator.stopAnimating()
-                self.layer.opacity = 0  
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    self.layer.opacity = 1
-                })
+                if animated {
+                    self.layer.opacity = 0
+                    UIView.animateWithDuration(0.5, animations: { () -> Void in
+                        self.layer.opacity = 1
+                    })
+                }
             })
         }
     }
