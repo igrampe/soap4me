@@ -39,10 +39,24 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var settingsButton = UIButton()
+        settingsButton.setImage(UIImage(named: "settings"), forState: UIControlState.Normal)
+        settingsButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 0, bottom: 7, right: 14)
+        settingsButton.frame = CGRectMake(0, 0, 44, 44)
+        settingsButton.addTarget(self, action: "settingsAction", forControlEvents: UIControlEvents.TouchUpInside)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: settingsButton)
+        
         self.observe(selector: "apiGetSerialsMySucceed:", name: SMCatalogManagerNotification.ApiGetSerialsMySucceed.rawValue)
         self.observe(selector: "apiGetSerialsAllSucceed:", name: SMCatalogManagerNotification.ApiGetSerialsAllSucceed.rawValue)
         
         self.changeMode(.My)
+    }
+    
+    func settingsAction() {
+        if let settingsCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsNC") as? UINavigationController {
+            self.navigationController?.presentViewController(settingsCtl, animated: true, completion: nil)
+        }
     }
     
     private func hasMySerialsForCategory(category: SerialCategory) -> Bool {

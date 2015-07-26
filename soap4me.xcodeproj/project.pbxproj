@@ -46,6 +46,8 @@
 		53C90F391B5AED5200A04687 /* SMCatalogCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53C90F371B5AED5200A04687 /* SMCatalogCollectionCell.xib */; };
 		53C90F3C1B5AF8FF00A04687 /* SMCatalogReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C90F3A1B5AF8FF00A04687 /* SMCatalogReusableView.swift */; };
 		53C90F3D1B5AF8FF00A04687 /* SMCatalogReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53C90F3B1B5AF8FF00A04687 /* SMCatalogReusableView.xib */; };
+		53E5E88F1B64ADDF00EC7A38 /* SMSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5E88E1B64ADDF00EC7A38 /* SMSettingsViewController.swift */; };
+		53E5E8921B64B01F00EC7A38 /* SMSettingsCellCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5E8901B64B01F00EC7A38 /* SMSettingsCellCommon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +94,8 @@
 		53C90F371B5AED5200A04687 /* SMCatalogCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMCatalogCollectionCell.xib; sourceTree = "<group>"; };
 		53C90F3A1B5AF8FF00A04687 /* SMCatalogReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMCatalogReusableView.swift; sourceTree = "<group>"; };
 		53C90F3B1B5AF8FF00A04687 /* SMCatalogReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMCatalogReusableView.xib; sourceTree = "<group>"; };
+		53E5E88E1B64ADDF00EC7A38 /* SMSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSettingsViewController.swift; sourceTree = "<group>"; };
+		53E5E8901B64B01F00EC7A38 /* SMSettingsCellCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSettingsCellCommon.swift; sourceTree = "<group>"; };
 		B6EB2B97E986C60F42D16DED /* Pods_soap4me.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_soap4me.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -217,6 +221,7 @@
 				533FC5CD1B60615D006061C8 /* SMPaddingButton.swift */,
 				5329B6411B60793200678A50 /* SMEpisodeCell.swift */,
 				5329B6421B60793200678A50 /* SMEpisodeCell.xib */,
+				53E5E8901B64B01F00EC7A38 /* SMSettingsCellCommon.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -244,6 +249,7 @@
 		534366871B59837900C2C203 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				53E5E88E1B64ADDF00EC7A38 /* SMSettingsViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -445,6 +451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				533FC5CA1B604A60006061C8 /* SMSerialHeader.swift in Sources */,
+				53E5E88F1B64ADDF00EC7A38 /* SMSettingsViewController.swift in Sources */,
 				530AB3EC1B5ADE6900F5E6B5 /* SMSerialsViewController.swift in Sources */,
 				537A49221B59E61400F81129 /* SMSerial.swift in Sources */,
 				5329B6401B6078DF00678A50 /* SMSeasonViewController.swift in Sources */,
@@ -458,6 +465,7 @@
 				534366841B59835900C2C203 /* SMRootViewController.swift in Sources */,
 				5329B6431B60793200678A50 /* SMEpisodeCell.swift in Sources */,
 				537A491C1B59CE7500F81129 /* SMStateManager.swift in Sources */,
+				53E5E8921B64B01F00EC7A38 /* SMSettingsCellCommon.swift in Sources */,
 				5329B64E1B60A49300678A50 /* SMPlayerViewController.swift in Sources */,
 				531D9C6E1B5C420800014FFB /* SMSerialViewController.swift in Sources */,
 				537A492A1B5ADABC00F81129 /* SMCatalogViewController.swift in Sources */,
