@@ -75,6 +75,7 @@ class SMRootViewController: UIViewController, SignInViewControllerProtocol {
     
     func handleClearState(notification: NSNotification) {
         self.hideCtl(self.catalogNC)
+        self.catalogNC = nil
         if self.signInVC?.parentViewController == nil {
             self.showSignInVC()
         }
