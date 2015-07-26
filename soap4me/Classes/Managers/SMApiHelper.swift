@@ -73,10 +73,6 @@ class SMApiHelper: APLApiHelper {
     //MARK: -Helpers
     func performRequest(method: Alamofire.Method, urlStr: String, parameters: [String:AnyObject]?, success: SMApiSuccessBlock?, failure: APLApiFailureBlock?) {
         
-        if let h = Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders {
-            NSLog("%@", h)
-        }
-        
         let fb = self.buildFailureBlock(failure)
         let sb = self.buildSuccessBlock(success, failure: fb)
         super.pRequest(method, urlStr: urlStr, parameters: parameters, success: sb, failure: fb)
