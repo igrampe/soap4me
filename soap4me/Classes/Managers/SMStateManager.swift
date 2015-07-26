@@ -156,7 +156,7 @@ class SMStateManager: NSObject {
     
     //MARK: Actions
     
-    func logout() {
+    func logout() {        
         //TODO: perform logout and clear state
     }
     
@@ -175,6 +175,7 @@ class SMStateManager: NSObject {
     
     //MARK: API
     func signIn(login: String, password: String) {
+        YMMYandexMetrica.reportEvent("APP.ACTION.SIGNIN.TRY", onFailure: nil)
         
         let urlStr = "\(SMApiHelper.API_LOGIN)"
         let successBlock = {(responseObject: [String:AnyObject]) -> Void in
@@ -190,6 +191,7 @@ class SMStateManager: NSObject {
             } else {
                 self.tokenTill = nil
             }
+            YMMYandexMetrica.reportEvent("APP.ACTION.SIGNIN.SUCCEED", onFailure: nil)
             postNotification(SMStateManagerNotification.SignInSucceed.rawValue, nil)
         }
         

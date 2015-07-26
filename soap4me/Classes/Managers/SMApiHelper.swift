@@ -71,8 +71,9 @@ class SMApiHelper: APLApiHelper {
     
     //MARK: -Helpers
     func performRequest(method: Alamofire.Method, urlStr: String, parameters: [String:AnyObject]?, success: SMApiSuccessBlock?, failure: APLApiFailureBlock?) {
-        let sb = self.buildSuccessBlock(success, failure: failure)
-        super.pRequest(method, urlStr: urlStr, parameters: parameters, success: sb, failure: failure)
+        let fb = self.buildFailureBlock(failure)
+        let sb = self.buildSuccessBlock(success, failure: fb)
+        super.pRequest(method, urlStr: urlStr, parameters: parameters, success: sb, failure: fb)
     }
     
     func buildSuccessBlock(success: SMApiSuccessBlock?, failure: SMApiFailureBlock?) -> APLApiSuccessBlock {
@@ -106,6 +107,17 @@ class SMApiHelper: APLApiHelper {
             }
         }
         return sb
+    }
+    
+    func buildFailureBlock(failure: SMApiFailureBlock?) -> APLApiFailureBlock {
+        let fb: APLApiFailureBlock = {(error: NSError) -> Void in
+            var exception = NSException(name: "API", reason: error.description, userInfo: error.userInfo)
+            YMMYandexMetrica.reportError("API.ERROR", exception: exception, onFailure: nil)
+            if let f = failure {
+                f(error)
+            }
+        }
+        return fb
     }
     
     static func makeHash(token: String, eid: Int, hash: String, sid: Int) -> String {
