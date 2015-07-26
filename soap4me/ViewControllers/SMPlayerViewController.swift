@@ -62,7 +62,7 @@ class SMPlayerViewController: AVPlayerViewController {
             self.player = AVPlayer(URL: NSURL(string: link))
             self.player.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: &сontext)
             self.player.status
-            
+            self.shouldRequestLink = false
         }
     }
     

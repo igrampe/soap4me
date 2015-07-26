@@ -41,8 +41,6 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
         backButton.addTarget(self, action: "goBack", forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         
-        SMCatalogManager.sharedInstance.apiGetEpisodesForSid(self.sid)
-        
         self.changeMode(.Episodes)
     }
     
