@@ -32,6 +32,10 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: doneButton)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)        
+    }
+    
     func reloadUI() {
         self.tableView.reloadData()
     }
@@ -41,14 +45,17 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate {
     }
 
     func showFeedback() {
+        YMMYandexMetrica.reportEvent("APP.ACTION.FEEDBACK", onFailure: nil)
         //TODO show email ctl
     }
     
     func showRate() {
+        YMMYandexMetrica.reportEvent("APP.ACTION.RATE", onFailure: nil)
         //TODO go to app store
     }
     
     func logoutAction() {
+        YMMYandexMetrica.reportEvent("APP.ACTION.SIGNOUT", onFailure: nil)
         self.navigationController?.dismissViewControllerAnimated(true, completion: { () -> Void in
             SMStateManager.sharedInstance.logout()
         })

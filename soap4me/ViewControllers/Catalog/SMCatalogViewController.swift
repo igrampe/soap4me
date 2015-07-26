@@ -54,6 +54,7 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     }
     
     func settingsAction() {
+        YMMYandexMetrica.reportEvent("APP.ACTION.SETTINGS", onFailure: nil)
         if let settingsCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsNC") as? UINavigationController {
             self.navigationController?.presentViewController(settingsCtl, animated: true, completion: nil)
         }
