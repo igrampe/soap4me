@@ -110,6 +110,9 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
         
+        if !SMStateManager.sharedInstance.canPlaySerials() {
+            return
+        }
         
         let metaEpisode = self.metaEpisodes[indexPath.row]
         

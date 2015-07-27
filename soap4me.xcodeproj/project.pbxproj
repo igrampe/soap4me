@@ -95,6 +95,10 @@
 		5343665C1B59809400C2C203 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		534366821B59835900C2C203 /* SMRootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMRootViewController.swift; sourceTree = "<group>"; };
 		534366881B59851F00C2C203 /* SMSignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSignInViewController.swift; sourceTree = "<group>"; };
+		535015E01B66E52700C97934 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		535015E21B66E52F00C97934 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		535015E41B66E54C00C97934 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		535015E61B66E5D900C97934 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		537A49131B59B2BE00F81129 /* SMSignInTextFiled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSignInTextFiled.swift; sourceTree = "<group>"; };
 		537A49171B59BAFF00F81129 /* UIColor+APL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+APL.swift"; sourceTree = "<group>"; };
 		537A49191B59CACB00F81129 /* APLApiHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APLApiHelper.swift; sourceTree = "<group>"; };
@@ -112,6 +116,16 @@
 		53D40A7C1B66A7B500A66EF2 /* SMMyScheduleItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMMyScheduleItem.swift; sourceTree = "<group>"; };
 		53D40A7F1B66B84C00A66EF2 /* NSDate+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Utilities.h"; sourceTree = "<group>"; };
 		53D40A801B66B84C00A66EF2 /* NSDate+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Utilities.m"; sourceTree = "<group>"; };
+		53D40A8F1B66DF1B00A66EF2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		53D40A911B66DF2200A66EF2 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		53D40A931B66DF2900A66EF2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		53D40A951B66DF3000A66EF2 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		53D40A971B66DF3500A66EF2 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		53D40A991B66DF3D00A66EF2 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		53D40A9B1B66DF4400A66EF2 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		53D40A9D1B66DF4D00A66EF2 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		53D40A9F1B66DF6E00A66EF2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		53D40AA11B66DF7700A66EF2 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		53E5E88E1B64ADDF00EC7A38 /* SMSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSettingsViewController.swift; sourceTree = "<group>"; };
 		53E5E8901B64B01F00EC7A38 /* SMSettingsCellCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSettingsCellCommon.swift; sourceTree = "<group>"; };
 		53E5E8941B64BB0300EC7A38 /* SMAsyncImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMAsyncImageView.swift; sourceTree = "<group>"; };
@@ -317,6 +331,20 @@
 		5E36F8E88289CCE5EA9C79AC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				535015E61B66E5D900C97934 /* libstdc++.dylib */,
+				535015E41B66E54C00C97934 /* SystemConfiguration.framework */,
+				535015E21B66E52F00C97934 /* libz.dylib */,
+				535015E01B66E52700C97934 /* libsqlite3.dylib */,
+				53D40AA11B66DF7700A66EF2 /* Social.framework */,
+				53D40A9F1B66DF6E00A66EF2 /* StoreKit.framework */,
+				53D40A9D1B66DF4D00A66EF2 /* CoreMotion.framework */,
+				53D40A9B1B66DF4400A66EF2 /* CoreLocation.framework */,
+				53D40A991B66DF3D00A66EF2 /* AssetsLibrary.framework */,
+				53D40A971B66DF3500A66EF2 /* Accounts.framework */,
+				53D40A951B66DF3000A66EF2 /* MediaPlayer.framework */,
+				53D40A931B66DF2900A66EF2 /* CoreMedia.framework */,
+				53D40A911B66DF2200A66EF2 /* AVFoundation.framework */,
+				53D40A8F1B66DF1B00A66EF2 /* AddressBook.framework */,
 				B6EB2B97E986C60F42D16DED /* Pods_soap4me.framework */,
 			);
 			name = Frameworks;
@@ -634,9 +662,59 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Semyon Belokovkskii (VP2HD59A4B)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/soap4me/Classes/Libs/parse",
+				);
 				INFOPLIST_FILE = soap4me/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"YandexMobileMetrica\"",
+					"-l\"c++\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AdSupport\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"Crashlytics\"",
+					"-framework",
+					"\"FMDB\"",
+					"-framework",
+					"\"Fabric\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"KSCrash\"",
+					"-framework",
+					"\"KeychainAccess\"",
+					"-framework",
+					"\"Realm\"",
+					"-framework",
+					"\"RealmSwift\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SVProgressHUD\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"protobuf_c\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.appplus.soap4me;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "2ec5a278-2c2d-4366-b460-afcd9b7f5514";
@@ -653,9 +731,59 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/soap4me/Classes/Libs/parse",
+				);
 				INFOPLIST_FILE = soap4me/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"YandexMobileMetrica\"",
+					"-l\"c++\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AdSupport\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"Crashlytics\"",
+					"-framework",
+					"\"FMDB\"",
+					"-framework",
+					"\"Fabric\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"KSCrash\"",
+					"-framework",
+					"\"KeychainAccess\"",
+					"-framework",
+					"\"Realm\"",
+					"-framework",
+					"\"RealmSwift\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SVProgressHUD\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"protobuf_c\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.appplus.soap4me;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "a172a29d-0f15-440b-b22b-21275e051bc2";

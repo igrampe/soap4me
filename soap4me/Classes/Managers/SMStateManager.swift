@@ -10,6 +10,8 @@ import UIKit
 import KeychainAccess
 
 private enum UserDefaultsKeys: String {
+    case PassVersion = "PassVersion"
+    
     case Token = "Token"
     case TokenTill = "TokenTill"
     
@@ -83,11 +85,23 @@ class SMStateManager: NSObject {
         }
     }
     
+    var passVersion: String! {
+        didSet {
+            self.saveValue(passVersion, key: UserDefaultsKeys.PassVersion.rawValue)
+        }
+    }
+    
+    var currentVersion: String = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as! String
+    
     override init() {
         super.init()
         
         if let bundleId = NSBundle.mainBundle().infoDictionary?["CFBundleIdentifier"] as? String {
             self.keychain = Keychain(service: bundleId)
+        }
+        
+        if let pv = self.getValueForKey(UserDefaultsKeys.PassVersion.rawValue) as? String {
+            self.passVersion = pv
         }
         
         if let pq = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.PreferedQuality.rawValue) as? SMEpisodeQuality.RawValue {
@@ -118,6 +132,30 @@ class SMStateManager: NSObject {
         }
     }
     
+    func checkVersion() {
+        // Fucking Parse SDK doesn't work
+        var url = "https://api.parse.com/1/config"
+        var config = NSURLSessionConfiguration.defaultSessionConfiguration()
+        if config.HTTPAdditionalHeaders == nil {
+            config.HTTPAdditionalHeaders = [NSObject: AnyObject]()
+        }
+        config.HTTPAdditionalHeaders!["X-Parse-Application-Id"] = "yYwNAXGXKwbtY1890rllhpQUB7c9S1a255SOXilP"
+        config.HTTPAdditionalHeaders!["X-Parse-REST-API-Key"] = "6oApZb8bMry48mfounDQDNMWVlMf2zQMhIZnM4MH"
+        var session = NSURLSession(configuration: config)
+        
+        var t = session.dataTaskWithURL(NSURL(string: "https://api.parse.com/1/config")!) { (data, _, _) -> Void in
+            var object:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil)
+            if let o = object as? [String: AnyObject] {
+                if let params = o["params"] as? [String: AnyObject] {
+                    if let pv = params["PassVersion"] as? String {
+                        self.passVersion = pv
+                    }
+                }
+            }
+        }
+        t.resume()
+    }
+    
     private func saveValue(value: AnyObject?, key: String) {
         if let v: AnyObject = value {
             NSUserDefaults.standardUserDefaults().setValue(v, forKey: key)
@@ -125,6 +163,10 @@ class SMStateManager: NSObject {
         } else {
             NSUserDefaults.standardUserDefaults().removeObjectForKey(key)
         }
+    }
+    
+    private func getValueForKey(key: String) -> AnyObject? {
+        return NSUserDefaults.standardUserDefaults().objectForKey(key)
     }
     
     private func saveKeychainValue(value: String?, key: String) {
@@ -175,6 +217,7 @@ class SMStateManager: NSObject {
     }
     
     //MARK: Getters
+    
     func hasValidToken() -> Bool {
         var result = false
         if let t = self.token {
@@ -184,6 +227,11 @@ class SMStateManager: NSObject {
                 }
             }
         }
+        return result
+    }
+    
+    func canPlaySerials() -> Bool {
+        var result = false
         return result
     }
     

@@ -21,7 +21,7 @@ class APLApiHelper: NSObject {
         urlStr: String,
         parameters: [String:AnyObject]?,
         success: APLApiSuccessBlock?,
-        failure: APLApiFailureBlock?) {
+        failure: APLApiFailureBlock?) {            
         self.networkActivityIndicatorRetain()
         Alamofire.request(method, urlStr, parameters: parameters, encoding: .URL)
             .responseJSON { (_, _, JSON, error) in
