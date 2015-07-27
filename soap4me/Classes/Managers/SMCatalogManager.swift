@@ -19,6 +19,9 @@ enum SMCatalogManagerNotification: String {
     case ApiGetSerialsAllSucceed = "ApiGetSerialsAllSucceed"
     case ApiGetSerialsAllFailed = "ApiGetSerialsAllFailed"
     
+    case ApiGetSerialMetaSucceed = "ApiGetSerialMetaSucceed"
+    case ApiGetSerialMetaFailed = "ApiGetSerialMetaFailed"
+    
     case ApiGetEpisodesSucceed = "ApiGetEpisodesSucceed"
     case ApiGetEpisodesFailed = "ApiGetEpisodesFailed"
     
@@ -80,7 +83,7 @@ class SMCatalogManager: NSObject {
     //MARK: -Get
     
     func apiGetSerialsMy() {
-        let urlStr = "\(SMApiHelper.API_SERIALS_MY)"
+        let urlStr = "\(SMApiHelper.API_SERIALS_MY)/?nodesc"
         let successBlock = {(responseObject: [String:AnyObject]) -> Void in
             if let objects:[AnyObject] = responseObject["objects"] as? [AnyObject] {
                 self.realm().beginWriteTransaction()
@@ -121,7 +124,7 @@ class SMCatalogManager: NSObject {
     }
     
     func apiGetSerialsAll() {
-        let urlStr = "\(SMApiHelper.API_SERIALS_ALL)"
+        let urlStr = "\(SMApiHelper.API_SERIALS_ALL)/?nodesc"
         let successBlock = {(responseObject: [String:AnyObject]) -> Void in
             if let objects:[AnyObject] = responseObject["objects"] as? [AnyObject] {
                 
@@ -152,6 +155,34 @@ class SMCatalogManager: NSObject {
         
         let failureBlock = {(error: NSError) -> Void in
             postNotification(SMCatalogManagerNotification.ApiGetSerialsAllFailed.rawValue, error)
+        }
+        
+        SMApiHelper.sharedInstance.performGetRequest(urlStr,
+            success: successBlock,
+            failure: failureBlock)
+    }
+    
+    func apiGetSerialMetaForSid(sid: Int) {
+        let urlStr = "\(SMApiHelper.API_SERIAL_META)/\(sid)"
+        let successBlock = {(responseObject: [String:AnyObject]) -> Void in
+            if let object:[String:AnyObject] = responseObject["object"] as? [String:AnyObject] {
+                let p = NSPredicate(format: "sid = %d", sid)
+                
+                self.realm().beginWriteTransaction()
+                var results = SMSerial.objectsInRealm(self.realm(), withPredicate: p)
+                for var i:UInt = 0; i < results.count; i++ {
+                    var serial = results.objectAtIndex(i) as! SMSerial
+                    serial.fillWithDict(object)
+                }
+                
+                self.realm().commitWriteTransaction()
+            }
+            
+            postNotification(SMCatalogManagerNotification.ApiGetSerialMetaSucceed.rawValue, nil)
+        }
+        
+        let failureBlock = {(error: NSError) -> Void in
+            postNotification(SMCatalogManagerNotification.ApiGetSerialMetaFailed.rawValue, error)
         }
         
         SMApiHelper.sharedInstance.performGetRequest(urlStr,

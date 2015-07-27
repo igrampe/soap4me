@@ -48,8 +48,10 @@ class SMApiHelper: APLApiHelper {
     static let API_SERIALS: String = "\(API_URL)/soap"
     static let API_SERIALS_MY: String = "\(API_URL)/soap/my"
     static let API_SERIALS_ALL: String = "\(API_URL)/soap"
+    
     static let API_EPISODES: String = "\(API_URL)/episodes"
     
+    static let API_SERIAL_META: String = "\(API_URL)/soap/description"
     static let API_SERIAL_MARK_WATCHING: String = "\(API_URL)/soap/watch"
     static let API_SERIAL_MARK_NOT_WATCHING: String = "\(API_URL)/soap/unwatch"
     
@@ -92,6 +94,12 @@ class SMApiHelper: APLApiHelper {
             var ok: Bool = false
             if let o = responseDict["ok"] as? Bool {
                 ok = o
+            } else {
+                var dict = responseDict
+                responseDict.removeAll(keepCapacity: false)
+                ok = true
+                responseDict["ok"] = ok
+                responseDict["object"] = dict
             }
             if ok {
                 if let isb = success {

@@ -74,13 +74,16 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
         self.reloadData()
         self.reloadUI()
         self.obtainData()
+        
         self.observe(selector: "apiGetEpisodesSucceed:", name: SMCatalogManagerNotification.ApiGetEpisodesSucceed.rawValue)
+        self.observe(selector: "apiGetSerialMetaSucceed:", name: SMCatalogManagerNotification.ApiGetSerialMetaSucceed.rawValue)
         self.observe(selector: "apiSerialToggleWatchingSucceed:", name: SMCatalogManagerNotification.ApiSerialToggleWatchingSucceed.rawValue)
         self.observe(selector: "apiSerialToggleWatchingFailed:", name: SMCatalogManagerNotification.ApiSerialToggleWatchingFailed.rawValue)
     }
     
     override func obtainData() {
         SMCatalogManager.sharedInstance.apiGetEpisodesForSid(self.sid)
+        SMCatalogManager.sharedInstance.apiGetSerialMetaForSid(self.sid)
     }
 
     override func reloadData() {
@@ -272,6 +275,11 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
     func apiSerialToggleWatchingFailed(notification: NSNotification) {
         self.headerView.watchActivityIndicator.stopAnimating()
         self.headerView.watchButton.hidden = false
+        self.reloadData()
+        self.reloadUI()
+    }
+    
+    func apiGetSerialMetaSucceed(notification: NSNotification) {
         self.reloadData()
         self.reloadUI()
     }

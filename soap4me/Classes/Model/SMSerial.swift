@@ -25,6 +25,7 @@ class SMSerial: RLMObject {
     dynamic var imdb_id: String = ""
     dynamic var imdb_rating: Double = 0
     dynamic var imdb_votes: Int = 0
+    dynamic var likes: Int = 0
     
     dynamic var tvdb_id: Double = 0
     
