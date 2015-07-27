@@ -45,7 +45,7 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         
         var settingsButton = UIButton()
         settingsButton.setImage(UIImage(named: "settings"), forState: UIControlState.Normal)
-        settingsButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 0, bottom: 7, right: 14)
+        settingsButton.imageEdgeInsets = UIEdgeInsets(top: 7+3, left: 0, bottom: 7+3, right: 14+6)
         settingsButton.frame = CGRectMake(0, 0, 44, 44)
         settingsButton.addTarget(self, action: "settingsAction", forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: settingsButton)

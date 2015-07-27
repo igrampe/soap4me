@@ -65,13 +65,22 @@ class SMScheduleViewController: UITableViewController {
     }
     
     func obtainData() {
-        SMCatalogManager.sharedInstance.apiGetScheduleMy()
+        switch self.scheduleMode {
+            case .My: SMCatalogManager.sharedInstance.apiGetScheduleMy()
+            case .All: SMCatalogManager.sharedInstance.apiGetScheduleAll()
+        }
     }
     
     func reloadData() {
         self.scheduleItems.removeAll(keepCapacity: false)
         self.scheduleKeys.removeAll(keepCapacity: false)
-        var itms = SMCatalogManager.sharedInstance.getScheduleItemsMy()
+        var itms: [SMScheduleItem]
+        
+        switch self.scheduleMode {
+            case .My: itms = SMCatalogManager.sharedInstance.getScheduleItemsMy()
+            case .All: itms = SMCatalogManager.sharedInstance.getScheduleItemsAll()
+        }
+        
         for it in itms {
             var tms = self.dayTmsForTms(it.date)
             var arr = self.scheduleItems[tms]
@@ -158,24 +167,17 @@ class SMScheduleViewController: UITableViewController {
         let nowDate = NSDate()
         let iDate = NSDate(timeIntervalSince1970: Double(tms))
         var title = ""
-        let ti = nowDate.timeIntervalSinceDate(iDate)
         
         var f = NSDateFormatter()
         f.dateFormat = "dd.MM.yyyy"
         title = f.stringFromDate(NSDate(timeIntervalSince1970: Double(tms)))
         
-        if ti > 0 {
-            if ti < 24*60*60 {
-                title = NSLocalizedString("Сегодня")
-            } else if ti < 2*24*60*60 {
-                title = NSLocalizedString("Завтра")
-            }
-        } else {
-            if fabs(ti) < 24*60*60 {
-                title = NSLocalizedString("Сегодня")
-            } else if fabs(ti) < 2*24*60*60 {
-                title = NSLocalizedString("Вчера")
-            }
+        if iDate.isYesterday() {
+            title = NSLocalizedString("Вчера")
+        } else if iDate.isToday() {
+            title = NSLocalizedString("Сегодня")
+        } else if iDate.isTomorrow() {
+            title = NSLocalizedString("Завтра")
         }
         
         return title
@@ -187,5 +189,12 @@ class SMScheduleViewController: UITableViewController {
         var comps:NSDateComponents = NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitYear|NSCalendarUnit.CalendarUnitMonth|NSCalendarUnit.CalendarUnitDay, fromDate: date)
         date = NSCalendar.currentCalendar().dateFromComponents(comps)!
         return Int(date.timeIntervalSince1970)
+    }
+    
+    func daysBetweenDate(startDate: NSDate, endDate: NSDate) -> Int {
+        let cal = NSCalendar.currentCalendar()
+        let unit:NSCalendarUnit = .CalendarUnitDay
+        let components = cal.components(unit, fromDate: startDate, toDate: endDate, options: nil)
+        return components.day
     }
 }
