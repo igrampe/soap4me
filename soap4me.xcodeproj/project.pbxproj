@@ -16,6 +16,8 @@
 		5325ADF81B663AD000DE175C /* SMScheduleItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5325ADF61B663AD000DE175C /* SMScheduleItemCell.swift */; };
 		5325ADF91B663AD000DE175C /* SMScheduleItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5325ADF71B663AD000DE175C /* SMScheduleItemCell.xib */; };
 		5325ADFB1B66406400DE175C /* SMScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5325ADFA1B66406400DE175C /* SMScheduleViewController.swift */; };
+		5325ADFF1B66611600DE175C /* SMScheduleHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5325ADFE1B66611600DE175C /* SMScheduleHeader.swift */; };
+		5325AE011B66614B00DE175C /* SMScheduleHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5325AE001B66614B00DE175C /* SMScheduleHeader.xib */; };
 		5328450B1B5B056B00FADC03 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 532845091B5B056B00FADC03 /* LaunchScreen.xib */; };
 		532845131B5B0C5000FADC03 /* NSNotification+APL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532845121B5B0C5000FADC03 /* NSNotification+APL.swift */; };
 		5329B6401B6078DF00678A50 /* SMSeasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5329B63F1B6078DF00678A50 /* SMSeasonViewController.swift */; };
@@ -67,6 +69,8 @@
 		5325ADF61B663AD000DE175C /* SMScheduleItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMScheduleItemCell.swift; sourceTree = "<group>"; };
 		5325ADF71B663AD000DE175C /* SMScheduleItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMScheduleItemCell.xib; sourceTree = "<group>"; };
 		5325ADFA1B66406400DE175C /* SMScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMScheduleViewController.swift; sourceTree = "<group>"; };
+		5325ADFE1B66611600DE175C /* SMScheduleHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMScheduleHeader.swift; sourceTree = "<group>"; };
+		5325AE001B66614B00DE175C /* SMScheduleHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMScheduleHeader.xib; sourceTree = "<group>"; };
 		5328450A1B5B056B00FADC03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5328450E1B5B09CA00FADC03 /* soap4me-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "soap4me-Bridging-Header.h"; sourceTree = "<group>"; };
 		532845121B5B0C5000FADC03 /* NSNotification+APL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNotification+APL.swift"; sourceTree = "<group>"; };
@@ -239,6 +243,8 @@
 				53E5E8961B64D1DF00EC7A38 /* SMSettingsCellAction.swift */,
 				5325ADF61B663AD000DE175C /* SMScheduleItemCell.swift */,
 				5325ADF71B663AD000DE175C /* SMScheduleItemCell.xib */,
+				5325ADFE1B66611600DE175C /* SMScheduleHeader.swift */,
+				5325AE001B66614B00DE175C /* SMScheduleHeader.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -383,6 +389,7 @@
 				53C90F3D1B5AF8FF00A04687 /* SMCatalogReusableView.xib in Resources */,
 				534366561B59809400C2C203 /* Main.storyboard in Resources */,
 				53C90F391B5AED5200A04687 /* SMCatalogCollectionCell.xib in Resources */,
+				5325AE011B66614B00DE175C /* SMScheduleHeader.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +479,7 @@
 				5325ADFB1B66406400DE175C /* SMScheduleViewController.swift in Sources */,
 				53E5E8971B64D1DF00EC7A38 /* SMSettingsCellAction.swift in Sources */,
 				53E5E8991B66084F00EC7A38 /* SMScheduleItem.swift in Sources */,
+				5325ADFF1B66611600DE175C /* SMScheduleHeader.swift in Sources */,
 				533FC5CA1B604A60006061C8 /* SMSerialHeader.swift in Sources */,
 				53E5E88F1B64ADDF00EC7A38 /* SMSettingsViewController.swift in Sources */,
 				530AB3EC1B5ADE6900F5E6B5 /* SMSerialsViewController.swift in Sources */,

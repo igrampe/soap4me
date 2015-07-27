@@ -47,6 +47,8 @@ class SMScheduleItem: RLMObject {
                         value = ss
                     }
                     break
+                case "serial_name":
+                    value = d["soap"]
                 default:
                     value = d[prop.name]
                 }

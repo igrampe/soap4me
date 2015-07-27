@@ -8,23 +8,41 @@
 
 import UIKit
 
+enum SMScheduleMode: Int {
+    case My = 0
+    case All = 1
+}
+
 class SMScheduleViewController: UITableViewController {
 
     private let CellIdentifier = "CellIdentifier"
+    private let HeaderIdentifier = "HeaderIdentifier"
     
     var scheduleItems = [Int: [SMScheduleItem]]()
     var scheduleKeys = [Int]()
+    var scheduleMode: SMScheduleMode = .My
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var v = UIView()
-        v.backgroundColor = UIColor.blackColor()
-        self.tableView.backgroundView = v
+        self.view.backgroundColor = UIColor.blackColor()
+        
+//        var v = UIView()
+//        v.backgroundColor = UIColor.clearColor()
+//        self.tableView.backgroundView = v
         
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl?.backgroundColor = UIColor.blackColor()
+        self.refreshControl?.tintColor = UIColor.whiteColor()
         self.refreshControl?.addTarget(self, action: "obtainData", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl?.endRefreshing()
+        
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = 88
         
         self.tableView.registerNib(UINib(nibName: "SMScheduleItemCell", bundle: nil), forCellReuseIdentifier: self.CellIdentifier)
+        self.tableView.registerNib(UINib(nibName: "SMScheduleHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: HeaderIdentifier)
         self.obtainData()
     }
     
@@ -38,6 +56,12 @@ class SMScheduleViewController: UITableViewController {
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+    }
+    
+    func setMode(mode: SMScheduleMode) {
+        self.scheduleMode = mode
+        self.reloadData()
+        self.reloadUI()
     }
     
     func obtainData() {
@@ -90,14 +114,30 @@ class SMScheduleViewController: UITableViewController {
         
         if let items = self.scheduleItems[self.scheduleKeys[indexPath.section]] {
             var item: SMScheduleItem = items[indexPath.row]
-            cell.titleLabel.text = item.title
+            var str = String(format: "%@. %@ %d, %@ %d.\n%@", item.serial_name, NSLocalizedString("Сезон"), item.season_number, NSLocalizedString("cерия"), item.episode_number, item.title)
+            var aStr = NSMutableAttributedString(string: str)
+            var range = NSMakeRange(0, str.length())
+            aStr.addAttribute(NSForegroundColorAttributeName, value: UIColor.whiteColor(), range: range)
+            aStr.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(15), range: range)
+            range = NSMakeRange(0, item.serial_name.length())
+            aStr.addAttribute(NSForegroundColorAttributeName, value: UIColor(hex: "33bbff"), range: range)
+            aStr.addAttribute(NSFontAttributeName, value: UIFont.boldSystemFontOfSize(17), range: range)
+            cell.titleLabel.attributedText = aStr
         }
 
         return cell
     }
 
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.titleForTms(self.scheduleKeys[section])
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(HeaderIdentifier) as? SMScheduleHeader
+        
+        header?.titleLabel.text = self.titleForTms(self.scheduleKeys[section])
+        
+        return header
+    }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
     }
     
     //MARK: Notifications
