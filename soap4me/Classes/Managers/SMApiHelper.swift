@@ -58,6 +58,9 @@ class SMApiHelper: APLApiHelper {
     static let API_EPISODE_TOGGLE_WATCHED: String = "\(HOST_URL)/callback"
     static let API_EPISODE_LINK_INFO: String = "\(HOST_URL)/callback"
     
+    static let API_SCHEDULE_MY: String = "\(API_URL)/shedule/my"
+    static let API_SCHEDULE_ALL: String = "\(API_URL)/shedule/full"
+    
     //MARK: Methods    
     func performPostRequest(urlStr: String, parameters: [String:AnyObject]?, success: SMApiSuccessBlock?, failure: APLApiFailureBlock?) {
         

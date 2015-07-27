@@ -28,8 +28,11 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     @IBOutlet weak var scheduleBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var containerView: UIView!
     
+    var segmentedControl: UISegmentedControl!
+    
     var serialsMyCtl: SMSerialsViewController!
     var serialsAllCtl: SMSerialsViewController!
+    var scheduleCtl: SMScheduleViewController!
     var activeSerialsCtl: SMSerialsViewController?
     var mode: SMCatalogViewControllerMode = .None
     
@@ -42,10 +45,20 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         
         var settingsButton = UIButton()
         settingsButton.setImage(UIImage(named: "settings"), forState: UIControlState.Normal)
-        settingsButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 0, bottom: 7, right: 14)
+        settingsButton.imageEdgeInsets = UIEdgeInsets(top: 7+3, left: 0, bottom: 7+3, right: 14+6)
         settingsButton.frame = CGRectMake(0, 0, 44, 44)
         settingsButton.addTarget(self, action: "settingsAction", forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: settingsButton)
+        
+        self.segmentedControl = UISegmentedControl()
+        self.segmentedControl.tintColor = UIColor.whiteColor()
+        self.segmentedControl.insertSegmentWithTitle(NSLocalizedString("Мои"), atIndex: 0, animated: false)
+        self.segmentedControl.insertSegmentWithTitle(NSLocalizedString("Все"), atIndex: 1, animated: false)
+        self.segmentedControl.setWidth(100, forSegmentAtIndex: 0)
+        self.segmentedControl.setWidth(100, forSegmentAtIndex: 1)
+        self.segmentedControl.selectedSegmentIndex = 0
+        self.segmentedControl.sizeToFit()
+        self.segmentedControl.addTarget(self, action: "changeScheduleMode", forControlEvents: UIControlEvents.ValueChanged)
         
         self.observe(selector: "apiGetSerialsMySucceed:", name: SMCatalogManagerNotification.ApiGetSerialsMySucceed.rawValue)
         self.observe(selector: "apiGetSerialsAllSucceed:", name: SMCatalogManagerNotification.ApiGetSerialsAllSucceed.rawValue)
@@ -150,6 +163,13 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
                 self.serialsAllCtl.view.removeFromSuperview()
                 self.serialsAllCtl.removeFromParentViewController()
             }
+            if let pCtl = self.scheduleCtl?.parentViewController {
+                self.scheduleCtl.view.removeFromSuperview()
+                self.scheduleCtl.removeFromParentViewController()
+            }
+            if let pV = self.segmentedControl.superview {
+                self.navigationItem.titleView = nil
+            }
             self.mode = mode
             self.reloadData()
             switch self.mode {
@@ -161,6 +181,10 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
             
             self.reloadUI()
         }
+    }
+    
+    func changeScheduleMode() {
+        self.scheduleCtl.setMode(SMScheduleMode(rawValue: self.segmentedControl.selectedSegmentIndex)!)
     }
     
     func showSerialsCtl(ctl: SMSerialsViewController) {
@@ -188,7 +212,11 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     }
     
     func showScheduleCtl() {
-        //TODO: schedule
+        if self.scheduleCtl == nil {
+            self.scheduleCtl = self.storyboard?.instantiateViewControllerWithIdentifier("ScheduleVC") as! SMScheduleViewController
+        }
+        self.navigationItem.titleView = self.segmentedControl
+        self.showCtl(self.scheduleCtl!)
     }
     
     func showCtl(ctl: UIViewController) {
@@ -204,6 +232,8 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
             self.changeMode(.My)
         } else if (sender.tag == 1) {
             self.changeMode(.All)
+        } else if (sender.tag == 2) {
+            self.changeMode(.Schedule)
         }
     }
     

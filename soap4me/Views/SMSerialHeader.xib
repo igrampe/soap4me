@@ -63,7 +63,7 @@
                     <segments>
                         <segment title="Сезоны"/>
                         <segment title="Описание"/>
-                        <segment title="Расписание" enabled="NO"/>
+                        <segment title="Расписание"/>
                     </segments>
                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
