@@ -33,6 +33,9 @@ enum SMCatalogManagerNotification: String {
     
     case ApiEpisodeGetLinkInfoSucceed = "ApiEpisodeGetLinkInfoSucceed"
     case ApiEpisodeGetLinkInfoFailed = "ApiEpisodeGetLinkInfoFailed"
+    
+    case ApiGetScheduleSucceed = "ApiGetScheduleSucceed"
+    case ApiGetScheduleFailed = "ApiGetScheduleFailed"
 }
 
 class SMCatalogManager: NSObject {
@@ -288,6 +291,43 @@ class SMCatalogManager: NSObject {
         params["what"] = "player"
         params["do"] = "load"
         params["eid"] = eid
+        
+        SMApiHelper.sharedInstance.performPostRequest(urlStr,
+            parameters: params,
+            success: successBlock,
+            failure: failureBlock)
+    }
+    
+    func apiGetShceduleMy() {
+        let urlStr = "\(SMApiHelper.API_SCHEDULE_MY)"
+        
+        let successBlock = {(responseObject: [String:AnyObject]) -> Void in
+            self.realm().beginWriteTransaction()
+            var results = SMScheduleItem.allObjectsInRealm(self.realm())
+            
+            if let objects:[AnyObject] = responseObject["objects"] as? [AnyObject] {
+                for object in objects {
+                    if let objectDict = object as? [String:AnyObject] {
+                        var scheduleItem = SMScheduleItem()
+                        self.realm().addObject(scheduleItem)
+                        scheduleItem.fillWithDict(objectDict)
+                    }
+                }
+            }
+            
+            self.realm().commitWriteTransaction()
+            
+            postNotification(SMCatalogManagerNotification.ApiGetScheduleSucceed.rawValue, nil)
+        }
+        
+        let failureBlock = {(error: NSError) -> Void in
+            postNotification(SMCatalogManagerNotification.ApiGetScheduleFailed.rawValue, error)
+        }
+        
+        var params = [String:NSObject]()
+        if let t = SMStateManager.sharedInstance.token {
+            params["token"] = t
+        }
         
         SMApiHelper.sharedInstance.performPostRequest(urlStr,
             parameters: params,
