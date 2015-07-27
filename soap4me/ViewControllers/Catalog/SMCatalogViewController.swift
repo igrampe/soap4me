@@ -34,6 +34,8 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     var serialsAllCtl: SMSerialsViewController!
     var scheduleCtl: SMScheduleViewController!
     var activeSerialsCtl: SMSerialsViewController?
+    var searchItem: UIBarButtonItem!
+    
     var mode: SMCatalogViewControllerMode = .None
     
     var allSerials = [SMSerial]()
@@ -49,6 +51,14 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         settingsButton.frame = CGRectMake(0, 0, 44, 44)
         settingsButton.addTarget(self, action: "settingsAction", forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: settingsButton)
+        
+        var searchButton = UIButton()
+        searchButton.setImage(UIImage(named: "search"), forState: UIControlState.Normal)
+        searchButton.imageEdgeInsets = UIEdgeInsets(top: 7+3, left: 0, bottom: 7+3, right: 14+6)
+        searchButton.frame = CGRectMake(0, 0, 44, 44)
+        searchButton.addTarget(self, action: "searchAction", forControlEvents: UIControlEvents.TouchUpInside)
+        self.searchItem = UIBarButtonItem(customView: searchButton)
+        
         
         self.segmentedControl = UISegmentedControl()
         self.segmentedControl.tintColor = UIColor.whiteColor()
@@ -71,6 +81,11 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         if let settingsCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsNC") as? UINavigationController {
             self.navigationController?.presentViewController(settingsCtl, animated: true, completion: nil)
         }
+    }
+    
+    func searchAction() {
+        YMMYandexMetrica.reportEvent("APP.ACTION.SEARCH", onFailure: nil)
+        //TODO: open search
     }
     
     private func hasMySerialsForCategory(category: SerialCategory) -> Bool {
@@ -170,6 +185,9 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
             if let pV = self.segmentedControl.superview {
                 self.navigationItem.titleView = nil
             }
+            if self.navigationItem.rightBarButtonItem != nil {
+               self.navigationItem.rightBarButtonItem = nil
+            }
             self.mode = mode
             self.reloadData()
             switch self.mode {
@@ -207,6 +225,7 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         if self.serialsAllCtl == nil {
             self.serialsAllCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SerialsVC") as! SMSerialsViewController
         }
+        self.navigationItem.rightBarButtonItem = self.searchItem
         self.serialsAllCtl.mySerials = false
         self.showSerialsCtl(self.serialsAllCtl!)
     }
