@@ -102,6 +102,8 @@ class SMStateManager: NSObject {
         
         if let pv = self.getValueForKey(UserDefaultsKeys.PassVersion.rawValue) as? String {
             self.passVersion = pv
+        } else {
+            self.passVersion = "0.0.0"
         }
         
         if let pq = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.PreferedQuality.rawValue) as? SMEpisodeQuality.RawValue {
@@ -231,7 +233,22 @@ class SMStateManager: NSObject {
     }
     
     func canPlaySerials() -> Bool {
-        var result = false
+        var result = true
+        var currentVersionComps = self.currentVersion.componentsSeparatedByString(".")
+        var passVersionComps = self.passVersion.componentsSeparatedByString(".")
+        
+        if (vgta(currentVersionComps, passVersionComps, 0)) {
+            result = false
+        } else if (currentVersionComps.count > 1 && passVersionComps.count > 1) {
+            if (vgta(currentVersionComps, passVersionComps, 1)) {
+                result = false
+            } else if (currentVersionComps.count > 2 && passVersionComps.count > 2) {
+                if (vgta(currentVersionComps, passVersionComps, 2)) {
+                    result = false
+                }
+            }
+        }
+        
         return result
     }
     
@@ -266,5 +283,12 @@ class SMStateManager: NSObject {
             success: successBlock,
             failure: failureBlock)
     }
-    
+}
+
+func vgt(v1: String, v2: String) -> Bool {
+    return (v1 as NSString).integerValue > (v2 as NSString).integerValue
+}
+
+func vgta(va1: [String], va2: [String], index: Int) -> Bool {
+    return vgt(va1[index], va2[index])
 }
