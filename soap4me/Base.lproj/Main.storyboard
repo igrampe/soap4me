@@ -386,7 +386,7 @@
                                         </variation>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q4q-iW-6YQ">
-                                        <rect key="frame" x="8" y="372" width="584" height="30"/>
+                                        <rect key="frame" x="8" y="348" width="584" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="6gO-41-ewq"/>
                                         </constraints>
@@ -400,23 +400,17 @@
                                     <constraint firstItem="4Lq-d4-CCk" firstAttribute="top" secondItem="uFb-gO-SLT" secondAttribute="top" constant="64" id="6iC-31-ujg"/>
                                     <constraint firstItem="Q4q-iW-6YQ" firstAttribute="leading" secondItem="k59-kw-ERw" secondAttribute="leading" id="ChM-mB-5iR"/>
                                     <constraint firstItem="k59-kw-ERw" firstAttribute="top" relation="greaterThanOrEqual" secondItem="uFb-gO-SLT" secondAttribute="top" constant="8" id="GK5-5Z-oHQ"/>
-                                    <constraint firstAttribute="centerX" secondItem="4Lq-d4-CCk" secondAttribute="centerX" id="LZw-IS-eG7"/>
                                     <constraint firstItem="k59-kw-ERw" firstAttribute="centerY" secondItem="uFb-gO-SLT" secondAttribute="centerY" id="Rvb-ma-SFX"/>
                                     <constraint firstItem="k59-kw-ERw" firstAttribute="centerX" secondItem="uFb-gO-SLT" secondAttribute="centerX" id="YOH-Ri-snJ"/>
                                     <constraint firstAttribute="bottom" secondItem="Q4q-iW-6YQ" secondAttribute="bottom" constant="8" id="YgZ-UO-xFG"/>
                                     <constraint firstAttribute="trailing" secondItem="k59-kw-ERw" secondAttribute="trailing" constant="8" id="ail-Jb-s56"/>
-                                    <constraint firstItem="Q4q-iW-6YQ" firstAttribute="top" secondItem="k59-kw-ERw" secondAttribute="bottom" constant="48" id="cL7-it-KNa"/>
+                                    <constraint firstItem="Q4q-iW-6YQ" firstAttribute="top" secondItem="k59-kw-ERw" secondAttribute="bottom" constant="24" id="cL7-it-KNa"/>
                                     <constraint firstAttribute="trailing" secondItem="4Lq-d4-CCk" secondAttribute="trailing" constant="8" id="djR-Fx-jkx"/>
                                     <constraint firstItem="4Lq-d4-CCk" firstAttribute="leading" secondItem="uFb-gO-SLT" secondAttribute="leading" constant="8" id="ihV-Cf-GVv"/>
                                     <constraint firstItem="k59-kw-ERw" firstAttribute="top" secondItem="4Lq-d4-CCk" secondAttribute="bottom" constant="64" id="tIf-sU-jpb"/>
                                     <constraint firstItem="Q4q-iW-6YQ" firstAttribute="width" secondItem="k59-kw-ERw" secondAttribute="width" id="uac-Me-EwA"/>
                                     <constraint firstItem="k59-kw-ERw" firstAttribute="leading" secondItem="uFb-gO-SLT" secondAttribute="leading" constant="8" id="wQK-Ab-HSI"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="LZw-IS-eG7"/>
-                                    </mask>
-                                </variation>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
