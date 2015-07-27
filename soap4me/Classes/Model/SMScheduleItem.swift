@@ -50,7 +50,7 @@ class SMScheduleItem: RLMObject {
                 default:
                     value = d[prop.name]
                 }
-                setPropertyForObject(prop, d[prop.name], self)
+                setPropertyForObject(prop, value, self)
             }
         }
     }

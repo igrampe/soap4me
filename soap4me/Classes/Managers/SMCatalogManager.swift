@@ -298,12 +298,13 @@ class SMCatalogManager: NSObject {
             failure: failureBlock)
     }
     
-    func apiGetShceduleMy() {
+    func apiGetScheduleMy() {
         let urlStr = "\(SMApiHelper.API_SCHEDULE_MY)"
         
         let successBlock = {(responseObject: [String:AnyObject]) -> Void in
             self.realm().beginWriteTransaction()
             var results = SMScheduleItem.allObjectsInRealm(self.realm())
+            self.realm().deleteObjects(results)
             
             if let objects:[AnyObject] = responseObject["objects"] as? [AnyObject] {
                 for object in objects {
@@ -593,6 +594,33 @@ class SMCatalogManager: NSObject {
         NSLog("%d %d %f", episodeProgress.season_id, episodeProgress.episode_number, episodeProgress.progress)
         
         self.realm().commitWriteTransaction()
+    }
+    
+    //MARK: -Schedule
+    
+    private func getScheduleItemsWithPredicate(predicate: NSPredicate?) -> [SMScheduleItem] {
+        var results: RLMResults
+        if let p = predicate {
+            results = SMScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
+        } else {
+            results = SMScheduleItem.allObjectsInRealm(self.realm())
+        }
+        var objects = [SMScheduleItem]()
+        for var i: UInt = 0; i < results.count; i++ {
+            let object: SMScheduleItem = results.objectAtIndex(i) as! SMScheduleItem
+            objects.append(object)
+        }
+        return objects
+    }
+    
+    func getScheduleItemsMy() -> [SMScheduleItem] {
+        var sids = self.getMySerialsSids()
+        var p = NSPredicate(format: "sid in %@", sids)
+        return self.getScheduleItemsWithPredicate(p)
+    }
+    
+    func getScheduleItemsAll() -> [SMScheduleItem] {
+        return self.getScheduleItemsWithPredicate(nil)
     }
 }
 

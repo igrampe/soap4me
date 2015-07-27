@@ -13,6 +13,9 @@
 		531D9C6C1B5C3EF900014FFB /* SMMySerial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531D9C6B1B5C3EF900014FFB /* SMMySerial.swift */; };
 		531D9C6E1B5C420800014FFB /* SMSerialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531D9C6D1B5C420800014FFB /* SMSerialViewController.swift */; };
 		531D9C701B5C424C00014FFB /* SMEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531D9C6F1B5C424C00014FFB /* SMEpisode.swift */; };
+		5325ADF81B663AD000DE175C /* SMScheduleItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5325ADF61B663AD000DE175C /* SMScheduleItemCell.swift */; };
+		5325ADF91B663AD000DE175C /* SMScheduleItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5325ADF71B663AD000DE175C /* SMScheduleItemCell.xib */; };
+		5325ADFB1B66406400DE175C /* SMScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5325ADFA1B66406400DE175C /* SMScheduleViewController.swift */; };
 		5328450B1B5B056B00FADC03 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 532845091B5B056B00FADC03 /* LaunchScreen.xib */; };
 		532845131B5B0C5000FADC03 /* NSNotification+APL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532845121B5B0C5000FADC03 /* NSNotification+APL.swift */; };
 		5329B6401B6078DF00678A50 /* SMSeasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5329B63F1B6078DF00678A50 /* SMSeasonViewController.swift */; };
@@ -61,6 +64,9 @@
 		531D9C6B1B5C3EF900014FFB /* SMMySerial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMMySerial.swift; sourceTree = "<group>"; };
 		531D9C6D1B5C420800014FFB /* SMSerialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSerialViewController.swift; sourceTree = "<group>"; };
 		531D9C6F1B5C424C00014FFB /* SMEpisode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMEpisode.swift; sourceTree = "<group>"; };
+		5325ADF61B663AD000DE175C /* SMScheduleItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMScheduleItemCell.swift; sourceTree = "<group>"; };
+		5325ADF71B663AD000DE175C /* SMScheduleItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMScheduleItemCell.xib; sourceTree = "<group>"; };
+		5325ADFA1B66406400DE175C /* SMScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMScheduleViewController.swift; sourceTree = "<group>"; };
 		5328450A1B5B056B00FADC03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5328450E1B5B09CA00FADC03 /* soap4me-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "soap4me-Bridging-Header.h"; sourceTree = "<group>"; };
 		532845121B5B0C5000FADC03 /* NSNotification+APL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNotification+APL.swift"; sourceTree = "<group>"; };
@@ -231,6 +237,8 @@
 				53E5E8941B64BB0300EC7A38 /* SMAsyncImageView.swift */,
 				53E5E8901B64B01F00EC7A38 /* SMSettingsCellCommon.swift */,
 				53E5E8961B64D1DF00EC7A38 /* SMSettingsCellAction.swift */,
+				5325ADF61B663AD000DE175C /* SMScheduleItemCell.swift */,
+				5325ADF71B663AD000DE175C /* SMScheduleItemCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -243,6 +251,7 @@
 				530AB3EB1B5ADE6900F5E6B5 /* SMSerialsViewController.swift */,
 				531D9C6D1B5C420800014FFB /* SMSerialViewController.swift */,
 				5329B63F1B6078DF00678A50 /* SMSeasonViewController.swift */,
+				5325ADFA1B66406400DE175C /* SMScheduleViewController.swift */,
 			);
 			path = Catalog;
 			sourceTree = "<group>";
@@ -368,6 +377,7 @@
 				5328450B1B5B056B00FADC03 /* LaunchScreen.xib in Resources */,
 				5329B64C1B60973C00678A50 /* bg.jpg in Resources */,
 				5329B6441B60793200678A50 /* SMEpisodeCell.xib in Resources */,
+				5325ADF91B663AD000DE175C /* SMScheduleItemCell.xib in Resources */,
 				533FC5C81B604A4C006061C8 /* SMSerialHeader.xib in Resources */,
 				534366581B59809400C2C203 /* Assets.xcassets in Resources */,
 				53C90F3D1B5AF8FF00A04687 /* SMCatalogReusableView.xib in Resources */,
@@ -459,6 +469,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5325ADFB1B66406400DE175C /* SMScheduleViewController.swift in Sources */,
 				53E5E8971B64D1DF00EC7A38 /* SMSettingsCellAction.swift in Sources */,
 				53E5E8991B66084F00EC7A38 /* SMScheduleItem.swift in Sources */,
 				533FC5CA1B604A60006061C8 /* SMSerialHeader.swift in Sources */,
@@ -490,6 +501,7 @@
 				533FC5C61B6020A2006061C8 /* SMMetaEpisode.swift in Sources */,
 				537A49181B59BAFF00F81129 /* UIColor+APL.swift in Sources */,
 				537A49281B5AD90900F81129 /* String+APL.swift in Sources */,
+				5325ADF81B663AD000DE175C /* SMScheduleItemCell.swift in Sources */,
 				533FC5C21B5EFD68006061C8 /* SMSeason.swift in Sources */,
 				537A49261B59F19D00F81129 /* NSObject+APL.swift in Sources */,
 				53E5E8951B64BB0300EC7A38 /* SMAsyncImageView.swift in Sources */,

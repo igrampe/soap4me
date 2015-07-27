@@ -30,6 +30,7 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     
     var serialsMyCtl: SMSerialsViewController!
     var serialsAllCtl: SMSerialsViewController!
+    var scheduleCtl: SMScheduleViewController!
     var activeSerialsCtl: SMSerialsViewController?
     var mode: SMCatalogViewControllerMode = .None
     
@@ -150,6 +151,10 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
                 self.serialsAllCtl.view.removeFromSuperview()
                 self.serialsAllCtl.removeFromParentViewController()
             }
+            if let pCtl = self.scheduleCtl?.parentViewController {
+                self.scheduleCtl.view.removeFromSuperview()
+                self.scheduleCtl.removeFromParentViewController()
+            }
             self.mode = mode
             self.reloadData()
             switch self.mode {
@@ -188,7 +193,10 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     }
     
     func showScheduleCtl() {
-        //TODO: schedule
+        if self.scheduleCtl == nil {
+            self.scheduleCtl = self.storyboard?.instantiateViewControllerWithIdentifier("ScheduleVC") as! SMScheduleViewController
+        }
+        self.showCtl(self.scheduleCtl!)
     }
     
     func showCtl(ctl: UIViewController) {
@@ -204,6 +212,8 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
             self.changeMode(.My)
         } else if (sender.tag == 1) {
             self.changeMode(.All)
+        } else if (sender.tag == 2) {
+            self.changeMode(.Schedule)
         }
     }
     
