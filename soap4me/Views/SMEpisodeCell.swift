@@ -18,6 +18,7 @@ class SMEpisodeCell: UITableViewCell {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var subLabel: SMPaddingLabel!
     
     weak var delegate: SMEpisodeCellDelegate?
     var indexPath: NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
@@ -29,6 +30,12 @@ class SMEpisodeCell: UITableViewCell {
         self.watchButton.layer.masksToBounds = true
         self.watchButton.layer.borderColor = UIColor.colorWithString("33bbff").CGColor
         self.watchButton.backgroundColor = UIColor.colorWithString("33bbff")
+        
+        self.subLabel.edgeInsets = UIEdgeInsetsMake(0, 5, 0, 5)
+        self.subLabel.layer.cornerRadius = 5
+        self.subLabel.layer.borderWidth = 1
+        self.subLabel.layer.borderColor = UIColor.whiteColor().CGColor
+        self.subLabel.layer.masksToBounds = true
     }
     
     func setWatched(watched: Bool) {

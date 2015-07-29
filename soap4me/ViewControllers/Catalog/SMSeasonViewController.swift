@@ -102,6 +102,13 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
             cell.watchButton.hidden = false
         }
         
+        if SMStateManager.sharedInstance.preferedTranslation == SMEpisodeTranslateType.Voice &&
+            !metaEpisode.hasVoice {
+            cell.subLabel.hidden = false
+        } else {
+            cell.subLabel.hidden = true
+        }
+        
         return cell
     }
     
