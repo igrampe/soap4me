@@ -786,7 +786,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.appplus.soap4me;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a172a29d-0f15-440b-b22b-21275e051bc2";
+				PROVISIONING_PROFILE = "f84dd8b4-debe-493d-a07f-944de34600cf";
 				SWIFT_OBJC_BRIDGING_HEADER = "soap4me/Bridging-Headers/soap4me-Bridging-Header.h";
 			};
 			name = Release;

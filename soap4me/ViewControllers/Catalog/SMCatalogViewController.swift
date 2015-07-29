@@ -21,7 +21,7 @@ private enum SerialCategory: String {
     case Ended = "ended"
 }
 
-class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSource, SMSerialsViewControllerDelegate {
+class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSource, SMSerialsViewControllerDelegate, UISearchBarDelegate {
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var myBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var allBarButtonItem: UIBarButtonItem!
@@ -36,29 +36,41 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     var activeSerialsCtl: SMSerialsViewController?
     var searchItem: UIBarButtonItem!
     
+    var searchBar: UISearchBar!
+    var rightSpaceItem: UIBarButtonItem!
+    
     var mode: SMCatalogViewControllerMode = .None
     
     var allSerials = [SMSerial]()
     var mySerials = [NSObject:[SMSerial]]()
     var serialsMask: Int = 0b000
+    var searchActive: Bool = false
+    var searchResults = [Int]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.searchBar = UISearchBar()
+        self.searchBar.backgroundColor = UIColor.clearColor()
+        self.searchBar.backgroundImage = UIImage(named: "black")
+        self.searchBar.delegate = self
+        self.searchBar.frame = CGRectMake(0, 0, self.view.bounds.size.width-48, 30)
+        self.searchBar.barStyle = UIBarStyle.Black
+        self.searchBar.placeholder = NSLocalizedString("Поиск")
+        self.searchBar.tintColor = UIColor.whiteColor()
+        
         var settingsButton = UIButton()
         settingsButton.setImage(UIImage(named: "settings"), forState: UIControlState.Normal)
-        settingsButton.imageEdgeInsets = UIEdgeInsets(top: 7+3, left: 0, bottom: 7+3, right: 14+6)
-        settingsButton.frame = CGRectMake(0, 0, 44, 44)
+        settingsButton.imageEdgeInsets = UIEdgeInsets(top: 7+3, left: 0, bottom: 7+3, right: 0)
+        settingsButton.frame = CGRectMake(0, 0, 24, 44)
         settingsButton.addTarget(self, action: "settingsAction", forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: settingsButton)
         
-        var searchButton = UIButton()
-        searchButton.setImage(UIImage(named: "search"), forState: UIControlState.Normal)
-        searchButton.imageEdgeInsets = UIEdgeInsets(top: 7+3, left: 0, bottom: 7+3, right: 14+6)
-        searchButton.frame = CGRectMake(0, 0, 44, 44)
-        searchButton.addTarget(self, action: "searchAction", forControlEvents: UIControlEvents.TouchUpInside)
-        self.searchItem = UIBarButtonItem(customView: searchButton)
-        
+        var rightSpace = UIButton()
+        rightSpace.setImage(UIImage(named: "clear"), forState: UIControlState.Normal)
+        rightSpace.frame = CGRectMake(0, 0, 24, 44)
+        self.rightSpaceItem = UIBarButtonItem(customView: rightSpace)
+        self.navigationItem.rightBarButtonItem = self.rightSpaceItem
         
         self.segmentedControl = UISegmentedControl()
         self.segmentedControl.tintColor = UIColor.whiteColor()
@@ -83,11 +95,6 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         }
     }
     
-    func searchAction() {
-        YMMYandexMetrica.reportEvent("APP.ACTION.SEARCH", onFailure: nil)
-        //TODO: open search
-    }
-    
     private func hasMySerialsForCategory(category: SerialCategory) -> Bool {
         return self.mySerials[category.rawValue]?.count > 0
     }
@@ -108,6 +115,20 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         }
     }
     
+    private func filerData(string: String) {
+        searchResults.removeAll(keepCapacity: false)
+        for var i = 0; i < self.allSerials.count; i++ {
+            var serial = self.allSerials[i]
+            var shouldAdd: Bool = ((serial.title_ru.lowercaseString as NSString).rangeOfString(string.lowercaseString).location != NSNotFound)
+            shouldAdd = shouldAdd || ((serial.title.lowercaseString as NSString).rangeOfString(string.lowercaseString).location != NSNotFound)
+            shouldAdd = shouldAdd || string.length() == 0
+            if (shouldAdd) {
+                searchResults.append(i)
+            }
+        }
+        self.serialsAllCtl?.reloadUI()
+    }
+    
     private func reloadData() {
         if (self.mode == .My) {
             self.serialsMask = 0
@@ -125,6 +146,9 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
             }
         } else if (self.mode == .All) {
             self.allSerials = SMCatalogManager.sharedInstance.getSerialsAll().sorted(SMSerial.isOrderedBefore)
+            if self.searchActive {
+                self.filerData(self.searchBar.text)
+            }
         }
     }
     
@@ -185,9 +209,12 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
             if let pV = self.segmentedControl.superview {
                 self.navigationItem.titleView = nil
             }
-            if self.navigationItem.rightBarButtonItem != nil {
-               self.navigationItem.rightBarButtonItem = nil
+            if let pV = self.searchBar.superview {
+                self.navigationItem.titleView = nil
             }
+//            if self.navigationItem.rightBarButtonItem != nil {
+//               self.navigationItem.rightBarButtonItem = nil
+//            }
             self.mode = mode
             self.reloadData()
             switch self.mode {
@@ -225,7 +252,7 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         if self.serialsAllCtl == nil {
             self.serialsAllCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SerialsVC") as! SMSerialsViewController
         }
-        self.navigationItem.rightBarButtonItem = self.searchItem
+        self.navigationItem.titleView = self.searchBar
         self.serialsAllCtl.mySerials = false
         self.showSerialsCtl(self.serialsAllCtl!)
     }
@@ -297,7 +324,11 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
                 result = self.mySerials[category.rawValue]!.count
             }
         } else if self.mode == .All {
-            result = self.allSerials.count
+            if (self.searchActive) {
+                result = self.searchResults.count
+            } else {
+                result = self.allSerials.count
+            }
         }
         
         return result
@@ -313,7 +344,11 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
                 object = self.mySerials[category.rawValue]![indexPath.row]
             }
         } else if self.mode == .All {
-            object = self.allSerials[indexPath.row]
+            if (self.searchActive) {
+                object = self.allSerials[searchResults[indexPath.row]]
+            } else {
+                object = self.allSerials[indexPath.row]
+            }
         }
         
         return object
@@ -353,7 +388,12 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
                 object = self.mySerials[category.rawValue]![indexPath.row]
             }
         } else if self.mode == .All {
-            object = self.allSerials[indexPath.row]
+            if (self.searchActive) {
+                object = self.allSerials[searchResults[indexPath.row]]
+                self.searchBar.resignFirstResponder()
+            } else {
+                object = self.allSerials[indexPath.row]
+            }
         }
         c.sid = object.sid
         self.navigationController?.pushViewController(c, animated: true)
@@ -365,5 +405,34 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
             case .All: SMCatalogManager.sharedInstance.apiGetSerialsAll()
             default: break
         }
+    }
+    
+    //MARK: UISearchBarDelegate
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+        self.navigationItem.rightBarButtonItem = self.rightSpaceItem
+        self.searchActive = false
+    }
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        self.navigationItem.rightBarButtonItem = self.rightSpaceItem
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        self.filerData(searchText)
+    }
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        self.filerData(searchBar.text)
+        self.searchActive = true
+        searchBar.showsCancelButton = true
+        self.navigationItem.rightBarButtonItem = nil
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        self.navigationItem.rightBarButtonItem = self.rightSpaceItem
     }
 }

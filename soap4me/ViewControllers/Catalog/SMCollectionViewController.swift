@@ -18,10 +18,14 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     let cellIdentifier = "cellIdentifier"
     let headerIdentifier = "headerIdentifier"
     
-    var imgsUrls = [NSIndexPath:String]()
+    var imgsUrls = [NSIndexPath:String]()    
+    var defaultEdgeInsets: UIEdgeInsets = UIEdgeInsetsZero
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.observe(selector: "keyBoardWillChangeWithNotification:", name: UIKeyboardWillChangeFrameNotification)
+        self.observe(selector: "keyBoardWillHideWithNotification:", name: UIKeyboardWillHideNotification)
+        
         self.refreshControlContainer = UIView(frame: CGRectMake(0, 0, 0, 0))
         self.collectionView.addSubview(self.refreshControlContainer)
         
@@ -49,8 +53,10 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
         if let navCtl = self.navigationController {
             offset = 44+20
         }
-        self.collectionView.contentInset = UIEdgeInsetsMake(offset, 0, 0, 0)
-        self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(offset, 0, 0, 0)
+        
+        self.collectionView.contentInset = UIEdgeInsetsMake(offset, 0, self.collectionView.contentInset.bottom, 0)
+        defaultEdgeInsets = UIEdgeInsetsMake(offset, 0, 0, 0)
+        self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset
     }
     
     func didRotateNotification() {
@@ -133,5 +139,23 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 8)
+    }
+    
+    //MARK: Notifications
+    
+    //MARK: -Keyboard
+    
+    func keyBoardWillChangeWithNotification(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue() {
+            let contentInset = UIEdgeInsets(top: defaultEdgeInsets.top, left: defaultEdgeInsets.left, bottom: keyboardSize.height, right: defaultEdgeInsets.right)
+            self.collectionView.contentInset = contentInset
+            self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset
+        }
+    }
+    
+    func keyBoardWillHideWithNotification(notification: NSNotification) {
+        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        self.collectionView.contentInset = defaultEdgeInsets
+        self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset
     }
 }

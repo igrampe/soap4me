@@ -26,10 +26,10 @@ class SMSerialsViewController: SMCollectionViewController, UICollectionViewDataS
     weak var dataSource: SMSerialsViewControllerDataSource?
     weak var delegate: SMSerialsViewControllerDelegate?
     
-    var mySerials: Bool = false
+    var mySerials: Bool = false    
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad()        
         self.collectionView.registerNib(UINib(nibName: "SMCatalogReusableView", bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: self.headerIdentifier)
         self.obtainData()
     }
