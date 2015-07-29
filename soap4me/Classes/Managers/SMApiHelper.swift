@@ -44,6 +44,7 @@ class SMApiHelper: APLApiHelper {
     static let ASSET_COVER_SEASON_BIG: String = "\(HOST_URL)/assets/covers/season/big/%d.jpg"
     
     static let API_LOGIN: String = "\(HOST_URL)/login"
+    static let API_PUSH: String = "\(API_URL)/push"
     
     static let API_SERIALS: String = "\(API_URL)/soap"
     static let API_SERIALS_MY: String = "\(API_URL)/soap/my"

@@ -21,6 +21,10 @@ private enum UserDefaultsKeys: String {
     case PreferedQuality = "PreferedQuality"
     case PreferedTranslation = "PreferedTranslation"
     
+    case SubscribedToPush = "SubscribedToPush"
+    case ShouldSubscribeToPush = "ShouldSubscribeToPush"
+    case PushToken = "PushToken"
+    
 //    var stringValue: String {
 //        switch self {
 //            case .Token: return "TOKEN"
@@ -48,6 +52,29 @@ class SMStateManager: NSObject {
     static let sharedInstance = SMStateManager()
     
     var keychain: Keychain!
+    
+    var subscribedToPush = false {
+        didSet {
+            self.saveBoolValue(subscribedToPush, key: UserDefaultsKeys.SubscribedToPush.rawValue)
+        }
+    }
+    
+    var shouldSubscribeToPush = true {
+        didSet {
+            self.saveBoolValue(shouldSubscribeToPush, key: UserDefaultsKeys.ShouldSubscribeToPush.rawValue)
+            if shouldSubscribeToPush {
+                self.registerPush()
+            }
+        }
+    }
+    
+    var pushToken = "" {
+        didSet {
+            self.saveValue(pushToken, key: UserDefaultsKeys.PushToken.rawValue)
+            self.checkPush()
+        }
+    }
+    
     var userLogin: String? {
         didSet {
             self.saveKeychainValue(userLogin, key: UserDefaultsKeys.UserLogin.rawValue)
@@ -73,7 +100,7 @@ class SMStateManager: NSObject {
     
     private(set) var token: String? {
         didSet {
-            self.saveKeychainValue(token, key: UserDefaultsKeys.Token.rawValue)
+            self.saveValue(token, key: UserDefaultsKeys.Token.rawValue)
             if let t = self.token {
                 SMApiHelper.sharedInstance.setToken(t)
             }
@@ -81,7 +108,7 @@ class SMStateManager: NSObject {
     }
     private(set) var tokenTill: NSDate? {
         didSet {
-            self.saveKeychainValue(tokenTill, key: UserDefaultsKeys.TokenTill.rawValue)
+            self.saveValue(tokenTill, key: UserDefaultsKeys.TokenTill.rawValue)
         }
     }
     
@@ -118,13 +145,21 @@ class SMStateManager: NSObject {
             preferedTranslation = SMEpisodeTranslateType.Voice
         }
         
-        if let t = self.getKeychainValueForKey(UserDefaultsKeys.Token.rawValue) {
+        if let t = self.getValueForKey(UserDefaultsKeys.Token.rawValue) as? String {
             token = t
             SMApiHelper.sharedInstance.setToken(self.token!)
         }
-        if let tt = self.getKeychainAnyObjectForKey(UserDefaultsKeys.TokenTill.rawValue) as? NSDate {
+        
+        if let tt = self.getValueForKey(UserDefaultsKeys.TokenTill.rawValue) as? NSDate {
             tokenTill = tt
         }
+        
+        if let pt = self.getValueForKey(UserDefaultsKeys.PushToken.rawValue) as? String {
+            pushToken = pt
+        }
+        
+        self.shouldSubscribeToPush = self.getBoolValueForKey(UserDefaultsKeys.ShouldSubscribeToPush.rawValue)
+        self.subscribedToPush = self.getBoolValueForKey(UserDefaultsKeys.SubscribedToPush.rawValue)
         
         if let uLogin = self.getKeychainValueForKey(UserDefaultsKeys.UserLogin.rawValue) {
             self.userLogin = uLogin
@@ -167,8 +202,17 @@ class SMStateManager: NSObject {
         }
     }
     
+    private func saveBoolValue(value: Bool, key: String) {
+        NSUserDefaults.standardUserDefaults().setBool(value, forKey: key)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
     private func getValueForKey(key: String) -> AnyObject? {
         return NSUserDefaults.standardUserDefaults().objectForKey(key)
+    }
+    
+    private func getBoolValueForKey(key: String) -> Bool {
+        return NSUserDefaults.standardUserDefaults().boolForKey(key)
     }
     
     private func saveKeychainValue(value: String?, key: String) {
@@ -252,6 +296,21 @@ class SMStateManager: NSObject {
         return result
     }
     
+    func registerPush() {
+        var settings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes:UIUserNotificationType.Badge|UIUserNotificationType.Alert|UIUserNotificationType.Sound, categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+    }
+    
+    func checkPush() {
+        if !self.subscribedToPush {
+            if self.pushToken.length() > 0 {
+                if self.token?.length() > 0 {
+                    self.apiSubscribeToPush()
+                }
+            }
+        }
+    }
+    
     //MARK: API
     func signIn(login: String, password: String) {
         YMMYandexMetrica.reportEvent("APP.ACTION.SIGNIN.TRY", onFailure: nil)
@@ -272,6 +331,11 @@ class SMStateManager: NSObject {
             }
             YMMYandexMetrica.reportEvent("APP.ACTION.SIGNIN.SUCCEED", onFailure: nil)
             postNotification(SMStateManagerNotification.SignInSucceed.rawValue, nil)
+            if self.pushToken.length() > 0 {
+                self.checkPush()
+            } else {
+                self.registerPush()
+            }
         }
         
         let failureBlock = {(error: NSError) -> Void in
@@ -280,6 +344,35 @@ class SMStateManager: NSObject {
         
         SMApiHelper.sharedInstance.performPostRequest(urlStr,
             parameters: ["login":login, "password":password],
+            success: successBlock,
+            failure: failureBlock)
+    }
+    
+    func apiSubscribeToPush() {
+        YMMYandexMetrica.reportEvent("APP.EVENT.PUSH.TRY", onFailure: nil)
+        
+        let urlStr = "\(SMApiHelper.API_PUSH)"
+        let successBlock = {(responseObject: [String:AnyObject]) -> Void in
+            self.subscribedToPush = true
+            YMMYandexMetrica.reportEvent("APP.EVENT.PUSH.SUCCEED", onFailure: nil)
+            self.registerPush()
+        }
+        
+        let failureBlock = {(error: NSError) -> Void in
+            YMMYandexMetrica.reportEvent("APP.EVENT.PUSH.FAILED", onFailure: nil)
+        }
+        
+        var params = [String:AnyObject]()
+        
+        params["subscribe"] = 1
+        params["app_id"] = 2
+        
+        if self.pushToken.length() > 0 {
+            params["device_tolken"] = self.pushToken
+        }
+        
+        SMApiHelper.sharedInstance.performPostRequest(urlStr,
+            parameters: params,
             success: successBlock,
             failure: failureBlock)
     }

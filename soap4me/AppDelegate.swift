@@ -20,8 +20,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         YMMYandexMetrica.startWithAPIKey("63958")
         
         SMStateManager.sharedInstance.checkVersion()
+        SMStateManager.sharedInstance.checkPush()
         
         return true
+    }
+    
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        application.registerForRemoteNotifications()
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        
+        var characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+        
+        var deviceTokenString: String = ( deviceToken.description as NSString )
+            .stringByTrimmingCharactersInSet( characterSet )
+            .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
+        SMStateManager.sharedInstance.pushToken = deviceTokenString
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        var exception = NSException(name: "PUSH", reason: error.description, userInfo: error.userInfo)
+        YMMYandexMetrica.reportError("PUSH.ERROR", exception: exception, onFailure: nil)
     }
 
     func applicationWillResignActive(application: UIApplication) {

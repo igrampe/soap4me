@@ -354,20 +354,24 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
     //MARK: SMSerialHeaderDelegate
     
     func serialHeaderWatchAction(header: SMSerialHeader) {
+        YMMYandexMetrica.reportEvent("APP.ACTION.SERIAL.HEADER.WATCH", onFailure: nil)
         self.headerView.watchActivityIndicator.startAnimating()
         self.headerView.watchButton.hidden = true
         self.toggleWatching()
     }
     
     func serialHeaderSeasonsAction(header: SMSerialHeader) {
+        YMMYandexMetrica.reportEvent("APP.ACTION.SERIAL.HEADER.SEASONS", onFailure: nil)
         self.changeMode(.Episodes)
     }
     
     func serialHeaderDescriptionAction(header: SMSerialHeader) {
+        YMMYandexMetrica.reportEvent("APP.ACTION.SERIAL.HEADER.DESCRIPTION", onFailure: nil)
         self.changeMode(.Description)
     }
     
     func serialHeaderScheduleAction(header: SMSerialHeader) {
+        YMMYandexMetrica.reportEvent("APP.ACTION.SERIAL.HEADER.SCHEDULE", onFailure: nil)
         self.changeMode(.Schedule)
     }
     
