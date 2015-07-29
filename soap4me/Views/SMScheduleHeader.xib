@@ -25,10 +25,10 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="hvb-hg-rHs" secondAttribute="trailing" id="E6V-nr-7NI"/>
                 <constraint firstItem="xKv-3T-xKu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="Mw2-Ba-hOJ"/>
+                <constraint firstAttribute="bottom" secondItem="xKv-3T-xKu" secondAttribute="bottom" id="Nh6-eh-kF2"/>
                 <constraint firstAttribute="bottom" secondItem="hvb-hg-rHs" secondAttribute="bottom" id="Ux2-mo-Z2e"/>
                 <constraint firstItem="hvb-hg-rHs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Vrk-nF-8Iz"/>
                 <constraint firstItem="xKv-3T-xKu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ZoZ-s0-Y7o"/>
-                <constraint firstAttribute="bottomMargin" secondItem="xKv-3T-xKu" secondAttribute="bottom" constant="-8" id="abw-vG-sJu"/>
                 <constraint firstItem="hvb-hg-rHs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="adt-Yu-xIB"/>
                 <constraint firstAttribute="trailingMargin" secondItem="xKv-3T-xKu" secondAttribute="trailing" id="hsI-MI-5Tl"/>
             </constraints>

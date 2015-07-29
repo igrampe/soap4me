@@ -36,6 +36,9 @@ enum SMCatalogManagerNotification: String {
     
     case ApiGetScheduleSucceed = "ApiGetScheduleSucceed"
     case ApiGetScheduleFailed = "ApiGetScheduleFailed"
+    
+    case ApiGetScheduleForSerialSucceed = "ApiGetScheduleForSerialSucceed"
+    case ApiGetScheduleForSerialFailed = "ApiGetScheduleForSerialFailed"
 }
 
 class SMCatalogManager: NSObject {
@@ -239,7 +242,16 @@ class SMCatalogManager: NSObject {
             sids.append(object.sid)
         }
         return sids
-        
+    }
+    
+    private func getSerialScheduleItemsSids() -> [Int] {
+        var results = SMSerialScheduleItem.allObjectsInRealm(self.realm())
+        var sids = [Int]()
+        for var i:UInt = 0; i < results.count; i++ {
+            var object: SMMyScheduleItem = results.objectAtIndex(i) as! SMMyScheduleItem
+            sids.append(object.sid)
+        }
+        return sids
     }
     
     private func getScheduleItemsWithPredicate(predicate: NSPredicate?) -> [SMScheduleItem] {
@@ -265,6 +277,17 @@ class SMCatalogManager: NSObject {
     
     func getScheduleItemsAll() -> [SMScheduleItem] {
         return self.getScheduleItemsWithPredicate(nil)
+    }
+    
+    func getScheduleItemsForSid(sid: Int) -> [SMSerialScheduleItem] {
+        let p = NSPredicate(format: "sid = %d", sid)
+        var results = SMSerialScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
+        var objects = [SMSerialScheduleItem]()
+        for var i: UInt = 0; i < results.count; i++ {
+            let object: SMSerialScheduleItem = results.objectAtIndex(i) as! SMSerialScheduleItem
+            objects.append(object)
+        }
+        return objects
     }
     
     //MARK: API
@@ -546,7 +569,16 @@ class SMCatalogManager: NSObject {
                 for object in objects {
                     if let objectDict = object as? [String:AnyObject] {
                         var sid = objectDict["sid"] as! NSString
-                        var p = NSPredicate(format: "sid = %d", sid.integerValue)
+                        var episode: Int = 0
+                        var season: Int = 0
+                        if let ps = objectDict["episode"] as? String {
+                            var ss = ps.substringFromIndex(advance(ps.startIndex, 4))
+                            episode = (ss as NSString).integerValue
+                            ss = ps.substringFromIndex(advance(ps.startIndex, 1))
+                            ss = ss.substringToIndex(advance(ss.startIndex, 2))
+                            season = (ss as NSString).integerValue
+                        }
+                        var p = NSPredicate(format: "sid = %d and season_number = %d and episode_number = %d", sid.integerValue, season, episode)
                         var results = SMScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
                         var scheduleItem: SMScheduleItem? = results.firstObject() as? SMScheduleItem
                         
@@ -569,6 +601,66 @@ class SMCatalogManager: NSObject {
             postNotification(SMCatalogManagerNotification.ApiGetScheduleFailed.rawValue, error)
         }
         
+        var params = [String:NSObject]()
+        if let t = SMStateManager.sharedInstance.token {
+            params["token"] = t
+        }
+        
+        SMApiHelper.sharedInstance.performPostRequest(urlStr,
+            parameters: params,
+            success: successBlock,
+            failure: failureBlock)
+    }
+    
+    func apiGetScheduleForSid(sid: Int) {
+        let successBlock = {(responseObject: [String:AnyObject]) -> Void in
+            self.realm().beginWriteTransaction()
+            var p = NSPredicate(format: "sid = %d", sid)
+            var results = SMSerialScheduleItem.objectsWithPredicate(p)
+            self.realm().deleteObjects(results)
+            
+            var serial:SMSerial? = self.getSerialWithSid(sid)
+            
+            if let objects:[AnyObject] = responseObject["objects"] as? [AnyObject] {
+                for object in objects {
+                    if let objectDict = object as? [String:AnyObject] {
+                        var episode: Int = 0
+                        var season: Int = 0
+                        if let ps = objectDict["episode"] as? String {
+                            var ss = ps.substringFromIndex(advance(ps.startIndex, 4))
+                            episode = (ss as NSString).integerValue
+                            ss = ps.substringFromIndex(advance(ps.startIndex, 1))
+                            ss = ss.substringToIndex(advance(ss.startIndex, 2))
+                            season = (ss as NSString).integerValue
+                        }
+                        var p = NSPredicate(format: "sid = %d and season_number = %d and episode_number = %d", sid, season, episode)
+                        
+                        var results = SMSerialScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
+                        var scheduleItem: SMSerialScheduleItem? = results.firstObject() as? SMSerialScheduleItem
+                        
+                        if scheduleItem == nil {
+                            scheduleItem = SMSerialScheduleItem()
+                            self.realm().addObject(scheduleItem)
+                        }
+                        scheduleItem?.fillWithDict(objectDict)
+                        scheduleItem?.sid = sid
+                        if let name = serial?.title {
+                            scheduleItem?.serial_name = name
+                        }
+                    }
+                }
+            }
+            
+            self.realm().commitWriteTransaction()
+            
+            postNotification(SMCatalogManagerNotification.ApiGetScheduleForSerialSucceed.rawValue, nil)
+        }
+        
+        let failureBlock = {(error: NSError) -> Void in
+            postNotification(SMCatalogManagerNotification.ApiGetScheduleForSerialFailed.rawValue, error)
+        }
+        
+        let urlStr = "\(SMApiHelper.API_SCHEDULE_SERIAL)/\(sid)"
         var params = [String:NSObject]()
         if let t = SMStateManager.sharedInstance.token {
             params["token"] = t

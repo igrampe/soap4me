@@ -32,7 +32,7 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = UIColor.whiteColor()
         self.refreshControl.addTarget(self, action: "refreshTrigger", forControlEvents: UIControlEvents.ValueChanged)
-        self.refreshControlContainer.addSubview(self.refreshControl!)
+        self.refreshControlContainer.addSubview(self.refreshControl!)        
         self.collectionView.alwaysBounceVertical = true
         
         self.collectionView.delegate = self
