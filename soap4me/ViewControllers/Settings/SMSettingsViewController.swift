@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class SMSettingsViewController: UITableViewController, UIActionSheetDelegate {
+class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MFMailComposeViewControllerDelegate {
 
     var SettingCellIdentifierCommon = "SettingCellIdentifierCommon"
     var SettingCellIdentifierAction = "SettingCellIdentifierAction"
@@ -46,7 +47,13 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate {
 
     func showFeedback() {
         YMMYandexMetrica.reportEvent("APP.ACTION.FEEDBACK", onFailure: nil)
-        //TODO show email ctl
+        let toRecipents = ["soap4me@app-plus.com"]
+        var ctl = MFMailComposeViewController()
+        ctl.mailComposeDelegate = self
+        var s = String(format: "[soap4me][%@][ios][%@]", SMStateManager.sharedInstance.currentVersion, UIDevice.currentDevice().systemVersion)
+        ctl.setSubject(s)
+        ctl.setToRecipients(toRecipents)
+        self.navigationController?.presentViewController(ctl, animated: true, completion: nil)
     }
     
     func showRate() {
@@ -211,5 +218,24 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate {
             }
         }
         self.reloadUI()
+    }
+    
+    //MARK: MFMailComposeViewControllerDelegate
+    
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        var str = ""
+        
+        switch result.value {
+            case MFMailComposeResultCancelled.value: str = "CANCELLED"
+            case MFMailComposeResultSaved.value: str = "SAVED"
+            case MFMailComposeResultSent.value: str = "SENT"
+            case MFMailComposeResultFailed.value: str = "FAILED"
+            default: break
+        }
+        
+        str = "APP.FEEDBACK."+str
+        
+        YMMYandexMetrica.reportEvent(str, onFailure: nil)
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
 }
