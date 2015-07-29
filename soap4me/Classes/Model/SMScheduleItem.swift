@@ -56,4 +56,8 @@ class SMScheduleItem: RLMObject {
             }
         }
     }
+    
+    class func isOrderedBefore(obj1: SMScheduleItem, obj2: SMScheduleItem) -> Bool {
+        return obj1.date < obj2.date
+    }
 }

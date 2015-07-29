@@ -226,9 +226,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="pt8-gV-9b2">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="white" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="pt8-gV-9b2">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="49J-5h-TYk" id="eWa-m0-QKu"/>
                                     <outlet property="delegate" destination="49J-5h-TYk" id="bz4-Vm-IBU"/>
@@ -270,13 +270,25 @@
                             <constraint firstAttribute="trailing" secondItem="IN7-dG-Nlt" secondAttribute="trailing" id="Cil-nw-SrU"/>
                             <constraint firstItem="azG-XT-bu4" firstAttribute="leading" secondItem="OD4-Ic-7FP" secondAttribute="leading" id="Fk8-Sb-uZt"/>
                             <constraint firstItem="IN7-dG-Nlt" firstAttribute="top" secondItem="OD4-Ic-7FP" secondAttribute="top" id="If7-mM-Sv3"/>
+                            <constraint firstItem="XWN-Ne-Lb8" firstAttribute="top" secondItem="pt8-gV-9b2" secondAttribute="bottom" id="Jwx-Yf-DKT"/>
                             <constraint firstAttribute="centerX" secondItem="qaM-Wo-zRg" secondAttribute="centerX" id="N1G-wt-IgJ"/>
+                            <constraint firstAttribute="trailing" secondItem="pt8-gV-9b2" secondAttribute="trailing" id="NIU-m3-Hj6"/>
+                            <constraint firstItem="pt8-gV-9b2" firstAttribute="top" secondItem="OD4-Ic-7FP" secondAttribute="top" id="RQR-U0-NpG"/>
                             <constraint firstItem="azG-XT-bu4" firstAttribute="top" secondItem="OD4-Ic-7FP" secondAttribute="top" id="USV-QE-h7e"/>
                             <constraint firstItem="pt8-gV-9b2" firstAttribute="top" secondItem="lh9-ee-qA0" secondAttribute="bottom" id="Zyv-ZH-QCX"/>
                             <constraint firstItem="XWN-Ne-Lb8" firstAttribute="top" secondItem="pt8-gV-9b2" secondAttribute="bottom" id="jas-N5-1yv"/>
+                            <constraint firstItem="pt8-gV-9b2" firstAttribute="leading" secondItem="OD4-Ic-7FP" secondAttribute="leading" id="n4b-pa-VR9"/>
                             <constraint firstItem="pt8-gV-9b2" firstAttribute="leading" secondItem="OD4-Ic-7FP" secondAttribute="leading" id="q5Q-Av-d0O"/>
                             <constraint firstItem="XWN-Ne-Lb8" firstAttribute="top" secondItem="IN7-dG-Nlt" secondAttribute="bottom" id="rlq-f0-1qb"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="AWb-ZO-UW9"/>
+                                <exclude reference="Zyv-ZH-QCX"/>
+                                <exclude reference="q5Q-Av-d0O"/>
+                                <exclude reference="jas-N5-1yv"/>
+                            </mask>
+                        </variation>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>

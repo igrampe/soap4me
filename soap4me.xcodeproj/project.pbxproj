@@ -26,6 +26,7 @@
 		5329B64C1B60973C00678A50 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5329B64B1B60973C00678A50 /* bg.jpg */; };
 		5329B64E1B60A49300678A50 /* SMPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5329B64D1B60A49300678A50 /* SMPlayerViewController.swift */; };
 		5329B6501B60BFE800678A50 /* SMEpisodeProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5329B64F1B60BFE800678A50 /* SMEpisodeProgress.swift */; };
+		532E71BC1B69451200AA68FE /* SMSerialScheduleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532E71BB1B69451200AA68FE /* SMSerialScheduleItem.swift */; };
 		533FC5C21B5EFD68006061C8 /* SMSeason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533FC5C11B5EFD68006061C8 /* SMSeason.swift */; };
 		533FC5C41B5F01ED006061C8 /* SMCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533FC5C31B5F01ED006061C8 /* SMCollectionViewController.swift */; };
 		533FC5C61B6020A2006061C8 /* SMMetaEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533FC5C51B6020A2006061C8 /* SMMetaEpisode.swift */; };
@@ -82,6 +83,7 @@
 		5329B64B1B60973C00678A50 /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
 		5329B64D1B60A49300678A50 /* SMPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMPlayerViewController.swift; sourceTree = "<group>"; };
 		5329B64F1B60BFE800678A50 /* SMEpisodeProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMEpisodeProgress.swift; sourceTree = "<group>"; };
+		532E71BB1B69451200AA68FE /* SMSerialScheduleItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSerialScheduleItem.swift; sourceTree = "<group>"; };
 		533FC5C11B5EFD68006061C8 /* SMSeason.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSeason.swift; sourceTree = "<group>"; };
 		533FC5C31B5F01ED006061C8 /* SMCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMCollectionViewController.swift; sourceTree = "<group>"; };
 		533FC5C51B6020A2006061C8 /* SMMetaEpisode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMMetaEpisode.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 				5329B64F1B60BFE800678A50 /* SMEpisodeProgress.swift */,
 				53E5E8981B66084F00EC7A38 /* SMScheduleItem.swift */,
 				53D40A7C1B66A7B500A66EF2 /* SMMyScheduleItem.swift */,
+				532E71BB1B69451200AA68FE /* SMSerialScheduleItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -512,6 +515,7 @@
 				533FC5CA1B604A60006061C8 /* SMSerialHeader.swift in Sources */,
 				53E5E88F1B64ADDF00EC7A38 /* SMSettingsViewController.swift in Sources */,
 				530AB3EC1B5ADE6900F5E6B5 /* SMSerialsViewController.swift in Sources */,
+				532E71BC1B69451200AA68FE /* SMSerialScheduleItem.swift in Sources */,
 				537A49221B59E61400F81129 /* SMSerial.swift in Sources */,
 				5329B6401B6078DF00678A50 /* SMSeasonViewController.swift in Sources */,
 				53C90F381B5AED5200A04687 /* SMCatalogCollectionCell.swift in Sources */,
