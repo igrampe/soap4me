@@ -41,6 +41,12 @@ class SMSerial: RLMObject {
             for prop in props {
                 if prop.name == "desc" {
                     setPropertyForObject(prop, d["description"], self)
+                } else if prop.name == "unwatched" {
+                    if let v = d[prop.name] as? Int {
+                        setPropertyForObject(prop, v, self)
+                    } else {
+                        self.unwatched = 0
+                    }
                 } else {
                     setPropertyForObject(prop, d[prop.name], self)
                 }
