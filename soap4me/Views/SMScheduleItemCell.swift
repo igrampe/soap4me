@@ -23,6 +23,7 @@ class SMScheduleItemCell: UITableViewCell {
     }
     
     func commonInit() {
+        self.contentView.backgroundColor = UIColor.blackColor()
         self.selectionStyle = UITableViewCellSelectionStyle.None
     }
 }
