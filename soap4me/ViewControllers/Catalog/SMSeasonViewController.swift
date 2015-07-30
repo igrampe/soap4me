@@ -39,6 +39,13 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         backButton.addTarget(self, action: "goBack", forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         
+        var markButton = UIButton()
+        markButton.setImage(UIImage(named: "mark_all"), forState: UIControlState.Normal)
+        markButton.imageEdgeInsets = UIEdgeInsets(top: 11, left: 25, bottom: 12, right: 0)
+        markButton.frame = CGRectMake(0, 0, 44, 44)
+        markButton.addTarget(self, action: "markAction", forControlEvents: UIControlEvents.TouchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: markButton)
+        
         self.reloadData()
         self.reloadUI()        
         self.tableView.registerNib(UINib(nibName: "SMEpisodeCell", bundle: nil), forCellReuseIdentifier: self.cellIdentifier)
@@ -56,6 +63,12 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func goBack() {
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func markAction() {
+        var alertView = UIAlertView(title: NSLocalizedString("Внимание!"), message: NSLocalizedString("Отметить сезон как просмотренный?"), delegate: self, cancelButtonTitle: NSLocalizedString("Нет"), otherButtonTitles:NSLocalizedString("Да"))
+        alertView.tag = 2
+        alertView.show()
     }
     
     func showPlayer() {
@@ -143,6 +156,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
                     alertView.addButtonWithTitle(NSLocalizedString("Нет"))
                     alertView.addButtonWithTitle(NSLocalizedString("Да"))
                     alertView.cancelButtonIndex = 0
+                    alertView.tag = 1
                     alertView.show()
                 } else {
                     self.showPlayer()
@@ -175,8 +189,14 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
     //MARK: UIAlertViewDelegate
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
-        if buttonIndex == 1 {
-            self.showPlayer()
+        if alertView.tag == 1 {
+            if buttonIndex == 1 {
+                self.showPlayer()
+            }
+        } else if alertView.tag == 2 {
+            if buttonIndex == 1 {
+                //TODO: mark
+            }
         }
     }
 }
