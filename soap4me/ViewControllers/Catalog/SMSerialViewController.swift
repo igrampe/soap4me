@@ -296,6 +296,7 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
         var object: SMSeason!
         
         object = self.seasons[indexPath.row] as! SMSeason
+        c.sid = self.sid
         c.season_id = object.season_id
         c.season_number = object.season_number
         

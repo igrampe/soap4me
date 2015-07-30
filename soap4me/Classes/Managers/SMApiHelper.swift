@@ -50,6 +50,8 @@ class SMApiHelper: APLApiHelper {
     static let API_SERIALS_MY: String = "\(API_URL)/soap/my"
     static let API_SERIALS_ALL: String = "\(API_URL)/soap"
     
+    static let API_SEASON_MARK_WATCHED: String = "\(HOST_URL)/callback"
+    
     static let API_EPISODES: String = "\(API_URL)/episodes"
     
     static let API_SERIAL_META: String = "\(API_URL)/soap/description"

@@ -28,6 +28,9 @@ enum SMCatalogManagerNotification: String {
     case ApiSerialToggleWatchingSucceed = "ApiSerialToggleWatchingSucceed"
     case ApiSerialToggleWatchingFailed = "ApiSerialToggleWatchingFailed"
     
+    case ApiSeasonMarkWatchedSucceed = "ApiSeasonMarkWatchedSucceed"
+    case ApiSeasonMarkWatchedFailed = "ApiSeasonMarkWatchedFailed"
+    
     case ApiEpisodeToggleWatchedSucceed = "ApiEpisodeToggleWatchedSucceed"
     case ApiEpisodeToggleWatchedFailed = "ApiEpisodeToggleWatchedFailed"
     
@@ -784,6 +787,43 @@ class SMCatalogManager: NSObject {
             failure: failureBlock)
     }
     
+    func apiMarkSeasonWatchedForSid(sid: Int, season: Int) {
+        let urlStr = "\(SMApiHelper.API_SEASON_MARK_WATCHED)"
+        
+        let successBlock = {(responseObject: [String:AnyObject]) -> Void in
+            self.realm().beginWriteTransaction()
+            var p = NSPredicate(format: "sid = %d and season = %d", sid, season)
+            var results = SMEpisode.objectsInRealm(self.realm(), withPredicate: p)
+            for var i: UInt = 0; i < results.count; i++ {
+                let episode:SMEpisode = results[i] as! SMEpisode
+                p = NSPredicate(format: "season_id = %d and episode = %d and sid = %d", episode.season_id, episode.episode, sid)
+                var r = SMMetaEpisode.objectsInRealm(self.realm(), withPredicate: p)
+                if let me = r.firstObject() as? SMMetaEpisode {
+                    me.watched = true
+                }
+            }
+            self.realm().commitWriteTransaction()
+            
+            postNotification(SMCatalogManagerNotification.ApiSeasonMarkWatchedSucceed.rawValue, nil)
+        }
+        
+        let failureBlock = {(error: NSError) -> Void in
+            postNotification(SMCatalogManagerNotification.ApiSeasonMarkWatchedFailed.rawValue, error)
+        }
+        
+        var params = [String:NSObject]()
+        if let t = SMStateManager.sharedInstance.token {
+            params["token"] = t
+        }
+        params["what"] = "mark_full"
+        params["sid"] = sid
+        params["season"] = season
+        
+        SMApiHelper.sharedInstance.performPostRequest(urlStr,
+            parameters: params,
+            success: successBlock,
+            failure: failureBlock)
+    }
 }
 
 

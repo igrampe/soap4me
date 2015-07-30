@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 struct SelectedEpisode {
     var eid: Int = 0
@@ -21,6 +22,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
 
     @IBOutlet weak var tableView: UITableView!
     
+    var sid: Int = 0
     var season_id: Int = 0
     var season_number: Int = 0
     var tryToWatchEpisodes = [Int:Bool]()
@@ -50,6 +52,9 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         self.reloadUI()        
         self.tableView.registerNib(UINib(nibName: "SMEpisodeCell", bundle: nil), forCellReuseIdentifier: self.cellIdentifier)
         self.observe(selector: "apiEpisodeToggleWatchedSucceed:", name: SMCatalogManagerNotification.ApiEpisodeToggleWatchedSucceed.rawValue)
+        
+        self.observe(selector: "apiSeasonMarkWatchedSucceed:", name: SMCatalogManagerNotification.ApiSeasonMarkWatchedSucceed.rawValue)
+        self.observe(selector: "apiSeasonMarkWatchedFailed:", name: SMCatalogManagerNotification.ApiSeasonMarkWatchedFailed.rawValue)
     }
     
     func reloadData() {
@@ -186,6 +191,20 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         self.reloadUI()
     }
     
+    func apiSeasonMarkWatchedSucceed(notification: NSNotification) {
+        SVProgressHUD.dismiss()
+        self.reloadData()
+        self.reloadUI()
+    }
+    
+    func apiSeasonMarkWatchedFailed(notification: NSNotification) {
+        var msg = ""
+        if let error = notification.object as? NSError {
+            msg = error.localizedDescription
+        }
+        SVProgressHUD.showErrorWithStatus(msg)
+    }
+    
     //MARK: UIAlertViewDelegate
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
@@ -195,7 +214,8 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
             }
         } else if alertView.tag == 2 {
             if buttonIndex == 1 {
-                //TODO: mark
+                SVProgressHUD.showWithMaskType(SVProgressHUDMaskType.Clear)
+                SMCatalogManager.sharedInstance.apiMarkSeasonWatchedForSid(self.sid, season: self.season_number)
             }
         }
     }
