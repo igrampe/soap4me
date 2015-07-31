@@ -11,6 +11,10 @@ import MediaPlayer
 import AVKit
 import AVFoundation
 
+protocol SMPlayerViewControllerDelegate: NSObjectProtocol {
+    func playerCtlDidFinishPlayingEpisode(ctl: SMPlayerViewController)
+}
+
 class SMPlayerViewController: AVPlayerViewController {
     
     var eid: Int = 0
@@ -21,6 +25,7 @@ class SMPlayerViewController: AVPlayerViewController {
     var shouldRequestLink: Bool = true
     var startPosition: Double = 0
     var timer: NSTimer?
+    weak var delegate: SMPlayerViewControllerDelegate?
     
     private var сontext = 0
     
@@ -51,6 +56,7 @@ class SMPlayerViewController: AVPlayerViewController {
     override func viewWillDisappear(animated: Bool) {
         if let t = self.timer {
             t.invalidate()
+            self.timer = nil
         }
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
     }
@@ -59,8 +65,11 @@ class SMPlayerViewController: AVPlayerViewController {
     
     func apiEpisodeGetLinkInfoSucceed(notification: NSNotification) {
         if let link = notification.object as? String {
-            self.player = AVPlayer(URL: NSURL(string: link))
+            var item = AVPlayerItem(URL: NSURL(string: link))
+            self.player = AVPlayer(playerItem: item)
+//            self.player = AVPlayer(URL: NSURL(string: link))
             self.player.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: &сontext)
+            self.observe(selector: "didPlayToEnd:", name: AVPlayerItemDidPlayToEndTimeNotification)
             self.player.status
             self.shouldRequestLink = false
         }
@@ -68,6 +77,18 @@ class SMPlayerViewController: AVPlayerViewController {
     
     func apiEpisodeGetLinkInfoFailed(notification: NSNotification) {
         
+    }
+    
+    func didPlayToEnd(notification: NSNotification) {
+        SMCatalogManager.sharedInstance.setPlayingProgress(0, forSeasonId: self.season_id,
+            episodeNumber: self.episode)
+        self.player.pause()
+        self.dismissViewControllerAnimated(true, completion: nil)
+        if let t = self.timer {
+            t.invalidate()
+            self.timer = nil
+        }
+        self.delegate?.playerCtlDidFinishPlayingEpisode(self)
     }
     
     func timerTick() {
@@ -95,5 +116,8 @@ class SMPlayerViewController: AVPlayerViewController {
     
     deinit {
         self.player.removeObserver(self, forKeyPath: "status", context: &сontext)
+        self.stopObserve()
     }
+    
+    
 }
