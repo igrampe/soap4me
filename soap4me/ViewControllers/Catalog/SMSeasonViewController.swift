@@ -18,7 +18,7 @@ struct SelectedEpisode {
     var progress: Double = 0
 }
 
-class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SMEpisodeCellDelegate, UIAlertViewDelegate {
+class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SMEpisodeCellDelegate, UIAlertViewDelegate, SMPlayerViewControllerDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -85,7 +85,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
             c.episode = se.episode_number
             c.season_id = se.season_id
             c.startPosition = se.progress
-            
+            c.delegate = self
             self.navigationController?.presentViewController(c, animated: true, completion: nil)
         }
     }
@@ -217,6 +217,23 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
                 SVProgressHUD.showWithMaskType(SVProgressHUDMaskType.Clear)
                 SMCatalogManager.sharedInstance.apiMarkSeasonWatchedForSid(self.sid, season: self.season_number)
             }
+        }
+    }
+    
+    //MARK: SMPlayerViewControllerDelegate
+    
+    func playerCtlDidFinishPlayingEpisode(ctl: SMPlayerViewController) {
+        self.tryToWatchEpisodes[ctl.episode] = true
+        SMCatalogManager.sharedInstance.apiMarkEpisodeWatched(ctl.eid, watched: true)
+        var index: Int = -1
+        for var i = 0; i < self.metaEpisodes.count; i++ {
+            var metaEpisode: SMMetaEpisode = self.metaEpisodes[i]
+            if metaEpisode.season_id == ctl.season_id && metaEpisode.episode == ctl.episode {
+                index = i
+            }
+        }
+        if index >= 0 {
+            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
         }
     }
 }

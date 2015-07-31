@@ -11,6 +11,10 @@ import MediaPlayer
 import AVKit
 import AVFoundation
 
+protocol SMPlayerViewControllerDelegate: NSObjectProtocol {
+    func playerCtlDidFinishPlayingEpisode(ctl: SMPlayerViewController)
+}
+
 class SMPlayerViewController: AVPlayerViewController {
     
     var eid: Int = 0
@@ -21,6 +25,7 @@ class SMPlayerViewController: AVPlayerViewController {
     var shouldRequestLink: Bool = true
     var startPosition: Double = 0
     var timer: NSTimer?
+    weak var delegate: SMPlayerViewControllerDelegate?
     
     private var сontext = 0
     
@@ -83,6 +88,7 @@ class SMPlayerViewController: AVPlayerViewController {
             t.invalidate()
             self.timer = nil
         }
+        self.delegate?.playerCtlDidFinishPlayingEpisode(self)
     }
     
     func timerTick() {
