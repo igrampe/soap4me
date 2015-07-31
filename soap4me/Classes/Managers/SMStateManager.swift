@@ -368,7 +368,7 @@ class SMStateManager: NSObject {
         params["app_id"] = 2
         
         if self.pushToken.length() > 0 {
-            params["device_tolken"] = self.pushToken
+            params["device_token"] = self.pushToken
         }
         
         SMApiHelper.sharedInstance.performPostRequest(urlStr,
