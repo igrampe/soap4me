@@ -144,15 +144,16 @@ class SMStateManager: NSObject {
         } else {
             preferedTranslation = SMEpisodeTranslateType.Voice
         }
-        
+        #if SNAPSHOT
         if let t = self.getValueForKey(UserDefaultsKeys.Token.rawValue) as? String {
             token = t
             SMApiHelper.sharedInstance.setToken(self.token!)
         }
-        
+
         if let tt = self.getValueForKey(UserDefaultsKeys.TokenTill.rawValue) as? NSDate {
             tokenTill = tt
         }
+        #endif
         
         if let pt = self.getValueForKey(UserDefaultsKeys.PushToken.rawValue) as? String {
             pushToken = pt
@@ -161,12 +162,14 @@ class SMStateManager: NSObject {
         self.shouldSubscribeToPush = self.getBoolValueForKey(UserDefaultsKeys.ShouldSubscribeToPush.rawValue)
         self.subscribedToPush = self.getBoolValueForKey(UserDefaultsKeys.SubscribedToPush.rawValue)
         
+        #if SNAPSHOT
         if let uLogin = self.getKeychainValueForKey(UserDefaultsKeys.UserLogin.rawValue) {
             self.userLogin = uLogin
         }
         if let uPassword = self.getKeychainValueForKey(UserDefaultsKeys.UserPassowrd.rawValue) {
             self.userPassoword = uPassword
         }
+        #endif
     }
     
     func checkVersion() {
