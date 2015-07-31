@@ -52,7 +52,7 @@ class SMMetaEpisode: RLMObject {
     }
     
     func episodeWithQuality(quality: SMEpisodeQuality, translationType: SMEpisodeTranslateType) -> SMEpisode? {
-        var episode: SMEpisode?
+        var episode: SMEpisode? = nil
         
         for var i: UInt = 0; i < self.episodes.count; i++ {
             let e:SMEpisode = self.episodes.objectAtIndex(i) as! SMEpisode
@@ -60,6 +60,29 @@ class SMMetaEpisode: RLMObject {
                 episode = e
             }
         }
+        
+        if episode == nil {
+            for var i: UInt = 0; i < self.episodes.count; i++ {
+                let e:SMEpisode = self.episodes.objectAtIndex(i) as! SMEpisode
+                if e.translate_type == translationType.rawValue {
+                    episode = e
+                }
+            }
+        }
+        
+        if episode == nil {
+            for var i: UInt = 0; i < self.episodes.count; i++ {
+                let e:SMEpisode = self.episodes.objectAtIndex(i) as! SMEpisode
+                if e.quality == quality.rawValue {
+                    episode = e
+                }
+            }
+        }
+        
+        if episode == nil {
+            episode = self.episodes.firstObject() as? SMEpisode
+        }
+        
         return episode
     }
     
