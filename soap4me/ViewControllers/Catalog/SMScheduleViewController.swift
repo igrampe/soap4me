@@ -149,6 +149,17 @@ class SMScheduleViewController: UITableViewController {
         return 40
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        if let items = self.scheduleItems[self.scheduleKeys[indexPath.section]] {
+            var item: SMScheduleItem = items[indexPath.row]
+            var c: SMSerialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SerialVC") as! SMSerialViewController
+            
+            c.sid = item.sid
+            self.navigationController?.pushViewController(c, animated: true)
+        }
+    }
+    
     //MARK: Notifications
     
     func apiGetScheduleSucceed(notification: NSNotification) {
