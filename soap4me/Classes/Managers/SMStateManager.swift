@@ -30,6 +30,7 @@ private enum UserDefaultsKeys: String {
     
     case CatalogSorting = "CatalogSorting"
     
+    case ShouldContinueWithNextEpisode = "ShouldContinueWithNextEpisode"
 //    var stringValue: String {
 //        switch self {
 //            case .Token: return "TOKEN"
@@ -113,6 +114,12 @@ class SMStateManager: NSObject, AppiraterDelegate {
             self.saveValue(catalogSorting.rawValue, key: UserDefaultsKeys.CatalogSorting.rawValue)
         }
     }
+
+    var shouldContinueWithNextEpisode: Bool = true {
+        didSet {
+            self.saveBoolValue(shouldContinueWithNextEpisode, key: UserDefaultsKeys.ShouldContinueWithNextEpisode.rawValue)
+        }
+    }
     
     private(set) var token: String? {
         didSet {
@@ -191,6 +198,8 @@ class SMStateManager: NSObject, AppiraterDelegate {
         } else {
             catalogSorting = SMSorting.Ascending
         }
+        
+        shouldContinueWithNextEpisode = self.getBoolValueForKey(UserDefaultsKeys.ShouldContinueWithNextEpisode.rawValue)
     }
     
     func checkVersion() {

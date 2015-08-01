@@ -38,6 +38,7 @@
 		534366581B59809400C2C203 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 534366571B59809400C2C203 /* Assets.xcassets */; };
 		534366841B59835900C2C203 /* SMRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534366821B59835900C2C203 /* SMRootViewController.swift */; };
 		534366891B59851F00C2C203 /* SMSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534366881B59851F00C2C203 /* SMSignInViewController.swift */; };
+		534C47FF1B6D408C00751CD9 /* SMSettingsCellBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534C47FE1B6D408C00751CD9 /* SMSettingsCellBool.swift */; };
 		537A49141B59B2BE00F81129 /* SMSignInTextFiled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49131B59B2BE00F81129 /* SMSignInTextFiled.swift */; };
 		537A49181B59BAFF00F81129 /* UIColor+APL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49171B59BAFF00F81129 /* UIColor+APL.swift */; };
 		537A491A1B59CACB00F81129 /* APLApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49191B59CACB00F81129 /* APLApiHelper.swift */; };
@@ -97,6 +98,7 @@
 		5343665C1B59809400C2C203 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		534366821B59835900C2C203 /* SMRootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMRootViewController.swift; sourceTree = "<group>"; };
 		534366881B59851F00C2C203 /* SMSignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSignInViewController.swift; sourceTree = "<group>"; };
+		534C47FE1B6D408C00751CD9 /* SMSettingsCellBool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSettingsCellBool.swift; sourceTree = "<group>"; };
 		535015E01B66E52700C97934 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		535015E21B66E52F00C97934 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		535015E41B66E54C00C97934 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -264,6 +266,7 @@
 				53E5E8941B64BB0300EC7A38 /* SMAsyncImageView.swift */,
 				53E5E8901B64B01F00EC7A38 /* SMSettingsCellCommon.swift */,
 				53E5E8961B64D1DF00EC7A38 /* SMSettingsCellAction.swift */,
+				534C47FE1B6D408C00751CD9 /* SMSettingsCellBool.swift */,
 				5325ADF61B663AD000DE175C /* SMScheduleItemCell.swift */,
 				5325ADF71B663AD000DE175C /* SMScheduleItemCell.xib */,
 				5325ADFE1B66611600DE175C /* SMScheduleHeader.swift */,
@@ -510,6 +513,7 @@
 			files = (
 				5325ADFB1B66406400DE175C /* SMScheduleViewController.swift in Sources */,
 				53E5E8971B64D1DF00EC7A38 /* SMSettingsCellAction.swift in Sources */,
+				534C47FF1B6D408C00751CD9 /* SMSettingsCellBool.swift in Sources */,
 				53E5E8991B66084F00EC7A38 /* SMScheduleItem.swift in Sources */,
 				5325ADFF1B66611600DE175C /* SMScheduleHeader.swift in Sources */,
 				533FC5CA1B604A60006061C8 /* SMSerialHeader.swift in Sources */,
