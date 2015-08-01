@@ -385,8 +385,14 @@ class SMCatalogManager: NSObject {
                 
                 self.realm().beginWriteTransaction()
                 var results = SMSerial.objectsInRealm(self.realm(), withPredicate: p)
-                for var i:UInt = 0; i < results.count; i++ {
-                    var serial = results.objectAtIndex(i) as! SMSerial
+                if results.count > 0 {
+                    for var i:UInt = 0; i < results.count; i++ {
+                        var serial = results.objectAtIndex(i) as! SMSerial
+                        serial.fillWithDict(object)
+                    }
+                } else {
+                    var serial = SMSerial()
+                    self.realm().addObject(serial)
                     serial.fillWithDict(object)
                 }
                 
