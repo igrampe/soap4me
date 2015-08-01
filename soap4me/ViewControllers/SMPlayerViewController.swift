@@ -13,6 +13,7 @@ import AVFoundation
 
 protocol SMPlayerViewControllerDelegate: NSObjectProtocol {
     func playerCtlDidFinishPlayingEpisode(ctl: SMPlayerViewController)
+    func getNextEpisodeForPlayer(ctl: SMPlayerViewController)
 }
 
 class SMPlayerViewController: AVPlayerViewController {
@@ -61,6 +62,24 @@ class SMPlayerViewController: AVPlayerViewController {
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
     }
     
+    func stopPlaying() {
+        self.dismissViewControllerAnimated(true, completion: nil)
+        if let t = self.timer {
+            t.invalidate()
+            self.timer = nil
+        }
+    }
+    
+    func nextPlay() {
+        if let t = self.timer {
+            t.invalidate()
+            self.timer = nil
+        }
+        self.player.removeObserver(self, forKeyPath: "status", context: &сontext)
+        self.shouldRequestLink = true
+        SMCatalogManager.sharedInstance.apiGetLinkInfoForEid(self.eid, sid: self.sid, hash: self.hsh)
+    }
+    
     //MARK: Notifications
     
     func apiEpisodeGetLinkInfoSucceed(notification: NSNotification) {
@@ -82,13 +101,17 @@ class SMPlayerViewController: AVPlayerViewController {
     func didPlayToEnd(notification: NSNotification) {
         SMCatalogManager.sharedInstance.setPlayingProgress(0, forSeasonId: self.season_id,
             episodeNumber: self.episode)
-        self.player.pause()
-        self.dismissViewControllerAnimated(true, completion: nil)
-        if let t = self.timer {
-            t.invalidate()
-            self.timer = nil
-        }
         self.delegate?.playerCtlDidFinishPlayingEpisode(self)
+        self.player.pause()
+        if SMStateManager.sharedInstance.shouldContinueWithNextEpisode {
+            self.delegate?.getNextEpisodeForPlayer(self)
+        } else {
+            self.dismissViewControllerAnimated(true, completion: nil)
+            if let t = self.timer {
+                t.invalidate()
+                self.timer = nil
+            }
+        }
     }
     
     func timerTick() {
