@@ -240,4 +240,37 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
             self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
         }
     }
+    
+    func getNextEpisodeForPlayer(ctl: SMPlayerViewController) {
+        var index: Int = -1
+        for var i = 0; i < self.metaEpisodes.count; i++ {
+            var metaEpisode: SMMetaEpisode = self.metaEpisodes[i]
+            if metaEpisode.season_id == ctl.season_id && metaEpisode.episode == ctl.episode {
+                index = i
+            }
+        }
+        if index >= 0 {
+            if SMStateManager.sharedInstance.catalogSorting == SMSorting.Ascending {
+                index++
+            } else if SMStateManager.sharedInstance.catalogSorting == SMSorting.Descending {
+                index--
+            }
+            if index < self.metaEpisodes.count && index >= 0 {
+                var metaEpisode: SMMetaEpisode = self.metaEpisodes[index]
+                if let episode = metaEpisode.episodeWithQuality(SMStateManager.sharedInstance.preferedQuality,
+                    translationType: SMStateManager.sharedInstance.preferedTranslation) {
+                    ctl.eid = episode.eid
+                    ctl.hsh = episode.hsh
+                    ctl.sid = episode.sid
+                    ctl.episode = episode.episode
+                    ctl.season_id = episode.season_id
+                    ctl.nextPlay()
+                }
+            } else {
+                ctl.stopPlaying()
+            }
+        } else {
+            ctl.stopPlaying()
+        }
+    }
 }
