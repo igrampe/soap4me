@@ -79,7 +79,7 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
         if section == 0 {
             result = 3
         } else if section == 1 {
-            result = 2
+            result = 3
         } else if section == 2 {
             result = 3
         }
@@ -129,6 +129,13 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
                 } else if SMStateManager.sharedInstance.preferedTranslation == SMEpisodeTranslateType.Voice {
                     value = NSLocalizedString("Озвучка")
                 }
+            } else if indexPath.row == 2 {
+                title = NSLocalizedString("Сортировка")
+                if SMStateManager.sharedInstance.catalogSorting == SMSorting.Ascending {
+                    value = NSLocalizedString("Прямая")
+                } else {
+                    value = NSLocalizedString("Обратная")
+                }
             }
             cell.textLabel?.text = title
             cell.detailTextLabel?.text = value
@@ -177,6 +184,10 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
                 items.append(NSLocalizedString("Озвучка"))
                 items.append(NSLocalizedString("Субтитры"))
                 title = NSLocalizedString("Перевод")
+            } else if indexPath.row == 2 {
+                items.append(NSLocalizedString("Прямая"))
+                items.append(NSLocalizedString("Обратная"))
+                title = NSLocalizedString("Сортировка")
             }
             actionSheet.title = title
             for item in items {
@@ -215,6 +226,16 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
             }
             if let v = value {
                 SMStateManager.sharedInstance.preferedTranslation = v
+            }
+        } else if actionSheet.tag == 2 {
+            var value: SMSorting?
+            if buttonIndex == 0 {
+                value = SMSorting.Ascending
+            } else if buttonIndex == 1 {
+                value = SMSorting.Descending
+            }
+            if let v = value {
+                SMStateManager.sharedInstance.catalogSorting = v
             }
         }
         self.reloadUI()

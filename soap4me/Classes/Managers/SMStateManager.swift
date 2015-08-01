@@ -25,6 +25,8 @@ private enum UserDefaultsKeys: String {
     case ShouldSubscribeToPush = "ShouldSubscribeToPush"
     case PushToken = "PushToken"
     
+    case CatalogSorting = "CatalogSorting"
+    
 //    var stringValue: String {
 //        switch self {
 //            case .Token: return "TOKEN"
@@ -46,6 +48,11 @@ public enum SMStateManagerNotification: String {
 //        }
 //    }
     
+}
+
+enum SMSorting: Int {
+    case Ascending = 0
+    case Descending = 1
 }
 
 class SMStateManager: NSObject {
@@ -95,6 +102,12 @@ class SMStateManager: NSObject {
     var preferedTranslation: SMEpisodeTranslateType! {
         didSet {
             self.saveValue(preferedTranslation.rawValue, key: UserDefaultsKeys.PreferedTranslation.rawValue)
+        }
+    }
+    
+    var catalogSorting: SMSorting! {
+        didSet {
+            self.saveValue(catalogSorting.rawValue, key: UserDefaultsKeys.CatalogSorting.rawValue)
         }
     }
     
@@ -162,10 +175,16 @@ class SMStateManager: NSObject {
         self.subscribedToPush = self.getBoolValueForKey(UserDefaultsKeys.SubscribedToPush.rawValue)
         
         if let uLogin = self.getKeychainValueForKey(UserDefaultsKeys.UserLogin.rawValue) {
-            self.userLogin = uLogin
+            userLogin = uLogin
         }
         if let uPassword = self.getKeychainValueForKey(UserDefaultsKeys.UserPassowrd.rawValue) {
-            self.userPassoword = uPassword
+            userPassoword = uPassword
+        }
+        
+        if let cs = self.getValueForKey(UserDefaultsKeys.CatalogSorting.rawValue) as? Int {
+            catalogSorting = SMSorting(rawValue: cs)
+        } else {
+            catalogSorting = SMSorting.Ascending
         }
     }
     
