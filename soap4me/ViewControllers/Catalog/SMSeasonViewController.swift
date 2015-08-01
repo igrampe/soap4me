@@ -58,7 +58,11 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func reloadData() {
-        self.metaEpisodes = SMCatalogManager.sharedInstance.getMetaEpisodesForSeasonId(self.season_id).sorted(SMMetaEpisode.isOrderedBefore)
+        var sortFunc = SMMetaEpisode.isOrderedBeforeAsc
+        if SMStateManager.sharedInstance.catalogSorting == SMSorting.Descending {
+            sortFunc = SMMetaEpisode.isOrderedBeforeDesc
+        }
+        self.metaEpisodes = SMCatalogManager.sharedInstance.getMetaEpisodesForSeasonId(self.season_id).sorted(sortFunc)
     }
     
     func reloadUI() {
@@ -105,7 +109,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         
         let metaEpisode = self.metaEpisodes[indexPath.row]
         
-        cell.numberLabel.text = String(format: "%d", indexPath.row+1)
+        cell.numberLabel.text = String(format: "%d", metaEpisode.episode)
         cell.titleLabel.text = metaEpisode.title_ru
         
         cell.setWatched(metaEpisode.watched)
