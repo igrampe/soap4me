@@ -9,6 +9,7 @@
 import UIKit
 import Fabric
 import Crashlytics
+import Appirater
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +22,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         SMStateManager.sharedInstance.checkVersion()
         SMStateManager.sharedInstance.checkPush()
+        
+        Appirater.setAppId(String(format: "%d", APP_ID))
+        Appirater.setDaysUntilPrompt(7)
+        Appirater.setUsesUntilPrompt(2)
+        Appirater.setSignificantEventsUntilPrompt(-1)
+        Appirater.setTimeBeforeReminding(7)
+        Appirater.setCustomAlertMessage(NSLocalizedString("Скажите спасибо разработчику - оцените приложение!"))
+        Appirater.appLaunched(true)
         
         return true
     }

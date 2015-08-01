@@ -57,8 +57,12 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
     }
     
     func showRate() {
-        YMMYandexMetrica.reportEvent("APP.ACTION.RATE", onFailure: nil)
-        //TODO go to app store
+        YMMYandexMetrica.reportEvent("APP.ACTION.RATE.SETTINGS", onFailure: nil)
+        let str = String(format: "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%d", APP_ID)
+        var url = NSURL(string: str)!
+        if UIApplication.sharedApplication().canOpenURL(url) {
+            UIApplication.sharedApplication().openURL(url)
+        }
     }
     
     func logoutAction() {
