@@ -35,6 +35,7 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     var scheduleCtl: SMScheduleViewController!
     var activeSerialsCtl: SMSerialsViewController?
     var searchItem: UIBarButtonItem!
+    var playItem: UIBarButtonItem!
     
     var searchBar: UISearchBar!
     var rightSpaceItem: UIBarButtonItem!
@@ -66,11 +67,18 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         settingsButton.addTarget(self, action: "settingsAction", forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: settingsButton)
         
+        var playButton = UIButton()
+        playButton.setImage(UIImage(named: "play"), forState: UIControlState.Normal)
+        playButton.imageEdgeInsets = UIEdgeInsets(top: 7+3, left: 6, bottom: 7+3, right: 0)
+        playButton.frame = CGRectMake(0, 0, 24, 44)
+        playButton.addTarget(self, action: "playAction", forControlEvents: UIControlEvents.TouchUpInside)
+        self.playItem = UIBarButtonItem(customView: playButton)
+        self.navigationItem.rightBarButtonItem = self.playItem
+        
         var rightSpace = UIButton()
         rightSpace.setImage(UIImage(named: "clear"), forState: UIControlState.Normal)
         rightSpace.frame = CGRectMake(0, 0, 24, 44)
         self.rightSpaceItem = UIBarButtonItem(customView: rightSpace)
-        self.navigationItem.rightBarButtonItem = self.rightSpaceItem
         
         self.segmentedControl = UISegmentedControl()
         self.segmentedControl.tintColor = UIColor.whiteColor()
@@ -88,10 +96,36 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         self.changeMode(.My)
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if self.mode == .My {
+            if SMStateManager.sharedInstance.lastPlayingEid != 0 {
+                self.navigationItem.rightBarButtonItem = self.playItem
+            }
+        }
+    }
+    
     func settingsAction() {
         YMMYandexMetrica.reportEvent("APP.ACTION.SETTINGS", onFailure: nil)
         if let settingsCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsNC") as? UINavigationController {
             self.navigationController?.presentViewController(settingsCtl, animated: true, completion: nil)
+        }
+    }
+    
+    func playAction() {
+        if SMStateManager.sharedInstance.lastPlayingEid != 0 {
+            if let episode = SMCatalogManager.sharedInstance.getEpisodeWithEid(SMStateManager.sharedInstance.lastPlayingEid) {
+                if let progress = SMCatalogManager.sharedInstance.getEpisodeProgress(forSeasonId: episode.season_id, episodeNumber: episode.episode) {
+                    var c: SMPlayerViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PlayerVC") as! SMPlayerViewController
+                    c.eid = episode.eid
+                    c.hsh = episode.hsh
+                    c.sid = episode.sid
+                    c.episode = episode.episode
+                    c.season_id = episode.season_id
+                    c.startPosition = progress.progress
+                    self.navigationController?.presentViewController(c, animated: true, completion: nil)
+                }
+            }
         }
     }
     
@@ -212,9 +246,9 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
             if let pV = self.searchBar.superview {
                 self.navigationItem.titleView = nil
             }
-//            if self.navigationItem.rightBarButtonItem != nil {
-//               self.navigationItem.rightBarButtonItem = nil
-//            }
+            if self.navigationItem.rightBarButtonItem != nil {
+               self.navigationItem.rightBarButtonItem = nil
+            }
             self.mode = mode
             self.reloadData()
             switch self.mode {
@@ -244,6 +278,10 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
             self.serialsMyCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SerialsVC") as! SMSerialsViewController
             
         }
+        self.title = NSLocalizedString("Сериалы")
+        if SMStateManager.sharedInstance.lastPlayingEid != 0 {
+            self.navigationItem.rightBarButtonItem = self.playItem
+        }
         self.serialsMyCtl.mySerials = true
         self.showSerialsCtl(self.serialsMyCtl!)
     }
@@ -253,6 +291,7 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
             self.serialsAllCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SerialsVC") as! SMSerialsViewController
         }
         self.navigationItem.titleView = self.searchBar
+        self.navigationItem.rightBarButtonItem = self.rightSpaceItem
         self.serialsAllCtl.mySerials = false
         self.showSerialsCtl(self.serialsAllCtl!)
     }

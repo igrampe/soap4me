@@ -120,7 +120,13 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
     }
 
     override func reloadData() {
-        self.seasons = SMCatalogManager.sharedInstance.getSeasonsForSid(sid).sorted(SMSeason.isOrderedBefore)
+        var sortFunc = SMSeason.isOrderedBeforeAsc
+        if SMStateManager.sharedInstance.catalogSorting == SMSorting.Descending {
+            sortFunc = SMSeason.isOrderedBeforeDesc
+        }
+        
+        self.seasons = SMCatalogManager.sharedInstance.getSeasonsForSid(sid).sorted(sortFunc)
+        
         self.serial = SMCatalogManager.sharedInstance.getSerialWithSid(self.sid)
         self.isWatching = SMCatalogManager.sharedInstance.getIsWatchingSerialWithSid(self.sid)
         var mes = SMCatalogManager.sharedInstance.getMetaEpisodesForSid(self.sid)
@@ -131,6 +137,8 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
             }
             self.metaEpisodes[me.season]?.append(me)
         }
+        
+        // Schedule
         self.scheduleItems.removeAll(keepCapacity: false)
         self.scheduleItemsKeys.removeAll(keepCapacity: false)
         var arr = SMCatalogManager.sharedInstance.getScheduleItemsForSid(self.sid)

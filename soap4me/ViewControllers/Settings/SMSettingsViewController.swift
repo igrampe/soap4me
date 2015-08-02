@@ -9,10 +9,11 @@
 import UIKit
 import MessageUI
 
-class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MFMailComposeViewControllerDelegate {
+class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, SMSettingsCellBoolDelegate {
 
     var SettingCellIdentifierCommon = "SettingCellIdentifierCommon"
     var SettingCellIdentifierAction = "SettingCellIdentifierAction"
+    var SettingCellIdentifierBool = "SettingCellIdentifierBool"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,7 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
         
         self.tableView.registerClass(SMSettingsCellCommon.self, forCellReuseIdentifier: SettingCellIdentifierCommon)
         self.tableView.registerClass(SMSettingsCellAction.self, forCellReuseIdentifier: SettingCellIdentifierAction)
+        self.tableView.registerClass(SMSettingsCellBool.self, forCellReuseIdentifier: SettingCellIdentifierBool)
         
         var doneButton = UIButton()
         doneButton.setTitle(NSLocalizedString("Готово"), forState: UIControlState.Normal)
@@ -57,8 +59,12 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
     }
     
     func showRate() {
-        YMMYandexMetrica.reportEvent("APP.ACTION.RATE", onFailure: nil)
-        //TODO go to app store
+        YMMYandexMetrica.reportEvent("APP.ACTION.RATE.SETTINGS", onFailure: nil)
+        let str = String(format: "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%d", APP_ID)
+        var url = NSURL(string: str)!
+        if UIApplication.sharedApplication().canOpenURL(url) {
+            UIApplication.sharedApplication().openURL(url)
+        }
     }
     
     func logoutAction() {
@@ -79,7 +85,7 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
         if section == 0 {
             result = 3
         } else if section == 1 {
-            result = 2
+            result = 4
         } else if section == 2 {
             result = 3
         }
@@ -111,28 +117,43 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
                 tableViewCell = cell
             }
         } else if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCellWithIdentifier(SettingCellIdentifierCommon, forIndexPath: indexPath) as! SMSettingsCellCommon
-            var title = ""
-            var value = ""
-            
-            if indexPath.row == 0 {
-                title = NSLocalizedString("Качество видео")
-                if SMStateManager.sharedInstance.preferedQuality == SMEpisodeQuality.SD {
-                    value = "SD"
-                } else if SMStateManager.sharedInstance.preferedQuality == SMEpisodeQuality.HD {
-                    value = "HD"
+            if contains([0, 1, 2], indexPath.row) {
+                let cell = tableView.dequeueReusableCellWithIdentifier(SettingCellIdentifierCommon, forIndexPath: indexPath) as! SMSettingsCellCommon
+                var title = ""
+                var value = ""
+                
+                if indexPath.row == 0 {
+                    title = NSLocalizedString("Качество видео")
+                    if SMStateManager.sharedInstance.preferedQuality == SMEpisodeQuality.SD {
+                        value = "SD"
+                    } else if SMStateManager.sharedInstance.preferedQuality == SMEpisodeQuality.HD {
+                        value = "HD"
+                    }
+                } else if indexPath.row == 1 {
+                    title = NSLocalizedString("Перевод")
+                    if SMStateManager.sharedInstance.preferedTranslation == SMEpisodeTranslateType.Subs {
+                        value = NSLocalizedString("Субтитры")
+                    } else if SMStateManager.sharedInstance.preferedTranslation == SMEpisodeTranslateType.Voice {
+                        value = NSLocalizedString("Озвучка")
+                    }
+                } else if indexPath.row == 2 {
+                    title = NSLocalizedString("Сортировка")
+                    if SMStateManager.sharedInstance.catalogSorting == SMSorting.Ascending {
+                        value = NSLocalizedString("Прямая")
+                    } else {
+                        value = NSLocalizedString("Обратная")
+                    }
                 }
-            } else if indexPath.row == 1 {
-                title = NSLocalizedString("Перевод")
-                if SMStateManager.sharedInstance.preferedTranslation == SMEpisodeTranslateType.Subs {
-                    value = NSLocalizedString("Субтитры")
-                } else if SMStateManager.sharedInstance.preferedTranslation == SMEpisodeTranslateType.Voice {
-                    value = NSLocalizedString("Озвучка")
-                }
+                cell.textLabel?.text = title
+                cell.detailTextLabel?.text = value
+                tableViewCell = cell
+            } else {
+                let cell = tableView.dequeueReusableCellWithIdentifier(SettingCellIdentifierBool, forIndexPath: indexPath) as! SMSettingsCellBool
+                cell.valueSwitch.on = SMStateManager.sharedInstance.shouldContinueWithNextEpisode
+                cell.textLabel?.text = NSLocalizedString("Переходить к следующей серии")
+                cell.delegate = self
+                tableViewCell = cell
             }
-            cell.textLabel?.text = title
-            cell.detailTextLabel?.text = value
-            tableViewCell = cell
         } else if indexPath.section == 2 {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCellWithIdentifier(SettingCellIdentifierCommon, forIndexPath: indexPath) as! SMSettingsCellCommon
@@ -163,7 +184,7 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
             if indexPath.row == 2 {
                 self.logoutAction()
             }
-        } else if indexPath.section == 1 {
+        } else if indexPath.section == 1 && indexPath.row != 3 {
             var actionSheet = UIActionSheet()
             actionSheet.delegate = self
             actionSheet.tag = indexPath.row
@@ -177,6 +198,10 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
                 items.append(NSLocalizedString("Озвучка"))
                 items.append(NSLocalizedString("Субтитры"))
                 title = NSLocalizedString("Перевод")
+            } else if indexPath.row == 2 {
+                items.append(NSLocalizedString("Прямая"))
+                items.append(NSLocalizedString("Обратная"))
+                title = NSLocalizedString("Сортировка")
             }
             actionSheet.title = title
             for item in items {
@@ -216,6 +241,16 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
             if let v = value {
                 SMStateManager.sharedInstance.preferedTranslation = v
             }
+        } else if actionSheet.tag == 2 {
+            var value: SMSorting?
+            if buttonIndex == 0 {
+                value = SMSorting.Ascending
+            } else if buttonIndex == 1 {
+                value = SMSorting.Descending
+            }
+            if let v = value {
+                SMStateManager.sharedInstance.catalogSorting = v
+            }
         }
         self.reloadUI()
     }
@@ -237,5 +272,11 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
         
         YMMYandexMetrica.reportEvent(str, onFailure: nil)
         controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    //MARK: SMSettingsCellBoolDelegate
+    
+    func boolSettingsCellSwitchAction(cell: SMSettingsCellBool) {
+        SMStateManager.sharedInstance.shouldContinueWithNextEpisode = !SMStateManager.sharedInstance.shouldContinueWithNextEpisode
     }
 }

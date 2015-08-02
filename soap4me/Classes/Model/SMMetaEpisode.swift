@@ -52,7 +52,7 @@ class SMMetaEpisode: RLMObject {
     }
     
     func episodeWithQuality(quality: SMEpisodeQuality, translationType: SMEpisodeTranslateType) -> SMEpisode? {
-        var episode: SMEpisode?
+        var episode: SMEpisode? = nil
         
         for var i: UInt = 0; i < self.episodes.count; i++ {
             let e:SMEpisode = self.episodes.objectAtIndex(i) as! SMEpisode
@@ -60,11 +60,39 @@ class SMMetaEpisode: RLMObject {
                 episode = e
             }
         }
+        
+        if episode == nil {
+            for var i: UInt = 0; i < self.episodes.count; i++ {
+                let e:SMEpisode = self.episodes.objectAtIndex(i) as! SMEpisode
+                if e.translate_type == translationType.rawValue {
+                    episode = e
+                }
+            }
+        }
+        
+        if episode == nil {
+            for var i: UInt = 0; i < self.episodes.count; i++ {
+                let e:SMEpisode = self.episodes.objectAtIndex(i) as! SMEpisode
+                if e.quality == quality.rawValue {
+                    episode = e
+                }
+            }
+        }
+        
+        if episode == nil {
+            episode = self.episodes.firstObject() as? SMEpisode
+        }
+        
         return episode
     }
     
-    static func isOrderedBefore(obj1: SMMetaEpisode, obj2: SMMetaEpisode) -> Bool {
+    static func isOrderedBeforeAsc(obj1: SMMetaEpisode, obj2: SMMetaEpisode) -> Bool {
         var result = obj1.episode < obj2.episode
+        return result
+    }
+    
+    static func isOrderedBeforeDesc(obj1: SMMetaEpisode, obj2: SMMetaEpisode) -> Bool {
+        var result = obj1.episode > obj2.episode
         return result
     }
 }

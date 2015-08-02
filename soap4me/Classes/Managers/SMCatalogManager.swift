@@ -205,6 +205,14 @@ class SMCatalogManager: NSObject {
         return self.getMetaEpisodesWithPredicate(p)
     }
     
+    func getEpisodeWithEid(eid: Int) -> SMEpisode? {
+        var p = NSPredicate(format: "eid == %d", eid)
+        var results = self.getEpisodesWithPredicate(p)
+        var episode: SMEpisode? = nil
+        episode = results.first
+        return episode
+    }
+    
     func getEpisodeProgress(forSeasonId season_id: Int, episodeNumber episode_number: Int) -> SMEpisodeProgress? {
         var p = NSPredicate(format: "season_id == %d and episode_number == %d", season_id, episode_number)
         var results = SMEpisodeProgress.objectsInRealm(self.realm(), withPredicate: p)
@@ -385,8 +393,14 @@ class SMCatalogManager: NSObject {
                 
                 self.realm().beginWriteTransaction()
                 var results = SMSerial.objectsInRealm(self.realm(), withPredicate: p)
-                for var i:UInt = 0; i < results.count; i++ {
-                    var serial = results.objectAtIndex(i) as! SMSerial
+                if results.count > 0 {
+                    for var i:UInt = 0; i < results.count; i++ {
+                        var serial = results.objectAtIndex(i) as! SMSerial
+                        serial.fillWithDict(object)
+                    }
+                } else {
+                    var serial = SMSerial()
+                    self.realm().addObject(serial)
                     serial.fillWithDict(object)
                 }
                 
@@ -528,7 +542,7 @@ class SMCatalogManager: NSObject {
                         
                         if scheduleItem == nil {
                             scheduleItem = SMScheduleItem()
-                            self.realm().addObject(scheduleItem)
+                            self.realm().addObject(scheduleItem!)
                         }
                         
                         scheduleItem?.fillWithDict(objectDict)
@@ -587,7 +601,7 @@ class SMCatalogManager: NSObject {
                         
                         if scheduleItem == nil {
                             scheduleItem = SMScheduleItem()
-                            self.realm().addObject(scheduleItem)
+                            self.realm().addObject(scheduleItem!)
                         }
                         
                         scheduleItem?.fillWithDict(objectDict)
@@ -643,7 +657,7 @@ class SMCatalogManager: NSObject {
                         
                         if scheduleItem == nil {
                             scheduleItem = SMSerialScheduleItem()
-                            self.realm().addObject(scheduleItem)
+                            self.realm().addObject(scheduleItem!)
                         }
                         scheduleItem?.fillWithDict(objectDict)
                         scheduleItem?.sid = sid

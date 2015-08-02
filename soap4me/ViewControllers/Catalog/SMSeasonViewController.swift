@@ -18,7 +18,7 @@ struct SelectedEpisode {
     var progress: Double = 0
 }
 
-class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SMEpisodeCellDelegate, UIAlertViewDelegate {
+class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SMEpisodeCellDelegate, UIAlertViewDelegate, SMPlayerViewControllerDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -58,7 +58,11 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func reloadData() {
-        self.metaEpisodes = SMCatalogManager.sharedInstance.getMetaEpisodesForSeasonId(self.season_id).sorted(SMMetaEpisode.isOrderedBefore)
+        var sortFunc = SMMetaEpisode.isOrderedBeforeAsc
+        if SMStateManager.sharedInstance.catalogSorting == SMSorting.Descending {
+            sortFunc = SMMetaEpisode.isOrderedBeforeDesc
+        }
+        self.metaEpisodes = SMCatalogManager.sharedInstance.getMetaEpisodesForSeasonId(self.season_id).sorted(sortFunc)
     }
     
     func reloadUI() {
@@ -85,7 +89,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
             c.episode = se.episode_number
             c.season_id = se.season_id
             c.startPosition = se.progress
-            
+            c.delegate = self
             self.navigationController?.presentViewController(c, animated: true, completion: nil)
         }
     }
@@ -105,7 +109,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         
         let metaEpisode = self.metaEpisodes[indexPath.row]
         
-        cell.numberLabel.text = String(format: "%d", indexPath.row+1)
+        cell.numberLabel.text = String(format: "%d", metaEpisode.episode)
         cell.titleLabel.text = metaEpisode.title_ru
         
         cell.setWatched(metaEpisode.watched)
@@ -177,7 +181,8 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         if let episode = metaEpisode.episodes.firstObject() as? SMEpisode {
             self.tryToWatchEpisodes[metaEpisode.episode] = true
             SMCatalogManager.sharedInstance.apiMarkEpisodeWatched(episode.eid, watched: !metaEpisode.watched)
-            self.tableView.reloadRowsAtIndexPaths([cell.indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+            self.tableView.reloadData()
+//            self.tableView.reloadRowsAtIndexPaths([cell.indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
         }
     }
     
@@ -211,12 +216,66 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         if alertView.tag == 1 {
             if buttonIndex == 1 {
                 self.showPlayer()
+            } else {
+                self.selectedEpisode?.progress = 0
+                self.showPlayer()
             }
         } else if alertView.tag == 2 {
             if buttonIndex == 1 {
                 SVProgressHUD.showWithMaskType(SVProgressHUDMaskType.Clear)
                 SMCatalogManager.sharedInstance.apiMarkSeasonWatchedForSid(self.sid, season: self.season_number)
             }
+        }
+    }
+    
+    //MARK: SMPlayerViewControllerDelegate
+    
+    func playerCtlMarkCurrentEpsisodeWatched(ctl: SMPlayerViewController) {
+        self.tryToWatchEpisodes[ctl.episode] = true
+        SMCatalogManager.sharedInstance.apiMarkEpisodeWatched(ctl.eid, watched: true)
+        var index: Int = -1
+        for var i = 0; i < self.metaEpisodes.count; i++ {
+            var metaEpisode: SMMetaEpisode = self.metaEpisodes[i]
+            if metaEpisode.season_id == ctl.season_id && metaEpisode.episode == ctl.episode {
+                index = i
+            }
+        }
+        if index >= 0 {
+            self.tableView.reloadData()
+//            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+        }
+    }
+    
+    func getNextEpisodeForPlayer(ctl: SMPlayerViewController) {
+        var index: Int = -1
+        for var i = 0; i < self.metaEpisodes.count; i++ {
+            var metaEpisode: SMMetaEpisode = self.metaEpisodes[i]
+            if metaEpisode.season_id == ctl.season_id && metaEpisode.episode == ctl.episode {
+                index = i
+            }
+        }
+        if index >= 0 {
+            if SMStateManager.sharedInstance.catalogSorting == SMSorting.Ascending {
+                index++
+            } else if SMStateManager.sharedInstance.catalogSorting == SMSorting.Descending {
+                index--
+            }
+            if index < self.metaEpisodes.count && index >= 0 {
+                var metaEpisode: SMMetaEpisode = self.metaEpisodes[index]
+                if let episode = metaEpisode.episodeWithQuality(SMStateManager.sharedInstance.preferedQuality,
+                    translationType: SMStateManager.sharedInstance.preferedTranslation) {
+                    ctl.eid = episode.eid
+                    ctl.hsh = episode.hsh
+                    ctl.sid = episode.sid
+                    ctl.episode = episode.episode
+                    ctl.season_id = episode.season_id
+                    ctl.nextPlay()
+                }
+            } else {
+                ctl.stopPlaying()
+            }
+        } else {
+            ctl.stopPlaying()
         }
     }
 }

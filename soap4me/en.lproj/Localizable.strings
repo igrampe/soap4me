@@ -1,0 +1,63 @@
+/* 
+  Localizable.strings
+  soap4me
+
+  Created by Sema Belokovsky on 03/08/15.
+  Copyright (c) 2015 App Plus. All rights reserved.
+*/
+
+/* No comment provided by engineer. */
+
+"Скажите спасибо разработчику - оцените приложение!" = "Thank the developer - rate the app!";
+"Неверный токен авторизации" = "Invalid Auth Token";
+"Неизвестная ошибка" = "Unknown Error";
+"Поиск" = "Search";
+"Мои" = "My";
+"Все" = "All";
+"С новыми эпизодами" = "With New Episodes";
+"Просмотренные" = "Watched";
+"Сериал закончен" = "Serial Ended";
+"Ошибка" = "Error";
+"Не удалось получить ссылку на видео, попробуйте снова" = "Unable to get a video link, try again";
+"ОК" = "ОК";
+"Сезон" = "Season";
+"cерия" = "episode";
+"Вчера" = "Yesterday";
+"Сегодня" = "Today";
+"Завтра" = "Tomorrow";
+"Внимание!" = "Warning!";
+"Отметить сезон как просмотренный?" = "Mark the season as watched?";
+"Нет" = "No";
+"Да" = "Yes";
+"Продолжить воспроизведение?" = "Continue playing?";
+"Серии" = "Episodes";
+"Описание" = "Description";
+"Расписание" = "Schedule";
+"Снимается" = "Producing";
+"Закончен" = "Ended";
+"Закрыт" = "Closed";
+"Не смотрю" = "Not watching";
+"Смотрю" = "Watching";
+"Серий" = "Episodes";
+"Cерия" = "Episode";
+"Настройки" = "Settings";
+"Готово" = "Done";
+"Аккаунт" = "Account";
+"Подписка до" = "Subsription until";
+"Выйти" = "Log Out";
+"Качество видео" = "Videq quality";
+"Перевод" = "Translation";
+"Субтитры" = "Subtitles";
+"Озвучка" = "Voice";
+"Сортировка" = "Sortings";
+"Прямая" = "Direct";
+"Обратная" = "Inverse";
+"Переходить к следующей серии" = "Proceed to a next episode";
+"Версия приложения" = "App Version";
+"Написать разработчику" = "Contact developer";
+"Оценить приложение" = "Rate the app";
+"Качество видео" = "Video quality";
+"Озвучка" = "Voice";
+"Отмена" = "Cancel";
+"Сериалы" = "Serials";
+"Войдите под своей учетной записью soap4me" = "Log in with your soap4me account";

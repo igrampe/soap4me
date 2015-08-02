@@ -8,6 +8,9 @@
 
 import UIKit
 import KeychainAccess
+import Appirater
+
+let APP_ID = 1023531443
 
 private enum UserDefaultsKeys: String {
     case PassVersion = "PassVersion"
@@ -25,6 +28,11 @@ private enum UserDefaultsKeys: String {
     case ShouldSubscribeToPush = "ShouldSubscribeToPush"
     case PushToken = "PushToken"
     
+    case CatalogSorting = "CatalogSorting"
+    
+    case ShouldContinueWithNextEpisode = "ShouldContinueWithNextEpisode"
+    
+    case LastPlayingEid = "LastPlayingEid"
 //    var stringValue: String {
 //        switch self {
 //            case .Token: return "TOKEN"
@@ -48,7 +56,12 @@ public enum SMStateManagerNotification: String {
     
 }
 
-class SMStateManager: NSObject {
+enum SMSorting: Int {
+    case Ascending = 0
+    case Descending = 1
+}
+
+class SMStateManager: NSObject, AppiraterDelegate {
     static let sharedInstance = SMStateManager()
     
     var keychain: Keychain!
@@ -98,6 +111,24 @@ class SMStateManager: NSObject {
         }
     }
     
+    var catalogSorting: SMSorting! {
+        didSet {
+            self.saveValue(catalogSorting.rawValue, key: UserDefaultsKeys.CatalogSorting.rawValue)
+        }
+    }
+
+    var shouldContinueWithNextEpisode: Bool = true {
+        didSet {
+            self.saveBoolValue(shouldContinueWithNextEpisode, key: UserDefaultsKeys.ShouldContinueWithNextEpisode.rawValue)
+        }
+    }
+    
+    var lastPlayingEid: Int = 0 {
+        didSet {
+            self.saveValue(lastPlayingEid, key: UserDefaultsKeys.LastPlayingEid.rawValue)
+        }
+    }
+    
     private(set) var token: String? {
         didSet {
             self.saveValue(token, key: UserDefaultsKeys.Token.rawValue)
@@ -122,6 +153,8 @@ class SMStateManager: NSObject {
     
     override init() {
         super.init()
+        
+        Appirater.setDelegate(self)
         
         if let bundleId = NSBundle.mainBundle().infoDictionary?["CFBundleIdentifier"] as? String {
             self.keychain = Keychain(service: bundleId)
@@ -164,10 +197,22 @@ class SMStateManager: NSObject {
         
         #if SNAPSHOT
         if let uLogin = self.getKeychainValueForKey(UserDefaultsKeys.UserLogin.rawValue) {
-            self.userLogin = uLogin
+            userLogin = uLogin
         }
         if let uPassword = self.getKeychainValueForKey(UserDefaultsKeys.UserPassowrd.rawValue) {
-            self.userPassoword = uPassword
+            userPassoword = uPassword
+        }
+        
+        if let cs = self.getValueForKey(UserDefaultsKeys.CatalogSorting.rawValue) as? Int {
+            catalogSorting = SMSorting(rawValue: cs)
+        } else {
+            catalogSorting = SMSorting.Ascending
+        }
+        
+        shouldContinueWithNextEpisode = self.getBoolValueForKey(UserDefaultsKeys.ShouldContinueWithNextEpisode.rawValue)
+        
+        if let lpe = self.getValueForKey(UserDefaultsKeys.LastPlayingEid.rawValue) as? Int{
+            lastPlayingEid = lpe
         }
         #endif
     }
@@ -371,13 +416,31 @@ class SMStateManager: NSObject {
         params["app_id"] = 2
         
         if self.pushToken.length() > 0 {
-            params["device_tolken"] = self.pushToken
+            params["device_token"] = self.pushToken
         }
         
         SMApiHelper.sharedInstance.performPostRequest(urlStr,
             parameters: params,
             success: successBlock,
             failure: failureBlock)
+    }
+    
+    //MARK - AppiraterDelegate
+    
+    func appiraterDidDisplayAlert(appirater: Appirater!) {
+        YMMYandexMetrica.reportEvent("APP.EVENT.RATE.DIALOG", onFailure: nil)
+    }
+    
+    func appiraterDidDeclineToRate(appirater: Appirater!) {
+        YMMYandexMetrica.reportEvent("APP.ACTION.RATE.DECLINE", onFailure: nil)
+    }
+    
+    func appiraterDidOptToRate(appirater: Appirater!) {
+        YMMYandexMetrica.reportEvent("APP.ACTION.RATE.ACCEPT", onFailure: nil)
+    }
+    
+    func appiraterDidOptToRemindLater(appirater: Appirater!) {
+        YMMYandexMetrica.reportEvent("APP.ACTION.RATE.LATER", onFailure: nil)
     }
 }
 
