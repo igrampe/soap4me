@@ -181,7 +181,8 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         if let episode = metaEpisode.episodes.firstObject() as? SMEpisode {
             self.tryToWatchEpisodes[metaEpisode.episode] = true
             SMCatalogManager.sharedInstance.apiMarkEpisodeWatched(episode.eid, watched: !metaEpisode.watched)
-            self.tableView.reloadRowsAtIndexPaths([cell.indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+            self.tableView.reloadData()
+//            self.tableView.reloadRowsAtIndexPaths([cell.indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
         }
     }
     
@@ -240,7 +241,8 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
             }
         }
         if index >= 0 {
-            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+            self.tableView.reloadData()
+//            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
         }
     }
     
