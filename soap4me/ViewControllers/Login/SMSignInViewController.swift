@@ -20,13 +20,14 @@ class SMSignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var bgImageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
     
     var activeField: UITextField?
     weak var delegate: SignInViewControllerProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.titleLabel.text = NSLocalizedString("Войдите под своей учетной записью soap4me")
     }
     
     override func viewWillAppear(animated: Bool) {

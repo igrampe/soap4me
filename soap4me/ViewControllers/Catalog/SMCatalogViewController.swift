@@ -278,6 +278,7 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
             self.serialsMyCtl = self.storyboard?.instantiateViewControllerWithIdentifier("SerialsVC") as! SMSerialsViewController
             
         }
+        self.title = NSLocalizedString("Сериалы")
         if SMStateManager.sharedInstance.lastPlayingEid != 0 {
             self.navigationItem.rightBarButtonItem = self.playItem
         }

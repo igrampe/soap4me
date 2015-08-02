@@ -124,7 +124,7 @@ class SMApiHelper: APLApiHelper {
                         userInfo = ["NSLocalizedDescription":v]
                     }
                 } else {
-                    userInfo = ["NSLocalizedDescription":NSLocalizedString("Неизвестная ошибка", comment: "")]
+                    userInfo = ["NSLocalizedDescription":NSLocalizedString("Неизвестная ошибка")]
                 }
                 let error = NSError(domain: APP_DOMAIN, code: 1, userInfo: userInfo)
                 if let fb = failure {

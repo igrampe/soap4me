@@ -477,6 +477,7 @@
                         <outlet property="passwordField" destination="GCm-By-n3J" id="dcs-Gr-1es"/>
                         <outlet property="scrollView" destination="uFb-gO-SLT" id="ltN-cO-V97"/>
                         <outlet property="submitButton" destination="Q4q-iW-6YQ" id="48s-sx-jhU"/>
+                        <outlet property="titleLabel" destination="4Lq-d4-CCk" id="LVy-PC-Eos"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gxl-mD-Zqu" userLabel="First Responder" sceneMemberID="firstResponder"/>
