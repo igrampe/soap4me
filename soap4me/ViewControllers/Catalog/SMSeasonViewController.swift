@@ -215,6 +215,9 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         if alertView.tag == 1 {
             if buttonIndex == 1 {
                 self.showPlayer()
+            } else {
+                self.selectedEpisode?.progress = 0
+                self.showPlayer()
             }
         } else if alertView.tag == 2 {
             if buttonIndex == 1 {
@@ -226,7 +229,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
     
     //MARK: SMPlayerViewControllerDelegate
     
-    func playerCtlDidFinishPlayingEpisode(ctl: SMPlayerViewController) {
+    func playerCtlMarkCurrentEpsisodeWatched(ctl: SMPlayerViewController) {
         self.tryToWatchEpisodes[ctl.episode] = true
         SMCatalogManager.sharedInstance.apiMarkEpisodeWatched(ctl.eid, watched: true)
         var index: Int = -1

@@ -12,7 +12,7 @@ import AVKit
 import AVFoundation
 
 protocol SMPlayerViewControllerDelegate: NSObjectProtocol {
-    func playerCtlDidFinishPlayingEpisode(ctl: SMPlayerViewController)
+    func playerCtlMarkCurrentEpsisodeWatched(ctl: SMPlayerViewController)
     func getNextEpisodeForPlayer(ctl: SMPlayerViewController)
 }
 
@@ -60,6 +60,7 @@ class SMPlayerViewController: AVPlayerViewController {
             self.timer = nil
         }
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
+        self.player.removeObserver(self, forKeyPath: "status", context: &сontext)
     }
     
     func stopPlaying() {
@@ -95,13 +96,13 @@ class SMPlayerViewController: AVPlayerViewController {
     }
     
     func apiEpisodeGetLinkInfoFailed(notification: NSNotification) {
-        
+        var alertView = UIAlertView(title: NSLocalizedString("Ошибка"), message: NSLocalizedString("Не удалось получить ссылку на видео, попробуйте снова"), delegate: self, cancelButtonTitle: NSLocalizedString("ОК"))
+        alertView.show()
     }
     
     func didPlayToEnd(notification: NSNotification) {
         SMCatalogManager.sharedInstance.setPlayingProgress(0, forSeasonId: self.season_id,
             episodeNumber: self.episode)
-        self.delegate?.playerCtlDidFinishPlayingEpisode(self)
         self.player.pause()
         if SMStateManager.sharedInstance.shouldContinueWithNextEpisode {
             self.delegate?.getNextEpisodeForPlayer(self)
@@ -117,6 +118,13 @@ class SMPlayerViewController: AVPlayerViewController {
     func timerTick() {
         let progress = Double(self.player.currentTime().value)/Double(self.player.currentTime().timescale)
         SMCatalogManager.sharedInstance.setPlayingProgress(progress, forSeasonId: self.season_id, episodeNumber: self.episode)
+        let currentItem = self.player.currentItem
+        var duration = Double(currentItem.duration.value)/Double(currentItem.duration.timescale)
+        if duration.isNormal {
+            if progress/duration >= 0.95 {
+                self.delegate?.playerCtlMarkCurrentEpsisodeWatched(self)
+            }
+        }
     }
     
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
@@ -129,8 +137,7 @@ class SMPlayerViewController: AVPlayerViewController {
                 if let t = self.timer {
                     t.invalidate()
                 }
-                self.timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "timerTick", userInfo: nil, repeats: true)
-                
+                self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "timerTick", userInfo: nil, repeats: true)
             }
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
@@ -138,9 +145,6 @@ class SMPlayerViewController: AVPlayerViewController {
     }
     
     deinit {
-        self.player.removeObserver(self, forKeyPath: "status", context: &сontext)
         self.stopObserve()
     }
-    
-    
 }
