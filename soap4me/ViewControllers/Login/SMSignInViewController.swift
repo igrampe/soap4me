@@ -27,6 +27,7 @@ class SMSignInViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.submitButton.setTitle(NSLocalizedString("Войти"), forState: UIControlState.Normal)
         self.titleLabel.text = NSLocalizedString("Войдите под своей учетной записью soap4me")
     }
     

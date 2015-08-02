@@ -177,7 +177,7 @@ class SMStateManager: NSObject, AppiraterDelegate {
         } else {
             preferedTranslation = SMEpisodeTranslateType.Voice
         }
-        #if SNAPSHOT
+
         if let t = self.getValueForKey(UserDefaultsKeys.Token.rawValue) as? String {
             token = t
             SMApiHelper.sharedInstance.setToken(self.token!)
@@ -186,7 +186,6 @@ class SMStateManager: NSObject, AppiraterDelegate {
         if let tt = self.getValueForKey(UserDefaultsKeys.TokenTill.rawValue) as? NSDate {
             tokenTill = tt
         }
-        #endif
         
         if let pt = self.getValueForKey(UserDefaultsKeys.PushToken.rawValue) as? String {
             pushToken = pt
@@ -195,7 +194,6 @@ class SMStateManager: NSObject, AppiraterDelegate {
         self.shouldSubscribeToPush = self.getBoolValueForKey(UserDefaultsKeys.ShouldSubscribeToPush.rawValue)
         self.subscribedToPush = self.getBoolValueForKey(UserDefaultsKeys.SubscribedToPush.rawValue)
         
-        #if SNAPSHOT
         if let uLogin = self.getKeychainValueForKey(UserDefaultsKeys.UserLogin.rawValue) {
             userLogin = uLogin
         }
@@ -214,7 +212,6 @@ class SMStateManager: NSObject, AppiraterDelegate {
         if let lpe = self.getValueForKey(UserDefaultsKeys.LastPlayingEid.rawValue) as? Int{
             lastPlayingEid = lpe
         }
-        #endif
     }
     
     func checkVersion() {
