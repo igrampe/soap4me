@@ -92,6 +92,8 @@ class SMPlayerViewController: AVPlayerViewController {
             self.observe(selector: "didPlayToEnd:", name: AVPlayerItemDidPlayToEndTimeNotification)
             self.player.status
             self.shouldRequestLink = false
+            
+            SMStateManager.sharedInstance.lastPlayingEid = self.eid
         }
     }
     
@@ -101,10 +103,11 @@ class SMPlayerViewController: AVPlayerViewController {
     }
     
     func didPlayToEnd(notification: NSNotification) {
+        SMStateManager.sharedInstance.lastPlayingEid = 0
         SMCatalogManager.sharedInstance.setPlayingProgress(0, forSeasonId: self.season_id,
             episodeNumber: self.episode)
         self.player.pause()
-        if SMStateManager.sharedInstance.shouldContinueWithNextEpisode {
+        if self.delegate != nil && SMStateManager.sharedInstance.shouldContinueWithNextEpisode {
             self.delegate?.getNextEpisodeForPlayer(self)
         } else {
             self.dismissViewControllerAnimated(true, completion: nil)

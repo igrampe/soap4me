@@ -205,6 +205,14 @@ class SMCatalogManager: NSObject {
         return self.getMetaEpisodesWithPredicate(p)
     }
     
+    func getEpisodeWithEid(eid: Int) -> SMEpisode? {
+        var p = NSPredicate(format: "eid == %d", eid)
+        var results = self.getEpisodesWithPredicate(p)
+        var episode: SMEpisode? = nil
+        episode = results.first
+        return episode
+    }
+    
     func getEpisodeProgress(forSeasonId season_id: Int, episodeNumber episode_number: Int) -> SMEpisodeProgress? {
         var p = NSPredicate(format: "season_id == %d and episode_number == %d", season_id, episode_number)
         var results = SMEpisodeProgress.objectsInRealm(self.realm(), withPredicate: p)

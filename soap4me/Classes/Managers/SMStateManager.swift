@@ -31,6 +31,8 @@ private enum UserDefaultsKeys: String {
     case CatalogSorting = "CatalogSorting"
     
     case ShouldContinueWithNextEpisode = "ShouldContinueWithNextEpisode"
+    
+    case LastPlayingEid = "LastPlayingEid"
 //    var stringValue: String {
 //        switch self {
 //            case .Token: return "TOKEN"
@@ -121,6 +123,12 @@ class SMStateManager: NSObject, AppiraterDelegate {
         }
     }
     
+    var lastPlayingEid: Int = 0 {
+        didSet {
+            self.saveValue(lastPlayingEid, key: UserDefaultsKeys.LastPlayingEid.rawValue)
+        }
+    }
+    
     private(set) var token: String? {
         didSet {
             self.saveValue(token, key: UserDefaultsKeys.Token.rawValue)
@@ -200,6 +208,10 @@ class SMStateManager: NSObject, AppiraterDelegate {
         }
         
         shouldContinueWithNextEpisode = self.getBoolValueForKey(UserDefaultsKeys.ShouldContinueWithNextEpisode.rawValue)
+        
+        if let lpe = self.getValueForKey(UserDefaultsKeys.LastPlayingEid.rawValue) as? Int{
+            lastPlayingEid = lpe
+        }
     }
     
     func checkVersion() {
