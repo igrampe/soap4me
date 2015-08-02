@@ -534,7 +534,7 @@ class SMCatalogManager: NSObject {
                         
                         if scheduleItem == nil {
                             scheduleItem = SMScheduleItem()
-                            self.realm().addObject(scheduleItem)
+                            self.realm().addObject(scheduleItem!)
                         }
                         
                         scheduleItem?.fillWithDict(objectDict)
@@ -593,7 +593,7 @@ class SMCatalogManager: NSObject {
                         
                         if scheduleItem == nil {
                             scheduleItem = SMScheduleItem()
-                            self.realm().addObject(scheduleItem)
+                            self.realm().addObject(scheduleItem!)
                         }
                         
                         scheduleItem?.fillWithDict(objectDict)
@@ -649,7 +649,7 @@ class SMCatalogManager: NSObject {
                         
                         if scheduleItem == nil {
                             scheduleItem = SMSerialScheduleItem()
-                            self.realm().addObject(scheduleItem)
+                            self.realm().addObject(scheduleItem!)
                         }
                         scheduleItem?.fillWithDict(objectDict)
                         scheduleItem?.sid = sid

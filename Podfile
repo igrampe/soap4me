@@ -4,8 +4,8 @@ inhibit_all_warnings!
 
 target :soap4me do
 	use_frameworks!
-    pod 'RealmSwift' #0.93.2
-    pod 'Alamofire' #1.2.3
+    pod 'RealmSwift' #0.94.0
+    pod 'Alamofire' #1.3.0
     pod 'SVProgressHUD' #1.1.3
     pod 'SDWebImage' #3.7.3
     pod 'Fabric' #1.2.8
