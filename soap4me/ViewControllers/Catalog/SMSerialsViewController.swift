@@ -137,9 +137,7 @@ class SMSerialsViewController: SMCollectionViewController, UICollectionViewDataS
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         var result = super.collectionView(collectionView, layout: collectionViewLayout, insetForSectionAtIndex: section)
-        if (!self.mySerials) {
-            result = UIEdgeInsetsMake(8, 8, 8, 8)
-        }
+        result = UIEdgeInsetsMake(8, 8, 8, 8)
         return result
     }
 }
