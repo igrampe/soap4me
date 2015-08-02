@@ -21,6 +21,7 @@ class SMScheduleViewController: UITableViewController {
     var scheduleItems = [Int: [SMScheduleItem]]()
     var scheduleKeys = [Int]()
     var scheduleMode: SMScheduleMode = .My
+    var scheduleRequested = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +63,10 @@ class SMScheduleViewController: UITableViewController {
         self.scheduleMode = mode
         self.reloadData()
         self.reloadUI()
+        if self.scheduleRequested & 0b10 == 0 {
+            self.obtainData()
+            self.scheduleRequested = self.scheduleRequested|0b10
+        }
     }
     
     func obtainData() {
