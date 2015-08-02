@@ -177,12 +177,12 @@ class SMStateManager: NSObject, AppiraterDelegate {
         } else {
             preferedTranslation = SMEpisodeTranslateType.Voice
         }
-        
+
         if let t = self.getValueForKey(UserDefaultsKeys.Token.rawValue) as? String {
             token = t
             SMApiHelper.sharedInstance.setToken(self.token!)
         }
-        
+
         if let tt = self.getValueForKey(UserDefaultsKeys.TokenTill.rawValue) as? NSDate {
             tokenTill = tt
         }
