@@ -632,7 +632,7 @@ class SMCatalogManager: NSObject {
         let successBlock = {(responseObject: [String:AnyObject]) -> Void in
             self.realm().beginWriteTransaction()
             let p = NSPredicate(format: "sid = %d", sid)
-            let results = SMSerialScheduleItem.objectsWithPredicate(p)
+            let results = SMSerialScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
             self.realm().deleteObjects(results)
             
             let serial:SMSerial? = self.getSerialWithSid(sid)
