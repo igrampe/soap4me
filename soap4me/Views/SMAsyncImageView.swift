@@ -9,9 +9,18 @@
 import UIKit
 import SDWebImage
 
-class SMAsyncImageView: UIImageView {
+protocol SMAsyncImageViewDelegate: NSObjectProtocol
+{
+    func imageViewDidLoadImage(imageView: SMAsyncImageView)
+}
 
+class SMAsyncImageView: UIImageView
+{
+    
+    
     var activityIndicator: UIActivityIndicatorView!
+    weak var delegate: SMAsyncImageViewDelegate?
+    var indexPath: NSIndexPath?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,12 +52,14 @@ class SMAsyncImageView: UIImageView {
         if let url = NSURL(string: urlStr) {
             self.sd_setImageWithURL(url, completed: { (image, error, _, _) -> Void in
                 self.activityIndicator.stopAnimating()
+                self.delegate?.imageViewDidLoadImage(self)
                 if animated {
                     self.layer.opacity = 0
                     UIView.animateWithDuration(0.5, animations: { () -> Void in
                         self.layer.opacity = 1
                     })
                 }
+                
             })
         }
     }

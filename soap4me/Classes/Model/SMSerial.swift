@@ -83,6 +83,8 @@ class SMSerial: RLMObject, SMIndexedProtocol
         {
             object.desc = NSLocalizedString("Нет новых серий")
         }
+        let urlStr = String(format: SMApiHelper.ASSET_COVER_SERIAL_BIG, self.sid)
+        object.imageURL = urlStr
         return object
     }
 }

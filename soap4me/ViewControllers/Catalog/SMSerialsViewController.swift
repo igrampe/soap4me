@@ -21,7 +21,7 @@ protocol SMSerialsViewControllerDelegate: NSObjectProtocol {
     func serialsCtlNeedObtainData(ctl: SMSerialsViewController)
 }
 
-class SMSerialsViewController: SMCollectionViewController {
+class SMSerialsViewController: SMCollectionViewController, SMAsyncImageViewDelegate {
     
     weak var dataSource: SMSerialsViewControllerDataSource?
     weak var delegate: SMSerialsViewControllerDelegate?
@@ -104,6 +104,8 @@ class SMSerialsViewController: SMCollectionViewController {
             }
             
             cell.imageView.setImageUrl(urlStr, animated: animated)
+            cell.imageView.indexPath = indexPath
+            cell.imageView.delegate = self
             
             if (self.mySerials) {
                 cell.setBadgeCount(serial.unwatched)
@@ -139,5 +141,20 @@ class SMSerialsViewController: SMCollectionViewController {
         var result = super.collectionView(collectionView, layout: collectionViewLayout, insetForSectionAtIndex: section)
         result = UIEdgeInsetsMake(8, 8, 8, 8)
         return result
+    }
+    
+    // MARK: SMAsyncImageViewDelegate
+    
+    func imageViewDidLoadImage(imageView: SMAsyncImageView)
+    {
+        if let indexPath = imageView.indexPath
+        {
+            let object = self.dataSource?.serialsCtl(self, objectAtIndexPath: indexPath)
+            
+            if let serial = object as? SMSerial
+            {
+                SMCatalogManager.sharedInstance.updateSerialIndexWithSid(serial.sid, image: imageView.image)
+            }
+        }
     }
 }

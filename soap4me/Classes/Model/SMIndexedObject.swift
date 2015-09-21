@@ -18,4 +18,5 @@ class SMIndexedObject
     var title: String?
     var desc: String?
     var identifier: String! = ""
+    var imageURL: String?
 }

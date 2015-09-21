@@ -9,6 +9,7 @@
 import UIKit
 import Realm
 import CoreSpotlight
+import SDWebImage
 
 let DB_VERSION = 1
 let SCHEMA_VERSION: UInt64 = 1
@@ -365,6 +366,14 @@ class SMCatalogManager: NSObject {
         if #available(iOS 9.0, *)
         {
             CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
+            self.tryAddSerialsToSpotlight(objects)
+        }
+    }
+    
+    func tryAddSerialsToSpotlight(objects: [SMIndexedObject])
+    {
+        if #available(iOS 9.0, *)
+        {
             var items = [CSSearchableItem]()
             let bundleId = NSBundle.mainBundle().infoDictionary?["CFBundleIdentifier"] as? String
             for object in objects
@@ -372,6 +381,7 @@ class SMCatalogManager: NSObject {
                 let attributeSet = CSSearchableItemAttributeSet(itemContentType: "")
                 attributeSet.title = object.title
                 attributeSet.contentDescription = object.desc
+                attributeSet.thumbnailData = self.cahcedImageDataForURL(object.imageURL)
                 
                 let item = CSSearchableItem(uniqueIdentifier: object.identifier, domainIdentifier: bundleId, attributeSet: attributeSet)
                 items.append(item)
@@ -381,17 +391,26 @@ class SMCatalogManager: NSObject {
         }
     }
     
-    func tryAddSerialToSpotlight(object: SMIndexedObject)
+    func updateSerialIndexWithSid(sid: Int, image: UIImage?)
     {
+        if (image == nil)
+        {
+            return
+        }
         if #available(iOS 9.0, *)
         {
-            let bundleId = NSBundle.mainBundle().infoDictionary?["CFBundleIdentifier"] as? String
-            let attributeSet = CSSearchableItemAttributeSet(itemContentType: "")
-            attributeSet.title = object.title
-            attributeSet.contentDescription = object.desc
+            if let serial = self.getSerialWithSid(sid)
+            {
+                let object = serial.indexedObject()
+                let bundleId = NSBundle.mainBundle().infoDictionary?["CFBundleIdentifier"] as? String
+                let attributeSet = CSSearchableItemAttributeSet(itemContentType: "")
+                attributeSet.title = object.title
+                attributeSet.contentDescription = object.desc
+                attributeSet.thumbnailData = UIImagePNGRepresentation(image!)
+                let item = CSSearchableItem(uniqueIdentifier: object.identifier, domainIdentifier: bundleId, attributeSet: attributeSet)
+                CSSearchableIndex.defaultSearchableIndex().indexSearchableItems([item], completionHandler: nil)
+            }
             
-            let item = CSSearchableItem(uniqueIdentifier: object.identifier, domainIdentifier: bundleId, attributeSet: attributeSet)
-            CSSearchableIndex.defaultSearchableIndex().indexSearchableItems([item], completionHandler: nil)
         }
     }
     
@@ -415,10 +434,29 @@ class SMCatalogManager: NSObject {
             {
                 if let serial = results.firstObject() as? SMSerial
                 {
-                    self.tryAddSerialToSpotlight(serial.indexedObject())
+                    let object = serial.indexedObject()
+                    self.tryAddSerialsToSpotlight([object])
                 }
             }
         }
+    }
+    
+    func cahcedImageDataForURL(imageUrl: String?) -> NSData?
+    {
+        var data: NSData?
+        if let _ = imageUrl
+        {
+            if let url = NSURL(string: imageUrl!, relativeToURL: nil)
+            {
+                if SDWebImageManager.sharedManager().cachedImageExistsForURL(url)
+                {
+                    let key = SDWebImageManager.sharedManager().cacheKeyForURL(url)
+                    let path = SDImageCache.sharedImageCache().defaultCachePathForKey(key)
+                    data = NSData(contentsOfFile: path)
+                }
+            }
+        }
+        return data
     }
     
     func apiGetSerialsAll() {
