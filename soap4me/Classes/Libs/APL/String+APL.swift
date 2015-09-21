@@ -10,7 +10,7 @@ import Foundation
 
 extension String {
     func length() -> Int {
-        return count(self)
+        return self.characters.count
     }
 }
 
@@ -23,7 +23,7 @@ extension String  {
         
         CC_MD5(str!, strLen, result)
         
-        var hash = NSMutableString()
+        let hash = NSMutableString()
         for i in 0..<digestLen {
             hash.appendFormat("%02x", result[i])
         }

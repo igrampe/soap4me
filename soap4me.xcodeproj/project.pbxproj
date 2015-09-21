@@ -401,6 +401,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = SM;
+				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "App Plus";

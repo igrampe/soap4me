@@ -42,7 +42,7 @@ class SMSettingsCellBool: UITableViewCell {
         self.valueSwitch.frame = CGRectMake(self.bounds.size.width-8-51, (self.bounds.size.height-31)/2, 51, 31)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     

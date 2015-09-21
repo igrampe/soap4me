@@ -28,22 +28,22 @@ class SMScheduleItem: RLMObject {
                 switch prop.name {
                 case "date":
                     if let dateStr = d["date"] as? String {
-                        var f = NSDateFormatter()
+                        let f = NSDateFormatter()
                         f.dateFormat = "dd.MM.yyyy"
-                        var date = f.dateFromString(dateStr)
+                        let date = f.dateFromString(dateStr)
                         value = date?.timeIntervalSince1970
                     }
                     break
                 case "episode_number":
                     if let ps = d["episode"] as? String {
-                        var ss = ps.substringFromIndex(advance(ps.startIndex, 4))
+                        let ss = ps.substringFromIndex(ps.startIndex.advancedBy(4))
                         value = ss
                     }
                     break
                 case "season_number":
                     if let ps = d["episode"] as? String {
-                        var ss = ps.substringFromIndex(advance(ps.startIndex, 1))
-                        ss = ss.substringToIndex(advance(ss.startIndex, 2))
+                        var ss = ps.substringFromIndex(ps.startIndex.advancedBy(1))
+                        ss = ss.substringToIndex(ss.startIndex.advancedBy(2))
                         value = ss
                     }
                     break
@@ -52,7 +52,7 @@ class SMScheduleItem: RLMObject {
                 default:
                     value = d[prop.name]
                 }
-                setPropertyForObject(prop, value, self)
+                setPropertyForObject(prop, value: value, object: self)
             }
         }
     }

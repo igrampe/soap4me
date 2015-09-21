@@ -216,17 +216,16 @@ class SMStateManager: NSObject, AppiraterDelegate {
     
     func checkVersion() {
         // Fucking Parse SDK doesn't work
-        var url = "https://api.parse.com/1/config"
-        var config = NSURLSessionConfiguration.defaultSessionConfiguration()
+        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
         if config.HTTPAdditionalHeaders == nil {
             config.HTTPAdditionalHeaders = [NSObject: AnyObject]()
         }
         config.HTTPAdditionalHeaders!["X-Parse-Application-Id"] = "yYwNAXGXKwbtY1890rllhpQUB7c9S1a255SOXilP"
         config.HTTPAdditionalHeaders!["X-Parse-REST-API-Key"] = "6oApZb8bMry48mfounDQDNMWVlMf2zQMhIZnM4MH"
-        var session = NSURLSession(configuration: config)
+        let session = NSURLSession(configuration: config)
         
-        var t = session.dataTaskWithURL(NSURL(string: "https://api.parse.com/1/config")!) { (data, _, _) -> Void in
-            var object:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil)
+        let t = session.dataTaskWithURL(NSURL(string: "https://api.parse.com/1/config")!) { (data, _, _) -> Void in
+            let object:AnyObject? = try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)
             if let o = object as? [String: AnyObject] {
                 if let params = o["params"] as? [String: AnyObject] {
                     if let pv = params["PassVersion"] as? String {
@@ -262,28 +261,28 @@ class SMStateManager: NSObject, AppiraterDelegate {
     
     private func saveKeychainValue(value: String?, key: String) {
         if let v = value {
-            self.keychain.set(v, key: key)
+            try! self.keychain.set(v, key: key)
         } else {
-            self.keychain.remove(key)
+            try! self.keychain.remove(key)
         }
     }
     
     private func saveKeychainValue(value: AnyObject?, key: String) {
         if let v: AnyObject = value {
-            var data = NSKeyedArchiver.archivedDataWithRootObject(v)
-            self.keychain.set(data, key: key)
+            let data = NSKeyedArchiver.archivedDataWithRootObject(v)
+            try! self.keychain.set(data, key: key)
         } else {
-            self.keychain.remove(key)
+            try! self.keychain.remove(key)
         }
     }
     
     private func getKeychainValueForKey(key: String) -> String? {
-        return self.keychain.get(key)
+        return try! self.keychain.get(key)
     }
     
     private func getKeychainAnyObjectForKey(key: String) -> AnyObject? {
         var object: AnyObject?
-        if let data = self.keychain.getData(key) {
+        if let data = try! self.keychain.getData(key) {
             object = NSKeyedUnarchiver.unarchiveObjectWithData(data)
         }
         return object
@@ -304,7 +303,7 @@ class SMStateManager: NSObject, AppiraterDelegate {
         
         SMCatalogManager.sharedInstance.clearState()
         
-        postNotification(SMStateManagerNotification.StateCleared.rawValue, nil)
+        postNotification(SMStateManagerNotification.StateCleared.rawValue, object: nil)
     }
     
     //MARK: Getters
@@ -323,16 +322,16 @@ class SMStateManager: NSObject, AppiraterDelegate {
     
     func canPlaySerials() -> Bool {
         var result = true
-        var currentVersionComps = self.currentVersion.componentsSeparatedByString(".")
-        var passVersionComps = self.passVersion.componentsSeparatedByString(".")
+        let currentVersionComps = self.currentVersion.componentsSeparatedByString(".")
+        let passVersionComps = self.passVersion.componentsSeparatedByString(".")
         
-        if (vgta(currentVersionComps, passVersionComps, 0)) {
+        if (vgta(currentVersionComps, va2: passVersionComps, index: 0)) {
             result = false
         } else if (currentVersionComps.count > 1 && passVersionComps.count > 1) {
-            if (vgta(currentVersionComps, passVersionComps, 1)) {
+            if (vgta(currentVersionComps, va2: passVersionComps, index: 1)) {
                 result = false
             } else if (currentVersionComps.count > 2 && passVersionComps.count > 2) {
-                if (vgta(currentVersionComps, passVersionComps, 2)) {
+                if (vgta(currentVersionComps, va2: passVersionComps, index: 2)) {
                     result = false
                 }
             }
@@ -342,7 +341,7 @@ class SMStateManager: NSObject, AppiraterDelegate {
     }
     
     func registerPush() {
-        var settings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes:UIUserNotificationType.Badge|UIUserNotificationType.Alert|UIUserNotificationType.Sound, categories: nil)
+        let settings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes:[UIUserNotificationType.Badge, UIUserNotificationType.Alert, UIUserNotificationType.Sound], categories: nil)
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
     }
     
@@ -375,7 +374,7 @@ class SMStateManager: NSObject, AppiraterDelegate {
                 self.tokenTill = nil
             }
             YMMYandexMetrica.reportEvent("APP.ACTION.SIGNIN.SUCCEED", onFailure: nil)
-            postNotification(SMStateManagerNotification.SignInSucceed.rawValue, nil)
+            postNotification(SMStateManagerNotification.SignInSucceed.rawValue, object: nil)
             if self.pushToken.length() > 0 {
                 self.checkPush()
             } else {
@@ -384,7 +383,14 @@ class SMStateManager: NSObject, AppiraterDelegate {
         }
         
         let failureBlock = {(error: NSError) -> Void in
-            postNotification(SMStateManagerNotification.SignInFailed.rawValue, error)
+            var err = error
+            if (error.domain == "APP_DOMAIN")
+            {
+                err = NSError(domain: error.domain,
+                    code: 1,
+                    userInfo: ["NSLocalizedDescription":NSLocalizedString("Ошибка авторизации, возможно необходим расширенный аккаунт")])
+            }
+            postNotification(SMStateManagerNotification.SignInFailed.rawValue, object: err)
         }
         
         SMApiHelper.sharedInstance.performPostRequest(urlStr,
@@ -446,5 +452,5 @@ func vgt(v1: String, v2: String) -> Bool {
 }
 
 func vgta(va1: [String], va2: [String], index: Int) -> Bool {
-    return vgt(va1[index], va2[index])
+    return vgt(va1[index], v2: va2[index])
 }

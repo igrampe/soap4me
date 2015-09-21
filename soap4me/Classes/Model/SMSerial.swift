@@ -40,24 +40,24 @@ class SMSerial: RLMObject {
             
             for prop in props {
                 if prop.name == "desc" {
-                    setPropertyForObject(prop, d["description"], self)
+                    setPropertyForObject(prop, value: d["description"], object: self)
                 } else if prop.name == "unwatched" {
                     if let o:AnyObject = d[prop.name] {
                         if let v = o as? Int {
-                            setPropertyForObject(prop, v, self)
+                            setPropertyForObject(prop, value: v, object: self)
                         } else {
                             self.unwatched = 0
                         }
                     }
                 } else {
-                    setPropertyForObject(prop, d[prop.name], self)
+                    setPropertyForObject(prop, value: d[prop.name], object: self)
                 }
             }
         }
     }
     
     static func isOrderedBefore(obj1: SMSerial, obj2: SMSerial) -> Bool {
-        var result = obj1.title.caseInsensitiveCompare(obj2.title)
+        let result = obj1.title.caseInsensitiveCompare(obj2.title)
         if result == NSComparisonResult.OrderedAscending || result == NSComparisonResult.OrderedSame {
             return true
         } else {

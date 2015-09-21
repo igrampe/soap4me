@@ -83,12 +83,12 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     //MARK: UICollectionViewDataSource
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        var result = 0
+        let result = 0
         return result
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        var result = 0
+        let result = 0
         return result
     }
     
@@ -98,7 +98,7 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        let view: UICollectionReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: self.headerIdentifier, forIndexPath: indexPath) as! UICollectionReusableView
+        let view: UICollectionReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: self.headerIdentifier, forIndexPath: indexPath) 
         return view
     }
     
@@ -111,7 +111,7 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         var width: CGFloat = 0
         var columns: CGFloat = 0
-        var isLandscape = UIApplication.sharedApplication().statusBarOrientation == UIInterfaceOrientation.LandscapeLeft || UIApplication.sharedApplication().statusBarOrientation == UIInterfaceOrientation.LandscapeRight
+        let isLandscape = UIApplication.sharedApplication().statusBarOrientation == UIInterfaceOrientation.LandscapeLeft || UIApplication.sharedApplication().statusBarOrientation == UIInterfaceOrientation.LandscapeRight
         
         switch UIDevice.currentDevice().userInterfaceIdiom {
         case .Phone:

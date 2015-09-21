@@ -4,8 +4,9 @@ inhibit_all_warnings!
 
 target :soap4me do
 	use_frameworks!
-    pod 'RealmSwift' #0.94.0
-    pod 'Alamofire' #1.3.0
+    pod 'Realm', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'swift-2.0'
+    pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'swift-2.0'
+    pod 'Alamofire' #2.0.1
     pod 'SVProgressHUD' #1.1.3
     pod 'SDWebImage' #3.7.3
     pod 'Fabric' #1.2.8

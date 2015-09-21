@@ -25,11 +25,11 @@ extension UIColor {
             case 0:
                 lcs = "00000000"
             case 3:
-                var range = Range<String.Index>(start: advance(lcs.startIndex, 0), end: advance(lcs.startIndex, 1))
+                var range = Range<String.Index>(start: lcs.startIndex.advancedBy(0), end: lcs.startIndex.advancedBy(1))
                 let r = lcs.substringWithRange(range)
-                range = Range<String.Index>(start: advance(lcs.startIndex, 1), end: advance(lcs.startIndex, 2))
+                range = Range<String.Index>(start: lcs.startIndex.advancedBy(1), end: lcs.startIndex.advancedBy(2))
                 let g = lcs.substringWithRange(range)
-                range = Range<String.Index>(start: advance(lcs.startIndex, 2), end: advance(lcs.startIndex, 3))
+                range = Range<String.Index>(start: lcs.startIndex.advancedBy(2), end: lcs.startIndex.advancedBy(3))
                 let b = lcs.substringWithRange(range)
                 lcs = "\(r)\(r)\(g)\(g)\(b)\(b)ff"
             case 6:
@@ -69,7 +69,7 @@ extension UIColor {
             b = comps[0];
             a = comps[1];
         }
-        var hex = String(format: "%02x%02x%02x%02x", Int(r*255), Int(g*255), Int(b*255), Int(a*255))
+        let hex = String(format: "%02x%02x%02x%02x", Int(r*255), Int(g*255), Int(b*255), Int(a*255))
         return hex
     }
     
@@ -83,11 +83,11 @@ extension UIColor {
         case 0:
             lcs = "00000000"
         case 3:
-            var range = Range<String.Index>(start: advance(lcs.startIndex, 0), end: advance(lcs.startIndex, 1))
+            var range = Range<String.Index>(start: lcs.startIndex.advancedBy(0), end: lcs.startIndex.advancedBy(1))
             let r = lcs.substringWithRange(range)
-            range = Range<String.Index>(start: advance(lcs.startIndex, 1), end: advance(lcs.startIndex, 2))
+            range = Range<String.Index>(start: lcs.startIndex.advancedBy(1), end: lcs.startIndex.advancedBy(2))
             let g = lcs.substringWithRange(range)
-            range = Range<String.Index>(start: advance(lcs.startIndex, 2), end: advance(lcs.startIndex, 3))
+            range = Range<String.Index>(start: lcs.startIndex.advancedBy(2), end: lcs.startIndex.advancedBy(3))
             let b = lcs.substringWithRange(range)
             lcs = "\(r)\(r)\(g)\(g)\(b)\(b)ff"
         case 6:

@@ -103,7 +103,7 @@ func propertyListForClass(cls: AnyClass!) -> [ObjectProperty] {
             var type: String = "u"
             for a:String in propertyAttrs {
                 if a.hasPrefix("T") {
-                    let range = Range<String.Index>(start: advance(a.startIndex, 1), end: a.endIndex)
+                    let range = Range<String.Index>(start: a.startIndex.advancedBy(1), end: a.endIndex)
                     type = a.substringWithRange(range)
 //                    type = type.stringByReplacingOccurrencesOfString("@", withString: "")
 //                    type = type.stringByReplacingOccurrencesOfString("\\", withString: "")

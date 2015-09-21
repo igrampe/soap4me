@@ -39,7 +39,7 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
         self.headerView = SMSerialHeader()
         self.headerView.delegate = self;
         
-        var backButton = UIButton()
+        let backButton = UIButton()
         backButton.setImage(UIImage(named: "back"), forState: UIControlState.Normal)
         backButton.imageEdgeInsets = UIEdgeInsets(top: 11, left: 0, bottom: 12, right: 31.5)
         backButton.frame = CGRectMake(0, 0, 44, 44)
@@ -125,11 +125,11 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
             sortFunc = SMSeason.isOrderedBeforeDesc
         }
         
-        self.seasons = SMCatalogManager.sharedInstance.getSeasonsForSid(sid).sorted(sortFunc)
+        self.seasons = SMCatalogManager.sharedInstance.getSeasonsForSid(sid).sort(sortFunc)
         
         self.serial = SMCatalogManager.sharedInstance.getSerialWithSid(self.sid)
         self.isWatching = SMCatalogManager.sharedInstance.getIsWatchingSerialWithSid(self.sid)
-        var mes = SMCatalogManager.sharedInstance.getMetaEpisodesForSid(self.sid)
+        let mes = SMCatalogManager.sharedInstance.getMetaEpisodesForSid(self.sid)
         self.metaEpisodes.removeAll(keepCapacity: false)
         for me: SMMetaEpisode in mes {
             if self.metaEpisodes[me.season] == nil {
@@ -141,7 +141,7 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
         // Schedule
         self.scheduleItems.removeAll(keepCapacity: false)
         self.scheduleItemsKeys.removeAll(keepCapacity: false)
-        var arr = SMCatalogManager.sharedInstance.getScheduleItemsForSid(self.sid)
+        let arr = SMCatalogManager.sharedInstance.getScheduleItemsForSid(self.sid)
         
         for object:SMSerialScheduleItem in arr {
             var objects:[SMSerialScheduleItem]? = self.scheduleItems[object.season_number]
@@ -151,13 +151,13 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
             }
             self.scheduleItems[object.season_number]?.append(object)
         }
-        self.scheduleItemsKeys.extend(self.scheduleItems.keys.array)
-        self.scheduleItemsKeys.sort{(obj1: Int, obj2: Int) -> Bool in
+        self.scheduleItemsKeys.appendContentsOf(Array(self.scheduleItems.keys))
+        self.scheduleItemsKeys.sortInPlace{(obj1: Int, obj2: Int) -> Bool in
             return obj1 > obj2
         }
         for key in self.scheduleItemsKeys {
             if var objects:[SMSerialScheduleItem] = self.scheduleItems[key] {
-                objects.sort(SMSerialScheduleItem.isOrderedBefore)
+                objects.sortInPlace(SMSerialScheduleItem.isOrderedBefore)
             }
         }
     }
@@ -262,7 +262,7 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
         let cell: SMCatalogCollectionCell  = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellIdentifier, forIndexPath: indexPath) as! SMCatalogCollectionCell
         cell.titleLabel.text = "Title \(indexPath.row)"
         
-        var object = self.seasons[indexPath.row]
+        let object = self.seasons[indexPath.row]
         
         if let season = object as? SMSeason {
             var seasonTitle: String = String(format: "%@ %d", NSLocalizedString("Сезон"), season.season_number)
@@ -300,7 +300,7 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        var c: SMSeasonViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SeasonVC") as! SMSeasonViewController
+        let c: SMSeasonViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SeasonVC") as! SMSeasonViewController
         var object: SMSeason!
         
         object = self.seasons[indexPath.row] as! SMSeason
@@ -314,7 +314,7 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
     //MARK: UICollectionViewDelegateFlowLayout
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        var result = CGSizeZero
+        let result = CGSizeZero
         if section == 0 {
 //            result = CGSizeMake(self.view.bounds.size.width, 154)
         }
@@ -400,19 +400,19 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifier) as! SMScheduleItemCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifier) as! SMScheduleItemCell
         
         let key = self.scheduleItemsKeys[indexPath.section]
         if let items = self.scheduleItems[key] {
             let item = items[indexPath.row]
-            var df = NSDateFormatter()
+            let df = NSDateFormatter()
             df.dateFormat = "dd.MM.yyyy"
-            var dateStr: String = df.stringFromDate(NSDate(timeIntervalSince1970: item.date))
+            let dateStr: String = df.stringFromDate(NSDate(timeIntervalSince1970: item.date))
             
             var str = String(format: "%@ - %@ %d\n", dateStr, NSLocalizedString("Cерия"), item.episode_number)
             let metaStr = str
             str = str.stringByAppendingString(item.title)
-            var aStr = NSMutableAttributedString(string: str)
+            let aStr = NSMutableAttributedString(string: str)
             var range = NSMakeRange(0, str.length())
             aStr.addAttribute(NSForegroundColorAttributeName, value: UIColor.whiteColor(), range: range)
             aStr.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(15), range: range)
@@ -426,7 +426,7 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(TableViewHeaderIdentifier) as? SMScheduleHeader
+        let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(TableViewHeaderIdentifier) as? SMScheduleHeader
         
         let key:Int = self.scheduleItemsKeys[section]
         header?.titleLabel.text = String(format: "%@ %d", NSLocalizedString("Сезон"), key)

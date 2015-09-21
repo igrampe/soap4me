@@ -12,12 +12,12 @@ class SMScheduleHeader: UITableViewHeaderFooterView {
     
     @IBOutlet weak var titleLabel: UILabel!
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
     }
     
     func commonInit() {

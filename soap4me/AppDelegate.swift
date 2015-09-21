@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         Fabric.with([Crashlytics()])
-        YMMYandexMetrica.startWithAPIKey("63958")
+        YMMYandexMetrica.activateWithApiKey("0411d79d-5525-40ba-967e-569ee7afed03")
         
         SMStateManager.sharedInstance.checkVersion()
         SMStateManager.sharedInstance.checkPush()
@@ -40,16 +40,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         
-        var characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+        let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
         
-        var deviceTokenString: String = ( deviceToken.description as NSString )
+        let deviceTokenString: String = ( deviceToken.description as NSString )
             .stringByTrimmingCharactersInSet( characterSet )
             .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
         SMStateManager.sharedInstance.pushToken = deviceTokenString
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        var exception = NSException(name: "PUSH", reason: error.description, userInfo: error.userInfo)
+        let exception = NSException(name: "PUSH", reason: error.description, userInfo: error.userInfo)
         YMMYandexMetrica.reportError("PUSH.ERROR", exception: exception, onFailure: nil)
     }
 

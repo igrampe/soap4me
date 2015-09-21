@@ -18,10 +18,6 @@ class SMMyScheduleItem: RLMObject {
         super.init()
     }
     
-    override init!(realm: RLMRealm!, schema: RLMObjectSchema!) {
-        super.init(realm: realm, schema: schema)
-    }
-    
     init(scheduleItem: SMScheduleItem) {
         super.init()
         self.sid = scheduleItem.sid

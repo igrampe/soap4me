@@ -41,7 +41,7 @@ class SMEpisode: RLMObject {
             let props = propertyListForClass(SMEpisode.self)
             for prop in props {
                 if prop.name == "hsh" {
-                    setPropertyForObject(prop, d["hash"], self)
+                    setPropertyForObject(prop, value: d["hash"], object: self)
                 } else if (prop.name == "quality") {
                     if let value = d["quality"] as? String {
                         switch value {
@@ -58,11 +58,11 @@ class SMEpisode: RLMObject {
                         }
                     }
                 } else {
-                    setPropertyForObject(prop, d[prop.name], self)
+                    setPropertyForObject(prop, value: d[prop.name], object: self)
                 }
             }
             if self.translate.hasPrefix(" ") {
-                self.translate.substringFromIndex(advance(self.translate.startIndex, 1))
+                self.translate.substringFromIndex(self.translate.startIndex.advancedBy(1))
             }
         }
     }

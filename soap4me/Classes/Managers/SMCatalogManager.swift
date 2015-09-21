@@ -52,18 +52,17 @@ class SMCatalogManager: NSObject {
     
     private func realm() -> RLMRealm {
         if _realm == nil {
-//            var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentationDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String
-//            path = path.stringByAppendingPathComponent("db_\(DB_VERSION).realm")
+            let config = RLMRealmConfiguration()
+            var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as String!
+            path = path.stringByAppendingString("/db_\(DB_VERSION).realm")
+            config.path = path
+            config.schemaVersion = SCHEMA_VERSION
             
-            RLMRealm.setDefaultRealmSchemaVersion(SCHEMA_VERSION, withMigrationBlock: { (migration, oldSchemaVersion) -> Void in
+            config.migrationBlock = {(migration, oldSchemaVersion) in
                 
-                })
+            }
             
-//            RLMRealm.setSchemaVersion(SCHEMA_VERSION, forRealmAtPath: path, withMigrationBlock: { (migration, oldSchemaVersion) -> Void in
-//                
-//            })
-            
-            _realm = RLMRealm.defaultRealm()
+            try! _realm = RLMRealm(configuration: config)
         }
         
         return _realm!
@@ -84,7 +83,7 @@ class SMCatalogManager: NSObject {
         results = SMMySerial.allObjectsInRealm(self.realm())
         self.realm().deleteObjects(results)
         
-        self.realm().commitWriteTransaction()
+        try! self.realm().commitWriteTransaction()
     }
     
     //MARK: DB
@@ -107,30 +106,30 @@ class SMCatalogManager: NSObject {
     }
     
     private func getMySerialsSids() -> [Int] {
-        var results = SMMySerial.allObjectsInRealm(self.realm())
+        let results = SMMySerial.allObjectsInRealm(self.realm())
         var sids = [Int]()
         for var i:UInt = 0; i < results.count; i++ {
-            var ms: SMMySerial = results.objectAtIndex(i) as! SMMySerial
+            let ms: SMMySerial = results.objectAtIndex(i) as! SMMySerial
             sids.append(ms.sid)
         }
         return sids
     }
     
     func getSerialsMyUnwatched() -> [SMSerial]  {
-        var sids = self.getMySerialsSids()
-        var p = NSPredicate(format: "unwatched > 0 and sid in %@", sids)
+        let sids = self.getMySerialsSids()
+        let p = NSPredicate(format: "unwatched > 0 and sid in %@", sids)
         return self.getSerialsWithPredicate(p)
     }
     
     func getSerialsMyWatched() -> [SMSerial]  {
-        var sids = self.getMySerialsSids()
-        var p = NSPredicate(format: "unwatched == 0 and status == 0 and sid in %@", sids)
+        let sids = self.getMySerialsSids()
+        let p = NSPredicate(format: "unwatched == 0 and status == 0 and sid in %@", sids)
         return self.getSerialsWithPredicate(p)
     }
     
     func getSerialsMyEnded() -> [SMSerial]  {
-        var sids = self.getMySerialsSids()
-        var p = NSPredicate(format: "unwatched == 0 and status != 0 and sid in %@", sids)
+        let sids = self.getMySerialsSids()
+        let p = NSPredicate(format: "unwatched == 0 and status != 0 and sid in %@", sids)
         return self.getSerialsWithPredicate(p)
     }
     
@@ -139,22 +138,22 @@ class SMCatalogManager: NSObject {
     }
     
     func getSerialWithSid(sid: Int) -> SMSerial? {
-        var p = NSPredicate(format: "sid == %d", sid)
-        var serials = self.getSerialsWithPredicate(p)
+        let p = NSPredicate(format: "sid == %d", sid)
+        let serials = self.getSerialsWithPredicate(p)
         return serials.first
     }
     
     func getIsWatchingSerialWithSid(sid: Int) -> Bool {
         let p = NSPredicate(format: "sid == %d", sid)
-        var results = SMMySerial.objectsInRealm(self.realm(), withPredicate: p)
-        var result = (results.count > 0)
+        let results = SMMySerial.objectsInRealm(self.realm(), withPredicate: p)
+        let result = (results.count > 0)
         return result
     }
     
     //MARK: -Seasons
     
     private func getSeasonsWithPredicate(predicate: NSPredicate) -> [SMSeason] {
-        var results = SMSeason.objectsInRealm(self.realm(), withPredicate: predicate)
+        let results = SMSeason.objectsInRealm(self.realm(), withPredicate: predicate)
         var objects = [SMSeason]()
         for var i: UInt = 0; i < results.count; i++ {
             let object: SMSeason = results.objectAtIndex(i) as! SMSeason
@@ -164,14 +163,14 @@ class SMCatalogManager: NSObject {
     }
     
     func getSeasonsForSid(sid: Int) -> [SMSeason] {
-        var p = NSPredicate(format: "sid == %d", sid)
+        let p = NSPredicate(format: "sid == %d", sid)
         return self.getSeasonsWithPredicate(p)
     }
     
     //MARK: -Episodes
     
     private func getEpisodesWithPredicate(predicate: NSPredicate) -> [SMEpisode] {
-        var results = SMEpisode.objectsInRealm(self.realm(), withPredicate: predicate)
+        let results = SMEpisode.objectsInRealm(self.realm(), withPredicate: predicate)
         var objects = [SMEpisode]()
         for var i: UInt = 0; i < results.count; i++ {
             let object: SMEpisode = results.objectAtIndex(i) as! SMEpisode
@@ -181,7 +180,7 @@ class SMCatalogManager: NSObject {
     }
     
     private func getMetaEpisodesWithPredicate(predicate: NSPredicate) -> [SMMetaEpisode] {
-        var results = SMMetaEpisode.objectsInRealm(self.realm(), withPredicate: predicate)
+        let results = SMMetaEpisode.objectsInRealm(self.realm(), withPredicate: predicate)
         var objects = [SMMetaEpisode]()
         for var i: UInt = 0; i < results.count; i++ {
             let object: SMMetaEpisode = results.objectAtIndex(i) as! SMMetaEpisode
@@ -191,31 +190,31 @@ class SMCatalogManager: NSObject {
     }
     
     func getEpisodesForSid(sid: Int) -> [SMEpisode] {
-        var p = NSPredicate(format: "sid == %d", sid)
+        let p = NSPredicate(format: "sid == %d", sid)
         return self.getEpisodesWithPredicate(p)
     }
     
     func getMetaEpisodesForSid(sid: Int) -> [SMMetaEpisode] {
-        var p = NSPredicate(format: "sid == %d", sid)
+        let p = NSPredicate(format: "sid == %d", sid)
         return self.getMetaEpisodesWithPredicate(p)
     }
     
     func getMetaEpisodesForSeasonId(season_id: Int) -> [SMMetaEpisode] {
-        var p = NSPredicate(format: "season_id == %d", season_id)
+        let p = NSPredicate(format: "season_id == %d", season_id)
         return self.getMetaEpisodesWithPredicate(p)
     }
     
     func getEpisodeWithEid(eid: Int) -> SMEpisode? {
-        var p = NSPredicate(format: "eid == %d", eid)
-        var results = self.getEpisodesWithPredicate(p)
+        let p = NSPredicate(format: "eid == %d", eid)
+        let results = self.getEpisodesWithPredicate(p)
         var episode: SMEpisode? = nil
         episode = results.first
         return episode
     }
     
     func getEpisodeProgress(forSeasonId season_id: Int, episodeNumber episode_number: Int) -> SMEpisodeProgress? {
-        var p = NSPredicate(format: "season_id == %d and episode_number == %d", season_id, episode_number)
-        var results = SMEpisodeProgress.objectsInRealm(self.realm(), withPredicate: p)
+        let p = NSPredicate(format: "season_id == %d and episode_number == %d", season_id, episode_number)
+        let results = SMEpisodeProgress.objectsInRealm(self.realm(), withPredicate: p)
         var episodeProgress: SMEpisodeProgress?
         if results.count > 0 {
             episodeProgress = results.firstObject() as? SMEpisodeProgress
@@ -225,8 +224,8 @@ class SMCatalogManager: NSObject {
     
     func setPlayingProgress(progress: Double, forSeasonId season_id: Int, episodeNumber episode_number: Int) {
         self.realm().beginWriteTransaction()
-        var p = NSPredicate(format: "season_id == %d and episode_number == %d", season_id, episode_number)
-        var results = SMEpisodeProgress.objectsInRealm(self.realm(), withPredicate: p)
+        let p = NSPredicate(format: "season_id == %d and episode_number == %d", season_id, episode_number)
+        let results = SMEpisodeProgress.objectsInRealm(self.realm(), withPredicate: p)
         var episodeProgress: SMEpisodeProgress
         if results.count < 1 {
             episodeProgress = SMEpisodeProgress()
@@ -240,26 +239,26 @@ class SMCatalogManager: NSObject {
         
         NSLog("%d %d %f", episodeProgress.season_id, episodeProgress.episode_number, episodeProgress.progress)
         
-        self.realm().commitWriteTransaction()
+        try! self.realm().commitWriteTransaction()
     }
     
     //MARK: -Schedule
     
     private func getMyScheduleItemsSids() -> [Int] {
-        var results = SMMyScheduleItem.allObjectsInRealm(self.realm())
+        let results = SMMyScheduleItem.allObjectsInRealm(self.realm())
         var sids = [Int]()
         for var i:UInt = 0; i < results.count; i++ {
-            var object: SMMyScheduleItem = results.objectAtIndex(i) as! SMMyScheduleItem
+            let object: SMMyScheduleItem = results.objectAtIndex(i) as! SMMyScheduleItem
             sids.append(object.sid)
         }
         return sids
     }
     
     private func getSerialScheduleItemsSids() -> [Int] {
-        var results = SMSerialScheduleItem.allObjectsInRealm(self.realm())
+        let results = SMSerialScheduleItem.allObjectsInRealm(self.realm())
         var sids = [Int]()
         for var i:UInt = 0; i < results.count; i++ {
-            var object: SMMyScheduleItem = results.objectAtIndex(i) as! SMMyScheduleItem
+            let object: SMMyScheduleItem = results.objectAtIndex(i) as! SMMyScheduleItem
             sids.append(object.sid)
         }
         return sids
@@ -281,8 +280,8 @@ class SMCatalogManager: NSObject {
     }
     
     func getScheduleItemsMy() -> [SMScheduleItem] {
-        var sids = self.getMyScheduleItemsSids()
-        var p = NSPredicate(format: "sid in %@", sids)
+        let sids = self.getMyScheduleItemsSids()
+        let p = NSPredicate(format: "sid in %@", sids)
         return self.getScheduleItemsWithPredicate(p)
     }
     
@@ -292,7 +291,7 @@ class SMCatalogManager: NSObject {
     
     func getScheduleItemsForSid(sid: Int) -> [SMSerialScheduleItem] {
         let p = NSPredicate(format: "sid = %d", sid)
-        var results = SMSerialScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
+        let results = SMSerialScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
         var objects = [SMSerialScheduleItem]()
         for var i: UInt = 0; i < results.count; i++ {
             let object: SMSerialScheduleItem = results.objectAtIndex(i) as! SMSerialScheduleItem
@@ -310,14 +309,14 @@ class SMCatalogManager: NSObject {
         let successBlock = {(responseObject: [String:AnyObject]) -> Void in
             if let objects:[AnyObject] = responseObject["objects"] as? [AnyObject] {
                 self.realm().beginWriteTransaction()
-                var results = SMMySerial.allObjectsInRealm(self.realm())
+                let results = SMMySerial.allObjectsInRealm(self.realm())
                 self.realm().deleteObjects(results)
                 
                 for object in objects {
                     if let objectDict = object as? [String: AnyObject] {
                         let sid = objectDict["sid"] as! String
                         let p = NSPredicate(format: "sid = %d", (sid as NSString).integerValue)
-                        var results = SMSerial.objectsInRealm(self.realm(), withPredicate: p)
+                        let results = SMSerial.objectsInRealm(self.realm(), withPredicate: p)
                         var serial: SMSerial
                         if results.count > 0 {
                             serial = results.firstObject() as! SMSerial
@@ -326,19 +325,19 @@ class SMCatalogManager: NSObject {
                             self.realm().addObject(serial)
                         }
                         serial.fillWithDict(objectDict)
-                        var mySerial = SMMySerial()
+                        let mySerial = SMMySerial()
                         self.realm().addObject(mySerial)
                         mySerial.sid = serial.sid
                     }
                 }
-                self.realm().commitWriteTransaction()
+                try! self.realm().commitWriteTransaction()
             }
             
-            postNotification(SMCatalogManagerNotification.ApiGetSerialsMySucceed.rawValue, nil)
+            postNotification(SMCatalogManagerNotification.ApiGetSerialsMySucceed.rawValue, object: nil)
         }
         
         let failureBlock = {(error: NSError) -> Void in
-            postNotification(SMCatalogManagerNotification.ApiGetSerialsMyFailed.rawValue, error)
+            postNotification(SMCatalogManagerNotification.ApiGetSerialsMyFailed.rawValue, object: error)
         }
         
         SMApiHelper.sharedInstance.performGetRequest(urlStr,
@@ -352,14 +351,14 @@ class SMCatalogManager: NSObject {
             if let objects:[AnyObject] = responseObject["objects"] as? [AnyObject] {
                 
                 self.realm().beginWriteTransaction()
-                var results = SMSerial.allObjectsInRealm(self.realm())
+                let results = SMSerial.allObjectsInRealm(self.realm())
                 self.realm().deleteObjects(results)
                 
                 for object in objects {
                     if let objectDict = object as? [String: AnyObject] {
                         let sid = objectDict["sid"] as! String
                         let p = NSPredicate(format: "sid = %d", (sid as NSString).integerValue)
-                        var results = SMSerial.objectsInRealm(self.realm(), withPredicate: p)
+                        let results = SMSerial.objectsInRealm(self.realm(), withPredicate: p)
                         var serial: SMSerial
                         if results.count > 0 {
                             serial = results.firstObject() as! SMSerial
@@ -370,14 +369,14 @@ class SMCatalogManager: NSObject {
                         serial.fillWithDict(objectDict)
                     }
                 }
-                self.realm().commitWriteTransaction()
+                try! self.realm().commitWriteTransaction()
             }
             
-            postNotification(SMCatalogManagerNotification.ApiGetSerialsAllSucceed.rawValue, nil)
+            postNotification(SMCatalogManagerNotification.ApiGetSerialsAllSucceed.rawValue, object: nil)
         }
         
         let failureBlock = {(error: NSError) -> Void in
-            postNotification(SMCatalogManagerNotification.ApiGetSerialsAllFailed.rawValue, error)
+            postNotification(SMCatalogManagerNotification.ApiGetSerialsAllFailed.rawValue, object: error)
         }
         
         SMApiHelper.sharedInstance.performGetRequest(urlStr,
@@ -392,26 +391,26 @@ class SMCatalogManager: NSObject {
                 let p = NSPredicate(format: "sid = %d", sid)
                 
                 self.realm().beginWriteTransaction()
-                var results = SMSerial.objectsInRealm(self.realm(), withPredicate: p)
+                let results = SMSerial.objectsInRealm(self.realm(), withPredicate: p)
                 if results.count > 0 {
                     for var i:UInt = 0; i < results.count; i++ {
-                        var serial = results.objectAtIndex(i) as! SMSerial
+                        let serial = results.objectAtIndex(i) as! SMSerial
                         serial.fillWithDict(object)
                     }
                 } else {
-                    var serial = SMSerial()
+                    let serial = SMSerial()
                     self.realm().addObject(serial)
                     serial.fillWithDict(object)
                 }
                 
-                self.realm().commitWriteTransaction()
+                try! self.realm().commitWriteTransaction()
             }
             
-            postNotification(SMCatalogManagerNotification.ApiGetSerialMetaSucceed.rawValue, nil)
+            postNotification(SMCatalogManagerNotification.ApiGetSerialMetaSucceed.rawValue, object: nil)
         }
         
         let failureBlock = {(error: NSError) -> Void in
-            postNotification(SMCatalogManagerNotification.ApiGetSerialMetaFailed.rawValue, error)
+            postNotification(SMCatalogManagerNotification.ApiGetSerialMetaFailed.rawValue, object: error)
         }
         
         SMApiHelper.sharedInstance.performGetRequest(urlStr,
@@ -449,7 +448,7 @@ class SMCatalogManager: NSObject {
                         p = NSPredicate(format: "season_id = %d", episode.season_id)
                         results = SMSeason.objectsInRealm(self.realm(), withPredicate: p)
                         if (results.count < 1) {
-                            var season = SMSeason()
+                            let season = SMSeason()
                             self.realm().addObject(season)
                             season.season_id = episode.season_id
                             season.sid = episode.sid
@@ -468,14 +467,14 @@ class SMCatalogManager: NSObject {
                         metaEpisode.appendEpisode(episode)                                                
                     }
                 }
-                self.realm().commitWriteTransaction()
+                try! self.realm().commitWriteTransaction()
             }
             
-            postNotification(SMCatalogManagerNotification.ApiGetEpisodesSucceed.rawValue, nil)
+            postNotification(SMCatalogManagerNotification.ApiGetEpisodesSucceed.rawValue, object: nil)
         }
         
         let failureBlock = {(error: NSError) -> Void in
-            postNotification(SMCatalogManagerNotification.ApiGetEpisodesFailed.rawValue, error)
+            postNotification(SMCatalogManagerNotification.ApiGetEpisodesFailed.rawValue, object: error)
         }
         
         SMApiHelper.sharedInstance.performGetRequest(urlStr,
@@ -491,21 +490,21 @@ class SMCatalogManager: NSObject {
                 if let t = SMStateManager.sharedInstance.token {
                     self.realm().beginWriteTransaction()
                     let p = NSPredicate(format: "eid = %d", eid)
-                    var results = SMEpisode.objectsInRealm(self.realm(), withPredicate: p)
+                    let results = SMEpisode.objectsInRealm(self.realm(), withPredicate: p)
                     link = SMApiHelper.makeLink(server, token: t, eid: eid, sid: sid, hash: hash)
                     for var i:UInt = 0; i < results.count; i++ {
-                        var episode:SMEpisode = results.objectAtIndex(i) as! SMEpisode
+                        let episode:SMEpisode = results.objectAtIndex(i) as! SMEpisode
                         episode.link = link!
                     }
-                    self.realm().commitWriteTransaction()
+                    try! self.realm().commitWriteTransaction()
                 }
             }
             
-            postNotification(SMCatalogManagerNotification.ApiEpisodeGetLinkInfoSucceed.rawValue, link)
+            postNotification(SMCatalogManagerNotification.ApiEpisodeGetLinkInfoSucceed.rawValue, object: link)
         }
         
         let failureBlock = {(error: NSError) -> Void in
-            postNotification(SMCatalogManagerNotification.ApiEpisodeGetLinkInfoFailed.rawValue, error)
+            postNotification(SMCatalogManagerNotification.ApiEpisodeGetLinkInfoFailed.rawValue, object: error)
         }
         
         var params = [String:NSObject]()
@@ -529,15 +528,15 @@ class SMCatalogManager: NSObject {
         
         let successBlock = {(responseObject: [String:AnyObject]) -> Void in
             self.realm().beginWriteTransaction()
-            var results = SMMyScheduleItem.allObjectsInRealm(self.realm())
+            let results = SMMyScheduleItem.allObjectsInRealm(self.realm())
             self.realm().deleteObjects(results)
             
             if let objects:[AnyObject] = responseObject["objects"] as? [AnyObject] {
                 for object in objects {
                     if let objectDict = object as? [String:AnyObject] {
-                        var sid = objectDict["sid"] as! NSString
-                        var p = NSPredicate(format: "sid = %d", sid.integerValue)
-                        var results = SMScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
+                        let sid = objectDict["sid"] as! NSString
+                        let p = NSPredicate(format: "sid = %d", sid.integerValue)
+                        let results = SMScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
                         var scheduleItem: SMScheduleItem? = results.firstObject() as? SMScheduleItem
                         
                         if scheduleItem == nil {
@@ -546,19 +545,19 @@ class SMCatalogManager: NSObject {
                         }
                         
                         scheduleItem?.fillWithDict(objectDict)
-                        var msi = SMMyScheduleItem(scheduleItem: scheduleItem!)
+                        let msi = SMMyScheduleItem(scheduleItem: scheduleItem!)
                         self.realm().addObject(msi)
                     }
                 }
             }
             
-            self.realm().commitWriteTransaction()
+            try! self.realm().commitWriteTransaction()
             
-            postNotification(SMCatalogManagerNotification.ApiGetScheduleSucceed.rawValue, nil)
+            postNotification(SMCatalogManagerNotification.ApiGetScheduleSucceed.rawValue, object: nil)
         }
         
         let failureBlock = {(error: NSError) -> Void in
-            postNotification(SMCatalogManagerNotification.ApiGetScheduleFailed.rawValue, error)
+            postNotification(SMCatalogManagerNotification.ApiGetScheduleFailed.rawValue, object: error)
         }
         
         var params = [String:NSObject]()
@@ -577,26 +576,26 @@ class SMCatalogManager: NSObject {
         
         let successBlock = {(responseObject: [String:AnyObject]) -> Void in
             self.realm().beginWriteTransaction()
-            var sids = self.getMyScheduleItemsSids()
-            var p = NSPredicate(format: "not sid in %@", sids)
-            var results = SMScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
+            let sids = self.getMyScheduleItemsSids()
+            let p = NSPredicate(format: "not sid in %@", sids)
+            let results = SMScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
             self.realm().deleteObjects(results)
             
             if let objects:[AnyObject] = responseObject["objects"] as? [AnyObject] {
                 for object in objects {
                     if let objectDict = object as? [String:AnyObject] {
-                        var sid = objectDict["sid"] as! NSString
+                        let sid = objectDict["sid"] as! NSString
                         var episode: Int = 0
                         var season: Int = 0
                         if let ps = objectDict["episode"] as? String {
-                            var ss = ps.substringFromIndex(advance(ps.startIndex, 4))
+                            var ss = ps.substringFromIndex(ps.startIndex.advancedBy(4))
                             episode = (ss as NSString).integerValue
-                            ss = ps.substringFromIndex(advance(ps.startIndex, 1))
-                            ss = ss.substringToIndex(advance(ss.startIndex, 2))
+                            ss = ps.substringFromIndex(ps.startIndex.advancedBy(1))
+                            ss = ss.substringToIndex(ss.startIndex.advancedBy(2))
                             season = (ss as NSString).integerValue
                         }
-                        var p = NSPredicate(format: "sid = %d and season_number = %d and episode_number = %d", sid.integerValue, season, episode)
-                        var results = SMScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
+                        let p = NSPredicate(format: "sid = %d and season_number = %d and episode_number = %d", sid.integerValue, season, episode)
+                        let results = SMScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
                         var scheduleItem: SMScheduleItem? = results.firstObject() as? SMScheduleItem
                         
                         if scheduleItem == nil {
@@ -609,13 +608,13 @@ class SMCatalogManager: NSObject {
                 }
             }
             
-            self.realm().commitWriteTransaction()
+            try! self.realm().commitWriteTransaction()
             
-            postNotification(SMCatalogManagerNotification.ApiGetScheduleSucceed.rawValue, nil)
+            postNotification(SMCatalogManagerNotification.ApiGetScheduleSucceed.rawValue, object: nil)
         }
         
         let failureBlock = {(error: NSError) -> Void in
-            postNotification(SMCatalogManagerNotification.ApiGetScheduleFailed.rawValue, error)
+            postNotification(SMCatalogManagerNotification.ApiGetScheduleFailed.rawValue, object: error)
         }
         
         var params = [String:NSObject]()
@@ -632,11 +631,11 @@ class SMCatalogManager: NSObject {
     func apiGetScheduleForSid(sid: Int) {
         let successBlock = {(responseObject: [String:AnyObject]) -> Void in
             self.realm().beginWriteTransaction()
-            var p = NSPredicate(format: "sid = %d", sid)
-            var results = SMSerialScheduleItem.objectsWithPredicate(p)
+            let p = NSPredicate(format: "sid = %d", sid)
+            let results = SMSerialScheduleItem.objectsWithPredicate(p)
             self.realm().deleteObjects(results)
             
-            var serial:SMSerial? = self.getSerialWithSid(sid)
+            let serial:SMSerial? = self.getSerialWithSid(sid)
             
             if let objects:[AnyObject] = responseObject["objects"] as? [AnyObject] {
                 for object in objects {
@@ -644,15 +643,15 @@ class SMCatalogManager: NSObject {
                         var episode: Int = 0
                         var season: Int = 0
                         if let ps = objectDict["episode"] as? String {
-                            var ss = ps.substringFromIndex(advance(ps.startIndex, 4))
+                            var ss = ps.substringFromIndex(ps.startIndex.advancedBy(4))
                             episode = (ss as NSString).integerValue
-                            ss = ps.substringFromIndex(advance(ps.startIndex, 1))
-                            ss = ss.substringToIndex(advance(ss.startIndex, 2))
+                            ss = ps.substringFromIndex(ps.startIndex.advancedBy(1))
+                            ss = ss.substringToIndex(ss.startIndex.advancedBy(2))
                             season = (ss as NSString).integerValue
                         }
-                        var p = NSPredicate(format: "sid = %d and season_number = %d and episode_number = %d", sid, season, episode)
+                        let p = NSPredicate(format: "sid = %d and season_number = %d and episode_number = %d", sid, season, episode)
                         
-                        var results = SMSerialScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
+                        let results = SMSerialScheduleItem.objectsInRealm(self.realm(), withPredicate: p)
                         var scheduleItem: SMSerialScheduleItem? = results.firstObject() as? SMSerialScheduleItem
                         
                         if scheduleItem == nil {
@@ -668,13 +667,13 @@ class SMCatalogManager: NSObject {
                 }
             }
             
-            self.realm().commitWriteTransaction()
+            try! self.realm().commitWriteTransaction()
             
-            postNotification(SMCatalogManagerNotification.ApiGetScheduleForSerialSucceed.rawValue, nil)
+            postNotification(SMCatalogManagerNotification.ApiGetScheduleForSerialSucceed.rawValue, object: nil)
         }
         
         let failureBlock = {(error: NSError) -> Void in
-            postNotification(SMCatalogManagerNotification.ApiGetScheduleForSerialFailed.rawValue, error)
+            postNotification(SMCatalogManagerNotification.ApiGetScheduleForSerialFailed.rawValue, object: error)
         }
         
         let urlStr = "\(SMApiHelper.API_SCHEDULE_SERIAL)/\(sid)"
@@ -696,22 +695,22 @@ class SMCatalogManager: NSObject {
         
         let successBlock = {(responseObject: [String:AnyObject]) -> Void in
             self.realm().beginWriteTransaction()
-            var p = NSPredicate(format: "sid = %d", sid)
-            var results = SMMySerial.objectsInRealm(self.realm(), withPredicate: p)
+            let p = NSPredicate(format: "sid = %d", sid)
+            let results = SMMySerial.objectsInRealm(self.realm(), withPredicate: p)
             
             if (results.count < 1) {
-                var mySerial = SMMySerial()
+                let mySerial = SMMySerial()
                 self.realm().addObject(mySerial)
                 mySerial.sid = sid
             }
                         
-            self.realm().commitWriteTransaction()
+            try! self.realm().commitWriteTransaction()
             
-            postNotification(SMCatalogManagerNotification.ApiSerialToggleWatchingSucceed.rawValue, nil)
+            postNotification(SMCatalogManagerNotification.ApiSerialToggleWatchingSucceed.rawValue, object: nil)
         }
         
         let failureBlock = {(error: NSError) -> Void in
-            postNotification(SMCatalogManagerNotification.ApiSerialToggleWatchingFailed.rawValue, error)
+            postNotification(SMCatalogManagerNotification.ApiSerialToggleWatchingFailed.rawValue, object: error)
         }
         
         var params = [String:NSObject]()
@@ -730,16 +729,16 @@ class SMCatalogManager: NSObject {
         
         let successBlock = {(responseObject: [String:AnyObject]) -> Void in
             self.realm().beginWriteTransaction()
-            var p = NSPredicate(format: "sid = %d", sid)
-            var results = SMMySerial.objectsInRealm(self.realm(), withPredicate: p)
+            let p = NSPredicate(format: "sid = %d", sid)
+            let results = SMMySerial.objectsInRealm(self.realm(), withPredicate: p)
             self.realm().deleteObjects(results)
-            self.realm().commitWriteTransaction()
+            try! self.realm().commitWriteTransaction()
             
-            postNotification(SMCatalogManagerNotification.ApiSerialToggleWatchingSucceed.rawValue, nil)
+            postNotification(SMCatalogManagerNotification.ApiSerialToggleWatchingSucceed.rawValue, object: nil)
         }
         
         let failureBlock = {(error: NSError) -> Void in
-            postNotification(SMCatalogManagerNotification.ApiSerialToggleWatchingFailed.rawValue, error)
+            postNotification(SMCatalogManagerNotification.ApiSerialToggleWatchingFailed.rawValue, object: error)
         }
         
         var params = [String:NSObject]()
@@ -767,20 +766,20 @@ class SMCatalogManager: NSObject {
                 results = SMMetaEpisode.objectsInRealm(self.realm(), withPredicate: p)
                 if let me = results.firstObject() as? SMMetaEpisode {
                     for var i: UInt = 0; i < me.episodes.count; i++ {
-                        var episode:SMEpisode = me.episodes.objectAtIndex(i) as! SMEpisode
+                        let episode:SMEpisode = me.episodes.objectAtIndex(i) as! SMEpisode
                         episode.watched = watched
                     }
                     me.watched = watched
                     metaEpisode = me
                 }
             }
-            self.realm().commitWriteTransaction()
+            try! self.realm().commitWriteTransaction()
             
-            postNotification(SMCatalogManagerNotification.ApiEpisodeToggleWatchedSucceed.rawValue, metaEpisode?.episode)
+            postNotification(SMCatalogManagerNotification.ApiEpisodeToggleWatchedSucceed.rawValue, object: metaEpisode?.episode)
         }
         
         let failureBlock = {(error: NSError) -> Void in
-            postNotification(SMCatalogManagerNotification.ApiEpisodeToggleWatchedFailed.rawValue, error)
+            postNotification(SMCatalogManagerNotification.ApiEpisodeToggleWatchedFailed.rawValue, object: error)
         }
         
         var params = [String:NSObject]()
@@ -807,22 +806,22 @@ class SMCatalogManager: NSObject {
         let successBlock = {(responseObject: [String:AnyObject]) -> Void in
             self.realm().beginWriteTransaction()
             var p = NSPredicate(format: "sid = %d and season = %d", sid, season)
-            var results = SMEpisode.objectsInRealm(self.realm(), withPredicate: p)
+            let results = SMEpisode.objectsInRealm(self.realm(), withPredicate: p)
             for var i: UInt = 0; i < results.count; i++ {
                 let episode:SMEpisode = results[i] as! SMEpisode
                 p = NSPredicate(format: "season_id = %d and episode = %d and sid = %d", episode.season_id, episode.episode, sid)
-                var r = SMMetaEpisode.objectsInRealm(self.realm(), withPredicate: p)
+                let r = SMMetaEpisode.objectsInRealm(self.realm(), withPredicate: p)
                 if let me = r.firstObject() as? SMMetaEpisode {
                     me.watched = true
                 }
             }
-            self.realm().commitWriteTransaction()
+            try! self.realm().commitWriteTransaction()
             
-            postNotification(SMCatalogManagerNotification.ApiSeasonMarkWatchedSucceed.rawValue, nil)
+            postNotification(SMCatalogManagerNotification.ApiSeasonMarkWatchedSucceed.rawValue, object: nil)
         }
         
         let failureBlock = {(error: NSError) -> Void in
-            postNotification(SMCatalogManagerNotification.ApiSeasonMarkWatchedFailed.rawValue, error)
+            postNotification(SMCatalogManagerNotification.ApiSeasonMarkWatchedFailed.rawValue, object: error)
         }
         
         var params = [String:NSObject]()

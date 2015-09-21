@@ -33,7 +33,7 @@ class SMSerialHeader: UIView {
         self.xibSetup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.xibSetup()
     }
@@ -54,7 +54,7 @@ class SMSerialHeader: UIView {
     func xibSetup() {
         self.view = self.loadViewFromNib("SMSerialHeader")
         self.view.frame = self.bounds
-        self.view.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
+        self.view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
         self.addSubview(self.view)
         
         self.watchButton.layer.cornerRadius = 5

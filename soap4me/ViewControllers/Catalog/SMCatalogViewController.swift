@@ -60,14 +60,14 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         self.searchBar.placeholder = NSLocalizedString("Поиск")
         self.searchBar.tintColor = UIColor.whiteColor()
         
-        var settingsButton = UIButton()
+        let settingsButton = UIButton()
         settingsButton.setImage(UIImage(named: "settings"), forState: UIControlState.Normal)
         settingsButton.imageEdgeInsets = UIEdgeInsets(top: 7+3, left: 0, bottom: 7+3, right: 0)
         settingsButton.frame = CGRectMake(0, 0, 24, 44)
         settingsButton.addTarget(self, action: "settingsAction", forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: settingsButton)
         
-        var playButton = UIButton()
+        let playButton = UIButton()
         playButton.setImage(UIImage(named: "play"), forState: UIControlState.Normal)
         playButton.imageEdgeInsets = UIEdgeInsets(top: 7+3, left: 6, bottom: 7+3, right: 0)
         playButton.frame = CGRectMake(0, 0, 24, 44)
@@ -75,7 +75,7 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         self.playItem = UIBarButtonItem(customView: playButton)
         self.navigationItem.rightBarButtonItem = self.playItem
         
-        var rightSpace = UIButton()
+        let rightSpace = UIButton()
         rightSpace.setImage(UIImage(named: "clear"), forState: UIControlState.Normal)
         rightSpace.frame = CGRectMake(0, 0, 24, 44)
         self.rightSpaceItem = UIBarButtonItem(customView: rightSpace)
@@ -116,7 +116,7 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         if SMStateManager.sharedInstance.lastPlayingEid != 0 {
             if let episode = SMCatalogManager.sharedInstance.getEpisodeWithEid(SMStateManager.sharedInstance.lastPlayingEid) {
                 if let progress = SMCatalogManager.sharedInstance.getEpisodeProgress(forSeasonId: episode.season_id, episodeNumber: episode.episode) {
-                    var c: SMPlayerViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PlayerVC") as! SMPlayerViewController
+                    let c: SMPlayerViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PlayerVC") as! SMPlayerViewController
                     c.eid = episode.eid
                     c.hsh = episode.hsh
                     c.sid = episode.sid
@@ -152,7 +152,7 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     private func filerData(string: String) {
         searchResults.removeAll(keepCapacity: false)
         for var i = 0; i < self.allSerials.count; i++ {
-            var serial = self.allSerials[i]
+            let serial = self.allSerials[i]
             var shouldAdd: Bool = ((serial.title_ru.lowercaseString as NSString).rangeOfString(string.lowercaseString).location != NSNotFound)
             shouldAdd = shouldAdd || ((serial.title.lowercaseString as NSString).rangeOfString(string.lowercaseString).location != NSNotFound)
             shouldAdd = shouldAdd || string.length() == 0
@@ -166,22 +166,25 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     private func reloadData() {
         if (self.mode == .My) {
             self.serialsMask = 0
-            self.mySerials[SerialCategory.Unwatched.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyUnwatched().sorted(SMSerial.isOrderedBefore)
+            self.mySerials[SerialCategory.Unwatched.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyUnwatched().sort(SMSerial.isOrderedBefore)
             if (self.hasMySerialsForCategory(.Unwatched)) {
                 self.serialsMask |= 0b100
             }
-            self.mySerials[SerialCategory.Watched.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyWatched().sorted(SMSerial.isOrderedBefore)
+            self.mySerials[SerialCategory.Watched.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyWatched().sort(SMSerial.isOrderedBefore)
             if (self.hasMySerialsForCategory(.Watched)) {
                 self.serialsMask |= 0b010
             }
-            self.mySerials[SerialCategory.Ended.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyEnded().sorted(SMSerial.isOrderedBefore)
+            self.mySerials[SerialCategory.Ended.rawValue] = SMCatalogManager.sharedInstance.getSerialsMyEnded().sort(SMSerial.isOrderedBefore)
             if (self.hasMySerialsForCategory(.Ended)) {
                 self.serialsMask |= 0b001
             }
         } else if (self.mode == .All) {
-            self.allSerials = SMCatalogManager.sharedInstance.getSerialsAll().sorted(SMSerial.isOrderedBefore)
+            self.allSerials = SMCatalogManager.sharedInstance.getSerialsAll().sort(SMSerial.isOrderedBefore)
             if self.searchActive {
-                self.filerData(self.searchBar.text)
+                if let _ = self.searchBar.text
+                {
+                    self.filerData(self.searchBar.text!)
+                }
             }
         }
     }
@@ -228,22 +231,22 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     
     func changeMode(mode: SMCatalogViewControllerMode) {
         if (self.mode != mode) {
-            if let pCtl = self.serialsMyCtl?.parentViewController {
+            if let _ = self.serialsMyCtl?.parentViewController {
                 self.serialsMyCtl.view.removeFromSuperview()
                 self.serialsMyCtl.removeFromParentViewController()
             }
-            if let pCtl = self.serialsAllCtl?.parentViewController {
+            if let _ = self.serialsAllCtl?.parentViewController {
                 self.serialsAllCtl.view.removeFromSuperview()
                 self.serialsAllCtl.removeFromParentViewController()
             }
-            if let pCtl = self.scheduleCtl?.parentViewController {
+            if let _ = self.scheduleCtl?.parentViewController {
                 self.scheduleCtl.view.removeFromSuperview()
                 self.scheduleCtl.removeFromParentViewController()
             }
-            if let pV = self.segmentedControl.superview {
+            if let _ = self.segmentedControl.superview {
                 self.navigationItem.titleView = nil
             }
-            if let pV = self.searchBar.superview {
+            if let _ = self.searchBar.superview {
                 self.navigationItem.titleView = nil
             }
             if self.navigationItem.rightBarButtonItem != nil {
@@ -357,8 +360,6 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     func serialsCtl(ctl: SMSerialsViewController, numberOfObjectsInSection section: Int) -> Int {
         var result = 0
         if self.mode == .My {
-            var category: SerialCategory?
-            
             if let category = self.categoryForSection(section) {
                 result = self.mySerials[category.rawValue]!.count
             }
@@ -377,8 +378,6 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
         var object = SMSerial()
         
         if self.mode == .My {
-            var category: SerialCategory?
-            
             if let category = self.categoryForSection(indexPath.section) {
                 object = self.mySerials[category.rawValue]![indexPath.row]
             }
@@ -404,8 +403,6 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
                     title = NSLocalizedString("Просмотренные")
                 case .Ended:
                     title = NSLocalizedString("Сериал закончен")
-                default:
-                    break
                 }
             }
         } else if (self.mode == .All) {
@@ -417,12 +414,10 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     //MARK: SMSerialsViewControllerDelegate
     
     func serialsCtl(ctl: SMSerialsViewController, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        var c: SMSerialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SerialVC") as! SMSerialViewController
+        let c: SMSerialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SerialVC") as! SMSerialViewController
         var object = SMSerial()
         
         if self.mode == .My {
-            var category: SerialCategory?
-            
             if let category = self.categoryForSection(indexPath.section) {
                 object = self.mySerials[category.rawValue]![indexPath.row]
             }
@@ -464,10 +459,13 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     }
     
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        self.filerData(searchBar.text)
-        self.searchActive = true
-        searchBar.showsCancelButton = true
-        self.navigationItem.rightBarButtonItem = nil
+        if let _ = searchBar.text
+        {
+            self.filerData(searchBar.text!)
+            self.searchActive = true
+            searchBar.showsCancelButton = true
+            self.navigationItem.rightBarButtonItem = nil
+        }
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {

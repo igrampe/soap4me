@@ -87,12 +87,12 @@ class SMMetaEpisode: RLMObject {
     }
     
     static func isOrderedBeforeAsc(obj1: SMMetaEpisode, obj2: SMMetaEpisode) -> Bool {
-        var result = obj1.episode < obj2.episode
+        let result = obj1.episode < obj2.episode
         return result
     }
     
     static func isOrderedBeforeDesc(obj1: SMMetaEpisode, obj2: SMMetaEpisode) -> Bool {
-        var result = obj1.episode > obj2.episode
+        let result = obj1.episode > obj2.episode
         return result
     }
 }

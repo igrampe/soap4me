@@ -21,7 +21,7 @@ protocol SMSerialsViewControllerDelegate: NSObjectProtocol {
     func serialsCtlNeedObtainData(ctl: SMSerialsViewController)
 }
 
-class SMSerialsViewController: SMCollectionViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class SMSerialsViewController: SMCollectionViewController {
     
     weak var dataSource: SMSerialsViewControllerDataSource?
     weak var delegate: SMSerialsViewControllerDelegate?
@@ -87,7 +87,7 @@ class SMSerialsViewController: SMCollectionViewController, UICollectionViewDataS
         let cell: SMCatalogCollectionCell  = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellIdentifier, forIndexPath: indexPath) as! SMCatalogCollectionCell
         cell.titleLabel.text = "Title \(indexPath.row)"
         
-        var object = self.dataSource?.serialsCtl(self, objectAtIndexPath: indexPath)
+        let object = self.dataSource?.serialsCtl(self, objectAtIndexPath: indexPath)
         
         if let serial = object as? SMSerial {
             cell.titleLabel.text = serial.title

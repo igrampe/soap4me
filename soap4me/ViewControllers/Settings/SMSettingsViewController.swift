@@ -19,7 +19,7 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
         super.viewDidLoad()
         self.title = NSLocalizedString("Настройки")
         
-        var v = UIView()
+        let v = UIView()
         v.backgroundColor = UIColor.blackColor()
         self.tableView.backgroundView = v
         
@@ -27,7 +27,7 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
         self.tableView.registerClass(SMSettingsCellAction.self, forCellReuseIdentifier: SettingCellIdentifierAction)
         self.tableView.registerClass(SMSettingsCellBool.self, forCellReuseIdentifier: SettingCellIdentifierBool)
         
-        var doneButton = UIButton()
+        let doneButton = UIButton()
         doneButton.setTitle(NSLocalizedString("Готово"), forState: UIControlState.Normal)
         let size = doneButton.sizeThatFits(CGSizeMake(self.view.bounds.size.width, 44))
         doneButton.frame = CGRectMake(0, 0, size.width, 44)
@@ -50,9 +50,9 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
     func showFeedback() {
         YMMYandexMetrica.reportEvent("APP.ACTION.FEEDBACK", onFailure: nil)
         let toRecipents = ["soap4me@app-plus.com"]
-        var ctl = MFMailComposeViewController()
+        let ctl = MFMailComposeViewController()
         ctl.mailComposeDelegate = self
-        var s = String(format: "[soap4me][%@][ios][%@]", SMStateManager.sharedInstance.currentVersion, UIDevice.currentDevice().systemVersion)
+        let s = String(format: "[soap4me][%@][ios][%@]", SMStateManager.sharedInstance.currentVersion, UIDevice.currentDevice().systemVersion)
         ctl.setSubject(s)
         ctl.setToRecipients(toRecipents)
         self.navigationController?.presentViewController(ctl, animated: true, completion: nil)
@@ -61,7 +61,7 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
     func showRate() {
         YMMYandexMetrica.reportEvent("APP.ACTION.RATE.SETTINGS", onFailure: nil)
         let str = String(format: "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%d", APP_ID)
-        var url = NSURL(string: str)!
+        let url = NSURL(string: str)!
         if UIApplication.sharedApplication().canOpenURL(url) {
             UIApplication.sharedApplication().openURL(url)
         }
@@ -76,7 +76,7 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        var result = 3
+        let result = 3
         return result
     }
 
@@ -104,7 +104,7 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
                     cell.detailTextLabel?.text = SMStateManager.sharedInstance.userLogin
                 } else if indexPath.row == 1 {
                     cell.textLabel?.text = NSLocalizedString("Подписка до")
-                    var f = NSDateFormatter()
+                    let f = NSDateFormatter()
                     f.dateStyle = NSDateFormatterStyle.ShortStyle
                     if let tt = SMStateManager.sharedInstance.tokenTill {
                         cell.detailTextLabel?.text = f.stringFromDate(tt)
@@ -117,7 +117,7 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
                 tableViewCell = cell
             }
         } else if indexPath.section == 1 {
-            if contains([0, 1, 2], indexPath.row) {
+            if [0, 1, 2].contains(indexPath.row) {
                 let cell = tableView.dequeueReusableCellWithIdentifier(SettingCellIdentifierCommon, forIndexPath: indexPath) as! SMSettingsCellCommon
                 var title = ""
                 var value = ""
@@ -185,7 +185,7 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
                 self.logoutAction()
             }
         } else if indexPath.section == 1 && indexPath.row != 3 {
-            var actionSheet = UIActionSheet()
+            let actionSheet = UIActionSheet()
             actionSheet.delegate = self
             actionSheet.tag = indexPath.row
             var title = ""
@@ -257,14 +257,14 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
     
     //MARK: MFMailComposeViewControllerDelegate
     
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         var str = ""
         
-        switch result.value {
-            case MFMailComposeResultCancelled.value: str = "CANCELLED"
-            case MFMailComposeResultSaved.value: str = "SAVED"
-            case MFMailComposeResultSent.value: str = "SENT"
-            case MFMailComposeResultFailed.value: str = "FAILED"
+        switch result.rawValue {
+            case MFMailComposeResultCancelled.rawValue: str = "CANCELLED"
+            case MFMailComposeResultSaved.rawValue: str = "SAVED"
+            case MFMailComposeResultSent.rawValue: str = "SENT"
+            case MFMailComposeResultFailed.rawValue: str = "FAILED"
             default: break
         }
         

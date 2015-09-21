@@ -25,7 +25,7 @@ class SMSettingsCellAction: UITableViewCell {
         self.textLabel?.textColor = UIColor(hex: "33bbff")
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }

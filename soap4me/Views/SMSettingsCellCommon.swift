@@ -27,7 +27,7 @@ class SMSettingsCellCommon: UITableViewCell {
         self.detailTextLabel?.textColor = UIColor.whiteColor()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }

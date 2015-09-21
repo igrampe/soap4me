@@ -16,12 +16,12 @@ class SMSeason: RLMObject {
     dynamic var unwatched: Int = 0
     
     static func isOrderedBeforeAsc(obj1: SMSeason, obj2: SMSeason) -> Bool {
-        var result = obj1.season_number < obj2.season_number
+        let result = obj1.season_number < obj2.season_number
         return result
     }
     
     static func isOrderedBeforeDesc(obj1: SMSeason, obj2: SMSeason) -> Bool {
-        var result = obj1.season_number > obj2.season_number
+        let result = obj1.season_number > obj2.season_number
         return result
     }
 }

@@ -34,14 +34,14 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var backButton = UIButton()
+        let backButton = UIButton()
         backButton.setImage(UIImage(named: "back"), forState: UIControlState.Normal)
         backButton.imageEdgeInsets = UIEdgeInsets(top: 11, left: 0, bottom: 12, right: 31.5)
         backButton.frame = CGRectMake(0, 0, 44, 44)
         backButton.addTarget(self, action: "goBack", forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         
-        var markButton = UIButton()
+        let markButton = UIButton()
         markButton.setImage(UIImage(named: "mark_all"), forState: UIControlState.Normal)
         markButton.imageEdgeInsets = UIEdgeInsets(top: 11, left: 25, bottom: 12, right: 0)
         markButton.frame = CGRectMake(0, 0, 44, 44)
@@ -62,7 +62,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         if SMStateManager.sharedInstance.catalogSorting == SMSorting.Descending {
             sortFunc = SMMetaEpisode.isOrderedBeforeDesc
         }
-        self.metaEpisodes = SMCatalogManager.sharedInstance.getMetaEpisodesForSeasonId(self.season_id).sorted(sortFunc)
+        self.metaEpisodes = SMCatalogManager.sharedInstance.getMetaEpisodesForSeasonId(self.season_id).sort(sortFunc)
     }
     
     func reloadUI() {
@@ -75,21 +75,21 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func markAction() {
-        var alertView = UIAlertView(title: NSLocalizedString("Внимание!"), message: NSLocalizedString("Отметить сезон как просмотренный?"), delegate: self, cancelButtonTitle: NSLocalizedString("Нет"), otherButtonTitles:NSLocalizedString("Да"))
+        let alertView = UIAlertView(title: NSLocalizedString("Внимание!"), message: NSLocalizedString("Отметить сезон как просмотренный?"), delegate: self, cancelButtonTitle: NSLocalizedString("Нет"), otherButtonTitles:NSLocalizedString("Да"))
         alertView.tag = 2
         alertView.show()
     }
     
     func showPlayer() {
         if let se = self.selectedEpisode {
-            var c: SMPlayerViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PlayerVC") as! SMPlayerViewController
+            let c: SMPlayerViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PlayerVC") as! SMPlayerViewController
             c.eid = se.eid
             c.hsh = se.hsh
             c.sid = se.sid
             c.episode = se.episode_number
             c.season_id = se.season_id
             c.startPosition = se.progress
-            c.delegate = self
+            c.vcdelegate = self
             self.navigationController?.presentViewController(c, animated: true, completion: nil)
         }
     }
@@ -105,7 +105,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell: SMEpisodeCell = tableView.dequeueReusableCellWithIdentifier(self.cellIdentifier) as! SMEpisodeCell
+        let cell: SMEpisodeCell = tableView.dequeueReusableCellWithIdentifier(self.cellIdentifier) as! SMEpisodeCell
         
         let metaEpisode = self.metaEpisodes[indexPath.row]
         
@@ -116,7 +116,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         cell.delegate = self
         cell.indexPath = indexPath
         
-        if let ttwe = self.tryToWatchEpisodes[metaEpisode.episode] {
+        if let _ = self.tryToWatchEpisodes[metaEpisode.episode] {
             cell.activityIndicator.startAnimating()
             cell.watchButton.hidden = true
         } else {
@@ -159,7 +159,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.selectedEpisode = SelectedEpisode(eid: episode.eid, hsh: episode.hsh, sid: episode.sid, episode_number: episode.episode, season_id: episode.season_id, progress: progress)
                 
                 if shouldAscContinue {
-                    var alertView = UIAlertView()
+                    let alertView = UIAlertView()
                     alertView.delegate = self
                     alertView.title = NSLocalizedString("Продолжить воспроизведение?")
                     alertView.addButtonWithTitle(NSLocalizedString("Нет"))
@@ -177,7 +177,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
     //MARK: SMEpisodeCellDelegate
     
     func episodeCellWatchAction(cell: SMEpisodeCell) {
-        var metaEpisode = self.metaEpisodes[cell.indexPath.row]
+        let metaEpisode = self.metaEpisodes[cell.indexPath.row]
         if let episode = metaEpisode.episodes.firstObject() as? SMEpisode {
             self.tryToWatchEpisodes[metaEpisode.episode] = true
             SMCatalogManager.sharedInstance.apiMarkEpisodeWatched(episode.eid, watched: !metaEpisode.watched)
@@ -235,7 +235,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
         SMCatalogManager.sharedInstance.apiMarkEpisodeWatched(ctl.eid, watched: true)
         var index: Int = -1
         for var i = 0; i < self.metaEpisodes.count; i++ {
-            var metaEpisode: SMMetaEpisode = self.metaEpisodes[i]
+            let metaEpisode: SMMetaEpisode = self.metaEpisodes[i]
             if metaEpisode.season_id == ctl.season_id && metaEpisode.episode == ctl.episode {
                 index = i
             }
@@ -249,7 +249,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
     func getNextEpisodeForPlayer(ctl: SMPlayerViewController) {
         var index: Int = -1
         for var i = 0; i < self.metaEpisodes.count; i++ {
-            var metaEpisode: SMMetaEpisode = self.metaEpisodes[i]
+            let metaEpisode: SMMetaEpisode = self.metaEpisodes[i]
             if metaEpisode.season_id == ctl.season_id && metaEpisode.episode == ctl.episode {
                 index = i
             }
@@ -261,7 +261,7 @@ class SMSeasonViewController: UIViewController, UITableViewDataSource, UITableVi
                 index--
             }
             if index < self.metaEpisodes.count && index >= 0 {
-                var metaEpisode: SMMetaEpisode = self.metaEpisodes[index]
+                let metaEpisode: SMMetaEpisode = self.metaEpisodes[index]
                 if let episode = metaEpisode.episodeWithQuality(SMStateManager.sharedInstance.preferedQuality,
                     translationType: SMStateManager.sharedInstance.preferedTranslation) {
                     ctl.eid = episode.eid

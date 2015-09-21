@@ -14,29 +14,43 @@ typealias APLApiFailureBlock = (NSError) -> Void
 
 
 class APLApiHelper: NSObject {
-    
+    var sharedHeaders = [String: String]()
     var networkActivityIndicatorCount = 0
     
     func pRequest(method: Alamofire.Method,
         urlStr: String,
         parameters: [String:AnyObject]?,
         success: APLApiSuccessBlock?,
-        failure: APLApiFailureBlock?) {            
+        failure: APLApiFailureBlock?)
+    {
         self.networkActivityIndicatorRetain()
-        Alamofire.request(method, urlStr, parameters: parameters, encoding: .URL)
-            .responseJSON { (_, _, JSON, error) in
+        Alamofire.Manager.sharedInstance.request(method, urlStr,
+            parameters: parameters, 
+            encoding: .URL,
+            headers: self.sharedHeaders)
+            .responseJSON { (request, response, result) in
                 self.networkActivityIndicatorRelease()
-                if let err = error {
-                    if let fb = failure {
-                        fb(err)
-                    }
-                } else {
-                    if let sb = success {
-                        if let responseObject: AnyObject = JSON {
+                if (result.isSuccess)
+                {
+                    if let sb = success
+                    {
+                        if let responseObject: AnyObject = result.value
+                        {
                             sb(responseObject)
-                        } else {
+                        } else
+                        {
                             let responseObject = [String: AnyObject]()
                             sb(responseObject)
+                        }
+                    }
+                } else
+                {
+                    print(result.error)
+                    if let err: NSError = result.error as? NSError
+                    {
+                        if let fb = failure
+                        {
+                            fb(err)
                         }
                     }
                 }

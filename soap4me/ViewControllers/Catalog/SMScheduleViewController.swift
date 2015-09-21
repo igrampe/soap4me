@@ -84,7 +84,7 @@ class SMScheduleViewController: UIViewController {
         }
         
         var offset: CGFloat = 0
-        if let navCtl = self.navigationController {
+        if let _ = self.navigationController {
             offset = 0//44+20
         }
         
@@ -124,16 +124,16 @@ class SMScheduleViewController: UIViewController {
         }
         
         for it in itms {
-            var tms = self.dayTmsForTms(it.date)
-            var arr = self.scheduleItems[tms]
+            let tms = self.dayTmsForTms(it.date)
+            let arr = self.scheduleItems[tms]
             if arr == nil {
                 self.scheduleItems[tms] = [SMScheduleItem]()
             }
             self.scheduleItems[tms]?.append(it)
         }
         
-        self.scheduleKeys.extend(scheduleItems.keys.array)
-        self.scheduleKeys.sort { (obj1: Int, obj2: Int) -> Bool in
+        self.scheduleKeys.appendContentsOf(Array(scheduleItems.keys))
+        self.scheduleKeys.sortInPlace { (obj1: Int, obj2: Int) -> Bool in
             return obj1 < obj2
         }
     }
@@ -165,9 +165,9 @@ class SMScheduleViewController: UIViewController {
         
         
         if let items = self.scheduleItems[self.scheduleKeys[indexPath.section]] {
-            var item: SMScheduleItem = items[indexPath.row]
-            var str = String(format: "%@. %@ %d, %@ %d.\n%@", item.serial_name, NSLocalizedString("Сезон"), item.season_number, NSLocalizedString("cерия"), item.episode_number, item.title)
-            var aStr = NSMutableAttributedString(string: str)
+            let item: SMScheduleItem = items[indexPath.row]
+            let str = String(format: "%@. %@ %d, %@ %d.\n%@", item.serial_name, NSLocalizedString("Сезон"), item.season_number, NSLocalizedString("cерия"), item.episode_number, item.title)
+            let aStr = NSMutableAttributedString(string: str)
             var range = NSMakeRange(0, str.length())
             aStr.addAttribute(NSForegroundColorAttributeName, value: UIColor.whiteColor(), range: range)
             aStr.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(15), range: range)
@@ -181,7 +181,7 @@ class SMScheduleViewController: UIViewController {
     }
 
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(HeaderIdentifier) as? SMScheduleHeader
+        let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(HeaderIdentifier) as? SMScheduleHeader
         
         header?.titleLabel.text = self.titleForTms(self.scheduleKeys[section])
         
@@ -195,8 +195,8 @@ class SMScheduleViewController: UIViewController {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
         if let items = self.scheduleItems[self.scheduleKeys[indexPath.section]] {
-            var item: SMScheduleItem = items[indexPath.row]
-            var c: SMSerialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SerialVC") as! SMSerialViewController
+            let item: SMScheduleItem = items[indexPath.row]
+            let c: SMSerialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SerialVC") as! SMSerialViewController
             
             c.sid = item.sid
             self.navigationController?.pushViewController(c, animated: true)
@@ -217,11 +217,10 @@ class SMScheduleViewController: UIViewController {
     //MARK: Helpers
     
     func titleForTms(tms: Int) -> String {
-        let nowDate = NSDate()
         let iDate = NSDate(timeIntervalSince1970: Double(tms))
         var title = ""
         
-        var f = NSDateFormatter()
+        let f = NSDateFormatter()
         f.dateFormat = "dd.MM.yyyy"
         title = f.stringFromDate(NSDate(timeIntervalSince1970: Double(tms)))
         
@@ -237,17 +236,16 @@ class SMScheduleViewController: UIViewController {
     }
     
     func dayTmsForTms(tms: Double) -> Int {
-        var result: Int = 0
         var date = NSDate(timeIntervalSince1970: tms)
-        var comps:NSDateComponents = NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitYear|NSCalendarUnit.CalendarUnitMonth|NSCalendarUnit.CalendarUnitDay, fromDate: date)
+        let comps:NSDateComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day], fromDate: date)
         date = NSCalendar.currentCalendar().dateFromComponents(comps)!
         return Int(date.timeIntervalSince1970)
     }
     
     func daysBetweenDate(startDate: NSDate, endDate: NSDate) -> Int {
         let cal = NSCalendar.currentCalendar()
-        let unit:NSCalendarUnit = .CalendarUnitDay
-        let components = cal.components(unit, fromDate: startDate, toDate: endDate, options: nil)
+        let unit:NSCalendarUnit = .Day
+        let components = cal.components(unit, fromDate: startDate, toDate: endDate, options: [])
         return components.day
     }
 }

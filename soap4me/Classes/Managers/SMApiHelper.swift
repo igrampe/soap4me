@@ -18,21 +18,23 @@ let HOST_URL: String = "https://\(HOST)"
 let API_URL: String = "\(HOST_URL)/api"
 
 class SMApiHelper: APLApiHelper {
-    static let sharedInstance = SMApiHelper()
+    static let sharedInstance = SMApiHelper()    
     
     override init() {
         super.init()
         
         self.setHTTPHeader("xbmc for soap", forKey: "User-Agent")
+        self.setHTTPHeader("application/x-www-form-urlencoded", forKey: "Content-Type")
     }
     
-    func setHTTPHeader(header: AnyObject, forKey key: NSObject) {
+    func setHTTPHeader(header: String, forKey key: String) {
         var headers = [NSObject: AnyObject]()
         if (Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders != nil) {
             headers = Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders!
         }
         headers[key] = header
         Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = headers
+        self.sharedHeaders[key] = header
     }
     
     func setToken(token: String) {
@@ -102,7 +104,7 @@ class SMApiHelper: APLApiHelper {
             if let o = responseDict["ok"] as? Bool {
                 ok = o
             } else {
-                var dict = responseDict
+                let dict = responseDict
                 responseDict.removeAll(keepCapacity: false)
                 ok = true
                 responseDict["ok"] = ok
@@ -126,7 +128,7 @@ class SMApiHelper: APLApiHelper {
                 } else {
                     userInfo = ["NSLocalizedDescription":NSLocalizedString("Неизвестная ошибка")]
                 }
-                let error = NSError(domain: APP_DOMAIN, code: 1, userInfo: userInfo)
+                let error = NSError(domain: APP_DOMAIN, code: code, userInfo: userInfo)
                 if let fb = failure {
                     fb(error)
                 }
@@ -137,7 +139,7 @@ class SMApiHelper: APLApiHelper {
     
     func buildFailureBlock(failure: SMApiFailureBlock?) -> APLApiFailureBlock {
         let fb: APLApiFailureBlock = {(error: NSError) -> Void in
-            var exception = NSException(name: "API", reason: error.description, userInfo: error.userInfo)
+            let exception = NSException(name: "API", reason: error.description, userInfo: error.userInfo)
             YMMYandexMetrica.reportError("API.ERROR", exception: exception, onFailure: nil)
             if error.code == 1 {
                 SMStateManager.sharedInstance.clearState()
@@ -150,13 +152,13 @@ class SMApiHelper: APLApiHelper {
     }
     
     static func makeHash(token: String, eid: Int, hash: String, sid: Int) -> String {
-        var h = "\(token)\(eid)\(sid)\(hash)".md5()
+        let h = "\(token)\(eid)\(sid)\(hash)".md5()
         return h
     }
     
     static func makeLink(server: String, token: String, eid: Int, sid: Int, hash: String) -> String {
         let h = self.makeHash(token, eid: eid, hash: hash, sid: sid)
-        var link = String(format: "https://%@.%@/%@/%d/%@", server, HOST, token, eid, h)
+        let link = String(format: "https://%@.%@/%@/%d/%@", server, HOST, token, eid, h)
         return link
     }
 }
