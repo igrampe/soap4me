@@ -38,6 +38,9 @@
 		534366841B59835900C2C203 /* SMRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534366821B59835900C2C203 /* SMRootViewController.swift */; };
 		534366891B59851F00C2C203 /* SMSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534366881B59851F00C2C203 /* SMSignInViewController.swift */; };
 		534C47FF1B6D408C00751CD9 /* SMSettingsCellBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534C47FE1B6D408C00751CD9 /* SMSettingsCellBool.swift */; };
+		5370FB271BAFD8D50021AF6A /* APLPluralize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5370FB261BAFD8D50021AF6A /* APLPluralize.swift */; settings = {ASSET_TAGS = (); }; };
+		5370FB291BAFE3380021AF6A /* SMCatalogNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5370FB281BAFE3380021AF6A /* SMCatalogNavigationController.swift */; settings = {ASSET_TAGS = (); }; };
+		5370FB2B1BAFE9CF0021AF6A /* SMIndexedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5370FB2A1BAFE9CF0021AF6A /* SMIndexedObject.swift */; settings = {ASSET_TAGS = (); }; };
 		537A49141B59B2BE00F81129 /* SMSignInTextFiled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49131B59B2BE00F81129 /* SMSignInTextFiled.swift */; };
 		537A49181B59BAFF00F81129 /* UIColor+APL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49171B59BAFF00F81129 /* UIColor+APL.swift */; };
 		537A491A1B59CACB00F81129 /* APLApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49191B59CACB00F81129 /* APLApiHelper.swift */; };
@@ -102,6 +105,9 @@
 		535015E21B66E52F00C97934 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		535015E41B66E54C00C97934 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		535015E61B66E5D900C97934 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		5370FB261BAFD8D50021AF6A /* APLPluralize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APLPluralize.swift; sourceTree = "<group>"; };
+		5370FB281BAFE3380021AF6A /* SMCatalogNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMCatalogNavigationController.swift; sourceTree = "<group>"; };
+		5370FB2A1BAFE9CF0021AF6A /* SMIndexedObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMIndexedObject.swift; sourceTree = "<group>"; };
 		537A49131B59B2BE00F81129 /* SMSignInTextFiled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSignInTextFiled.swift; sourceTree = "<group>"; };
 		537A49171B59BAFF00F81129 /* UIColor+APL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+APL.swift"; sourceTree = "<group>"; };
 		537A49191B59CACB00F81129 /* APLApiHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APLApiHelper.swift; sourceTree = "<group>"; };
@@ -235,6 +241,7 @@
 				53E5E8981B66084F00EC7A38 /* SMScheduleItem.swift */,
 				53D40A7C1B66A7B500A66EF2 /* SMMyScheduleItem.swift */,
 				532E71BB1B69451200AA68FE /* SMSerialScheduleItem.swift */,
+				5370FB2A1BAFE9CF0021AF6A /* SMIndexedObject.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -286,6 +293,7 @@
 				531D9C6D1B5C420800014FFB /* SMSerialViewController.swift */,
 				5329B63F1B6078DF00678A50 /* SMSeasonViewController.swift */,
 				5325ADFA1B66406400DE175C /* SMScheduleViewController.swift */,
+				5370FB281BAFE3380021AF6A /* SMCatalogNavigationController.swift */,
 			);
 			path = Catalog;
 			sourceTree = "<group>";
@@ -323,6 +331,7 @@
 				537A49251B59F19D00F81129 /* NSObject+APL.swift */,
 				537A49271B5AD90900F81129 /* String+APL.swift */,
 				532845121B5B0C5000FADC03 /* NSNotification+APL.swift */,
+				5370FB261BAFD8D50021AF6A /* APLPluralize.swift */,
 			);
 			path = APL;
 			sourceTree = "<group>";
@@ -516,6 +525,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5325ADFB1B66406400DE175C /* SMScheduleViewController.swift in Sources */,
+				5370FB291BAFE3380021AF6A /* SMCatalogNavigationController.swift in Sources */,
+				5370FB271BAFD8D50021AF6A /* APLPluralize.swift in Sources */,
 				53E5E8971B64D1DF00EC7A38 /* SMSettingsCellAction.swift in Sources */,
 				534C47FF1B6D408C00751CD9 /* SMSettingsCellBool.swift in Sources */,
 				53E5E8991B66084F00EC7A38 /* SMScheduleItem.swift in Sources */,
@@ -549,6 +560,7 @@
 				537A49141B59B2BE00F81129 /* SMSignInTextFiled.swift in Sources */,
 				537A49201B59D84C00F81129 /* SMApiHelper.swift in Sources */,
 				533FC5C61B6020A2006061C8 /* SMMetaEpisode.swift in Sources */,
+				5370FB2B1BAFE9CF0021AF6A /* SMIndexedObject.swift in Sources */,
 				537A49181B59BAFF00F81129 /* UIColor+APL.swift in Sources */,
 				537A49281B5AD90900F81129 /* String+APL.swift in Sources */,
 				5325ADF81B663AD000DE175C /* SMScheduleItemCell.swift in Sources */,

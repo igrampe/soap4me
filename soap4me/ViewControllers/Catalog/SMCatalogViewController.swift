@@ -414,7 +414,7 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
     //MARK: SMSerialsViewControllerDelegate
     
     func serialsCtl(ctl: SMSerialsViewController, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let c: SMSerialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SerialVC") as! SMSerialViewController
+        
         var object = SMSerial()
         
         if self.mode == .My {
@@ -429,7 +429,13 @@ class SMCatalogViewController: UIViewController, SMSerialsViewControllerDataSour
                 object = self.allSerials[indexPath.row]
             }
         }
-        c.sid = object.sid
+        self.showSerialVCWithSid(object.sid)
+    }
+    
+    func showSerialVCWithSid(sid: Int)
+    {
+        let c: SMSerialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SerialVC") as! SMSerialViewController
+        c.sid = sid
         self.navigationController?.pushViewController(c, animated: true)
     }
     

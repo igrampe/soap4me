@@ -10,13 +10,15 @@ import UIKit
 import Fabric
 import Crashlytics
 import Appirater
+import CoreSpotlight
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
+    {
         Fabric.with([Crashlytics()])
         YMMYandexMetrica.activateWithApiKey("0411d79d-5525-40ba-967e-569ee7afed03")
         
@@ -51,6 +53,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         let exception = NSException(name: "PUSH", reason: error.description, userInfo: error.userInfo)
         YMMYandexMetrica.reportError("PUSH.ERROR", exception: exception, onFailure: nil)
+    }
+    
+    func application(_: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: [AnyObject]? -> Void) -> Bool
+    {
+        if #available(iOS 9.0, *)
+        {
+            if userActivity.activityType == CSSearchableItemActionType
+            {
+                if let uniqueIdentifier = userActivity.userInfo? [CSSearchableItemActivityIdentifier] as? String
+                {
+                    if let sid = Int(uniqueIdentifier)
+                    {
+                        if let rootVC = self.window?.rootViewController as? SMRootViewController
+                        {
+                            rootVC.showSerialWithSid(sid)
+                        }
+                    }
+                }
+            }
+        }
+        return true
     }
 
     func applicationWillResignActive(application: UIApplication) {

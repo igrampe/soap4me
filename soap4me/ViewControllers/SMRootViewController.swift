@@ -15,7 +15,7 @@ public enum SMRootViewControllerNotification: String {
 
 class SMRootViewController: UIViewController, SignInViewControllerProtocol {
     var signInVC: SMSignInViewController?
-    var catalogNC: UINavigationController?
+    var catalogNC: SMCatalogNavigationController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,9 +60,18 @@ class SMRootViewController: UIViewController, SignInViewControllerProtocol {
     
     func showCatalogCtl() {
         if self.catalogNC == nil {
-            self.catalogNC = self.storyboard?.instantiateViewControllerWithIdentifier("CatalogNC") as? UINavigationController
+            self.catalogNC = self.storyboard?.instantiateViewControllerWithIdentifier("CatalogNC") as? SMCatalogNavigationController
         }
         self.showCtl(self.catalogNC!)
+    }
+    
+    func showSerialWithSid(sid: Int)
+    {
+        if self.catalogNC?.parentViewController == nil
+        {
+            self.showCatalogCtl()
+        }
+        self.catalogNC?.showSerialVCWithSid(sid)
     }
     
     //MARK: Notifications

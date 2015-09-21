@@ -8,6 +8,7 @@
 
 import UIKit
 import Realm
+import CoreSpotlight
 
 let DB_VERSION = 1
 let SCHEMA_VERSION: UInt64 = 1
@@ -50,8 +51,10 @@ class SMCatalogManager: NSObject {
     
     private var _realm: RLMRealm?
     
-    private func realm() -> RLMRealm {
-        if _realm == nil {
+    private func realm() -> RLMRealm
+    {
+        if _realm == nil
+        {
             let config = RLMRealmConfiguration()
             var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as String!
             path = path.stringByAppendingString("/db_\(DB_VERSION).realm")
@@ -62,7 +65,7 @@ class SMCatalogManager: NSObject {
                 
             }
             
-            try! _realm = RLMRealm(configuration: config)
+            try! self._realm = RLMRealm(configuration: config)
         }
         
         return _realm!
@@ -113,6 +116,12 @@ class SMCatalogManager: NSObject {
             sids.append(ms.sid)
         }
         return sids
+    }
+    
+    func getSerialsMy() -> [SMSerial]  {
+        let sids = self.getMySerialsSids()
+        let p = NSPredicate(format: "sid in %@", sids)
+        return self.getSerialsWithPredicate(p)
     }
     
     func getSerialsMyUnwatched() -> [SMSerial]  {
@@ -305,12 +314,16 @@ class SMCatalogManager: NSObject {
     func apiGetSerialsMy() {
         let urlStr = "\(SMApiHelper.API_SERIALS_MY)/?nodesc"
         let successBlock = {(responseObject: [String:AnyObject]) -> Void in
-            if let objects:[AnyObject] = responseObject["objects"] as? [AnyObject] {
+            if let objects:[AnyObject] = responseObject["objects"] as? [AnyObject]
+            {
                 self.realm().beginWriteTransaction()
+                
                 let results = SMMySerial.allObjectsInRealm(self.realm())
                 self.realm().deleteObjects(results)
+                var indexed = [SMIndexedObject]()
                 
-                for object in objects {
+                for object in objects
+                {
                     if let objectDict = object as? [String: AnyObject] {
                         let sid = objectDict["sid"] as! String
                         let p = NSPredicate(format: "sid = %d", (sid as NSString).integerValue)
@@ -326,13 +339,17 @@ class SMCatalogManager: NSObject {
                         let mySerial = SMMySerial()
                         self.realm().addObject(mySerial)
                         mySerial.sid = serial.sid
+                        indexed.append(serial.indexedObject())
                     }
                 }
+                
+                self.reindexSpotlightWithSerials(indexed)
                 try! self.realm().commitWriteTransaction()
+                
+                postNotification(SMCatalogManagerNotification.ApiGetSerialsMySucceed.rawValue, object: nil)
             }
-            
-            postNotification(SMCatalogManagerNotification.ApiGetSerialsMySucceed.rawValue, object: nil)
         }
+        
         
         let failureBlock = {(error: NSError) -> Void in
             postNotification(SMCatalogManagerNotification.ApiGetSerialsMyFailed.rawValue, object: error)
@@ -341,6 +358,67 @@ class SMCatalogManager: NSObject {
         SMApiHelper.sharedInstance.performGetRequest(urlStr,
             success: successBlock,
             failure: failureBlock)
+    }
+    
+    func reindexSpotlightWithSerials(objects: [SMIndexedObject])
+    {
+        if #available(iOS 9.0, *)
+        {
+            CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
+            var items = [CSSearchableItem]()
+            let bundleId = NSBundle.mainBundle().infoDictionary?["CFBundleIdentifier"] as? String
+            for object in objects
+            {
+                let attributeSet = CSSearchableItemAttributeSet(itemContentType: "")
+                attributeSet.title = object.title
+                attributeSet.contentDescription = object.desc
+                
+                let item = CSSearchableItem(uniqueIdentifier: object.identifier, domainIdentifier: bundleId, attributeSet: attributeSet)
+                items.append(item)
+            }
+            CSSearchableIndex.defaultSearchableIndex().indexSearchableItems(items, completionHandler: { (error) -> Void in
+            })
+        }
+    }
+    
+    func tryAddSerialToSpotlight(object: SMIndexedObject)
+    {
+        if #available(iOS 9.0, *)
+        {
+            let bundleId = NSBundle.mainBundle().infoDictionary?["CFBundleIdentifier"] as? String
+            let attributeSet = CSSearchableItemAttributeSet(itemContentType: "")
+            attributeSet.title = object.title
+            attributeSet.contentDescription = object.desc
+            
+            let item = CSSearchableItem(uniqueIdentifier: object.identifier, domainIdentifier: bundleId, attributeSet: attributeSet)
+            CSSearchableIndex.defaultSearchableIndex().indexSearchableItems([item], completionHandler: nil)
+        }
+    }
+    
+    func tryRemoveSerialWithSidFromSpotlight(sid: Int)
+    {
+        if #available(iOS 9.0, *)
+        {
+            CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([String(format: "%ld", sid)], completionHandler: nil)
+        }
+    }
+    
+    func addSerialToSpotlightWithSid(sid: Int)
+    {
+        let p = NSPredicate(format: "sid = %d", sid)
+        var results = SMMySerial.objectsInRealm(self.realm(), withPredicate: p)
+    
+        if (results.count > 0)
+        {
+            results = SMSerial.objectsInRealm(self.realm(), withPredicate: p)
+            if (results.count > 0)
+            {
+                if let serial = results.firstObject() as? SMSerial
+                {
+                    self.tryAddSerialToSpotlight(serial.indexedObject())
+                }
+            }
+        }
     }
     
     func apiGetSerialsAll() {
@@ -704,6 +782,8 @@ class SMCatalogManager: NSObject {
                         
             try! self.realm().commitWriteTransaction()
             
+            self.addSerialToSpotlightWithSid(sid)
+            
             postNotification(SMCatalogManagerNotification.ApiSerialToggleWatchingSucceed.rawValue, object: nil)
         }
         
@@ -732,6 +812,7 @@ class SMCatalogManager: NSObject {
             self.realm().deleteObjects(results)
             try! self.realm().commitWriteTransaction()
             
+            self.tryRemoveSerialWithSidFromSpotlight(sid)
             postNotification(SMCatalogManagerNotification.ApiSerialToggleWatchingSucceed.rawValue, object: nil)
         }
         
@@ -770,6 +851,7 @@ class SMCatalogManager: NSObject {
                     me.watched = watched
                     metaEpisode = me
                 }
+                self.addSerialToSpotlightWithSid(episode.sid)
             }
             try! self.realm().commitWriteTransaction()
             
@@ -814,6 +896,8 @@ class SMCatalogManager: NSObject {
                 }
             }
             try! self.realm().commitWriteTransaction()
+            
+            self.addSerialToSpotlightWithSid(sid)
             
             postNotification(SMCatalogManagerNotification.ApiSeasonMarkWatchedSucceed.rawValue, object: nil)
         }

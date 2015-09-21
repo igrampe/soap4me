@@ -15,7 +15,8 @@ public enum SMSerialStatus: Int {
     case Closed = 2
 }
 
-class SMSerial: RLMObject {
+class SMSerial: RLMObject, SMIndexedProtocol
+{
     dynamic var sid: Int = 0
     dynamic var status: Int = 0
     dynamic var watching: Int = 0
@@ -67,5 +68,21 @@ class SMSerial: RLMObject {
         } else {
             return false
         }
+    }
+    
+    // MARK: SMIndexedProtocol
+    
+    func indexedObject() -> SMIndexedObject {
+        let object = SMIndexedObject()
+        object.identifier = String(format: "%ld", self.sid)
+        object.title = self.title
+        if self.unwatched > 0
+        {
+            object.desc = NSNumber(integer: self.unwatched).pluralizedStringWithOne(NSLocalizedString("новая серия"), few: NSLocalizedString("новые серии"), many: NSLocalizedString("новых серий"))
+        } else
+        {
+            object.desc = NSLocalizedString("Нет новых серий")
+        }
+        return object
     }
 }

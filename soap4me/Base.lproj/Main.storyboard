@@ -24,10 +24,10 @@
             </objects>
             <point key="canvasLocation" x="304" y="387"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Catalog Navigation Controller-->
         <scene sceneID="oEB-KC-mtC">
             <objects>
-                <navigationController storyboardIdentifier="CatalogNC" id="eKS-ye-dxN" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="CatalogNC" id="eKS-ye-dxN" customClass="SMCatalogNavigationController" customModule="soap4me" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="vab-j1-ZSi">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

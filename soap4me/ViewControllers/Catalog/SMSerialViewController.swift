@@ -268,7 +268,9 @@ class SMSerialViewController: SMCollectionViewController, SMSerialHeaderDelegate
             var seasonTitle: String = String(format: "%@ %d", NSLocalizedString("Сезон"), season.season_number)
             var unwatched = 0
             if let mes: [SMMetaEpisode] = self.metaEpisodes[season.season_number] {
-                seasonTitle = seasonTitle.stringByAppendingFormat("\n%d %@", mes.count, NSLocalizedString("Серий"))
+                seasonTitle = seasonTitle.stringByAppendingFormat("\n%@", NSNumber(integer: mes.count).pluralizedStringWithOne(NSLocalizedString("серия"),
+                    few: NSLocalizedString("серии"),
+                    many: NSLocalizedString("серий")))
                 if self.isWatching {
                     for me: SMMetaEpisode in mes {
                         if !me.watched {
