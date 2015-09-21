@@ -45,7 +45,6 @@ class APLApiHelper: NSObject {
                     }
                 } else
                 {
-                    print(result.error)
                     if let err: NSError = result.error as? NSError
                     {
                         if let fb = failure

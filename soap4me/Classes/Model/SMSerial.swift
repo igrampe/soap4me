@@ -29,6 +29,10 @@ class SMSerial: RLMObject {
     
     dynamic var tvdb_id: Double = 0
     
+    dynamic var kinopoisk_id: Double = 0
+    dynamic var kinopoisk_rating: Double = 0
+    dynamic var kinopoisk_votes: Double = 0
+    
     dynamic var title: String = ""
     dynamic var title_ru: String = ""
     dynamic var desc: String = ""

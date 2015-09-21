@@ -76,7 +76,11 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        let result = 3
+        var result = 2
+        if (SMStateManager.sharedInstance.canPlaySerials())
+        {
+            result++
+        }
         return result
     }
 
@@ -84,9 +88,17 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
         var result = 0
         if section == 0 {
             result = 3
-        } else if section == 1 {
-            result = 4
-        } else if section == 2 {
+        } else if section == 1
+        {
+            if (SMStateManager.sharedInstance.canPlaySerials())
+            {
+                result = 4
+            } else
+            {
+                result = 3
+            }
+        } else if section == 2
+        {
             result = 3
         }
         return result
@@ -116,65 +128,90 @@ class SMSettingsViewController: UITableViewController, UIActionSheetDelegate, MF
                 cell.textLabel?.text = NSLocalizedString("Выйти")
                 tableViewCell = cell
             }
-        } else if indexPath.section == 1 {
-            if [0, 1, 2].contains(indexPath.row) {
-                let cell = tableView.dequeueReusableCellWithIdentifier(SettingCellIdentifierCommon, forIndexPath: indexPath) as! SMSettingsCellCommon
-                var title = ""
-                var value = ""
-                
-                if indexPath.row == 0 {
-                    title = NSLocalizedString("Качество видео")
-                    if SMStateManager.sharedInstance.preferedQuality == SMEpisodeQuality.SD {
-                        value = "SD"
-                    } else if SMStateManager.sharedInstance.preferedQuality == SMEpisodeQuality.HD {
-                        value = "HD"
-                    }
-                } else if indexPath.row == 1 {
-                    title = NSLocalizedString("Перевод")
-                    if SMStateManager.sharedInstance.preferedTranslation == SMEpisodeTranslateType.Subs {
-                        value = NSLocalizedString("Субтитры")
-                    } else if SMStateManager.sharedInstance.preferedTranslation == SMEpisodeTranslateType.Voice {
-                        value = NSLocalizedString("Озвучка")
-                    }
-                } else if indexPath.row == 2 {
-                    title = NSLocalizedString("Сортировка")
-                    if SMStateManager.sharedInstance.catalogSorting == SMSorting.Ascending {
-                        value = NSLocalizedString("Прямая")
-                    } else {
-                        value = NSLocalizedString("Обратная")
-                    }
-                }
-                cell.textLabel?.text = title
-                cell.detailTextLabel?.text = value
-                tableViewCell = cell
-            } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier(SettingCellIdentifierBool, forIndexPath: indexPath) as! SMSettingsCellBool
-                cell.valueSwitch.on = SMStateManager.sharedInstance.shouldContinueWithNextEpisode
-                cell.textLabel?.text = NSLocalizedString("Переходить к следующей серии")
-                cell.delegate = self
-                tableViewCell = cell
+        } else if indexPath.section == 1
+        {
+            if (SMStateManager.sharedInstance.canPlaySerials())
+            {
+                tableViewCell = self.videoSettingsCell(indexPath)
+            } else
+            {
+                tableViewCell = self.appSettingsCell(indexPath)
             }
-        } else if indexPath.section == 2 {
-            if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier(SettingCellIdentifierCommon, forIndexPath: indexPath) as! SMSettingsCellCommon
-                cell.textLabel?.text = NSLocalizedString("Версия приложения")
-                if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
-                    cell.detailTextLabel?.text = version
-                }
-                tableViewCell = cell
-            } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier(SettingCellIdentifierAction, forIndexPath: indexPath) as! SMSettingsCellAction
-                var title = ""
-                switch indexPath.row {
-                    case 1: title = NSLocalizedString("Написать разработчику")
-                    case 2: title = NSLocalizedString("Оценить приложение")
-                    default: break
-                }
-                cell.textLabel?.text = title
-                tableViewCell = cell
-            }
+        } else if indexPath.section == 2
+        {
+            tableViewCell = self.appSettingsCell(indexPath)
         }
 
+        return tableViewCell
+    }
+    
+    func videoSettingsCell(indexPath: NSIndexPath) -> UITableViewCell
+    {
+        var tableViewCell: UITableViewCell
+        
+        if [0, 1, 2].contains(indexPath.row) {
+            let cell = tableView.dequeueReusableCellWithIdentifier(SettingCellIdentifierCommon, forIndexPath: indexPath) as! SMSettingsCellCommon
+            var title = ""
+            var value = ""
+            
+            if indexPath.row == 0 {
+                title = NSLocalizedString("Качество видео")
+                if SMStateManager.sharedInstance.preferedQuality == SMEpisodeQuality.SD {
+                    value = "SD"
+                } else if SMStateManager.sharedInstance.preferedQuality == SMEpisodeQuality.HD {
+                    value = "HD"
+                }
+            } else if indexPath.row == 1 {
+                title = NSLocalizedString("Перевод")
+                if SMStateManager.sharedInstance.preferedTranslation == SMEpisodeTranslateType.Subs {
+                    value = NSLocalizedString("Субтитры")
+                } else if SMStateManager.sharedInstance.preferedTranslation == SMEpisodeTranslateType.Voice {
+                    value = NSLocalizedString("Озвучка")
+                }
+            } else if indexPath.row == 2 {
+                title = NSLocalizedString("Сортировка")
+                if SMStateManager.sharedInstance.catalogSorting == SMSorting.Ascending {
+                    value = NSLocalizedString("Прямая")
+                } else {
+                    value = NSLocalizedString("Обратная")
+                }
+            }
+            cell.textLabel?.text = title
+            cell.detailTextLabel?.text = value
+            tableViewCell = cell
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier(SettingCellIdentifierBool, forIndexPath: indexPath) as! SMSettingsCellBool
+            cell.valueSwitch.on = SMStateManager.sharedInstance.shouldContinueWithNextEpisode
+            cell.textLabel?.text = NSLocalizedString("Переходить к следующей серии")
+            cell.delegate = self
+            tableViewCell = cell
+        }
+        
+        return tableViewCell
+    }
+    
+    func appSettingsCell(indexPath: NSIndexPath) -> UITableViewCell
+    {
+        var tableViewCell: UITableViewCell
+        
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCellWithIdentifier(SettingCellIdentifierCommon, forIndexPath: indexPath) as! SMSettingsCellCommon
+            cell.textLabel?.text = NSLocalizedString("Версия приложения")
+            if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+                cell.detailTextLabel?.text = version
+            }
+            tableViewCell = cell
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier(SettingCellIdentifierAction, forIndexPath: indexPath) as! SMSettingsCellAction
+            var title = ""
+            switch indexPath.row {
+            case 1: title = NSLocalizedString("Написать разработчику")
+            case 2: title = NSLocalizedString("Оценить приложение")
+            default: break
+            }
+            cell.textLabel?.text = title
+            tableViewCell = cell
+        }
         return tableViewCell
     }
     
