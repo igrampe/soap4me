@@ -62,7 +62,7 @@ class SMEpisode: RLMObject {
                 }
             }
             if self.translate.hasPrefix(" ") {
-                self.translate.substringFromIndex(self.translate.startIndex.advancedBy(1))
+                self.translate = self.translate.substringFromIndex(self.translate.startIndex.advancedBy(1))
             }
         }
     }

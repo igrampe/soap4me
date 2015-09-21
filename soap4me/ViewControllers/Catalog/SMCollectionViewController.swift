@@ -50,7 +50,7 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     
     func layoutOffset() {
         var offset: CGFloat = 0
-        if let navCtl = self.navigationController {
+        if let _ = self.navigationController {
             offset = 44+20
         }
         
@@ -154,7 +154,7 @@ class SMCollectionViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     func keyBoardWillHideWithNotification(notification: NSNotification) {
-        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.collectionView.contentInset = defaultEdgeInsets
         self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset
     }

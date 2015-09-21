@@ -10,7 +10,7 @@ import UIKit
 
 extension UIColor {
     convenience init(hex: String) {
-        var (r, g, b, a) = UIColor.colorComponentsWithString(hex)
+        let (r, g, b, a) = UIColor.colorComponentsWithString(hex)
         self.init(red: r, green: g, blue: b, alpha: a)
     }
     
