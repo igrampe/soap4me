@@ -237,8 +237,6 @@ class SMCatalogManager: NSObject {
         episodeProgress.episode_number = episode_number
         episodeProgress.progress = progress
         
-        NSLog("%d %d %f", episodeProgress.season_id, episodeProgress.episode_number, episodeProgress.progress)
-        
         try! self.realm().commitWriteTransaction()
     }
     
