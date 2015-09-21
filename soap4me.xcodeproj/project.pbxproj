@@ -23,7 +23,6 @@
 		5329B6401B6078DF00678A50 /* SMSeasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5329B63F1B6078DF00678A50 /* SMSeasonViewController.swift */; };
 		5329B6431B60793200678A50 /* SMEpisodeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5329B6411B60793200678A50 /* SMEpisodeCell.swift */; };
 		5329B6441B60793200678A50 /* SMEpisodeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5329B6421B60793200678A50 /* SMEpisodeCell.xib */; };
-		5329B64C1B60973C00678A50 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5329B64B1B60973C00678A50 /* bg.jpg */; };
 		5329B64E1B60A49300678A50 /* SMPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5329B64D1B60A49300678A50 /* SMPlayerViewController.swift */; };
 		5329B6501B60BFE800678A50 /* SMEpisodeProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5329B64F1B60BFE800678A50 /* SMEpisodeProgress.swift */; };
 		532E71BC1B69451200AA68FE /* SMSerialScheduleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532E71BB1B69451200AA68FE /* SMSerialScheduleItem.swift */; };
@@ -82,7 +81,6 @@
 		5329B63F1B6078DF00678A50 /* SMSeasonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSeasonViewController.swift; sourceTree = "<group>"; };
 		5329B6411B60793200678A50 /* SMEpisodeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMEpisodeCell.swift; sourceTree = "<group>"; };
 		5329B6421B60793200678A50 /* SMEpisodeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMEpisodeCell.xib; sourceTree = "<group>"; };
-		5329B64B1B60973C00678A50 /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
 		5329B64D1B60A49300678A50 /* SMPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMPlayerViewController.swift; sourceTree = "<group>"; };
 		5329B64F1B60BFE800678A50 /* SMEpisodeProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMEpisodeProgress.swift; sourceTree = "<group>"; };
 		532E71BB1B69451200AA68FE /* SMSerialScheduleItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSerialScheduleItem.swift; sourceTree = "<group>"; };
@@ -165,7 +163,6 @@
 		5329B6481B6095C300678A50 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5329B64B1B60973C00678A50 /* bg.jpg */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -437,7 +434,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5328450B1B5B056B00FADC03 /* LaunchScreen.xib in Resources */,
-				5329B64C1B60973C00678A50 /* bg.jpg in Resources */,
 				53E00A181B6EB7EE00AE4F33 /* Localizable.strings in Resources */,
 				5329B6441B60793200678A50 /* SMEpisodeCell.xib in Resources */,
 				5325ADF91B663AD000DE175C /* SMScheduleItemCell.xib in Resources */,
