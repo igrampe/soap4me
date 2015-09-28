@@ -365,8 +365,10 @@ class SMCatalogManager: NSObject {
     {
         if #available(iOS 9.0, *)
         {
-            CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
-            self.tryAddSerialsToSpotlight(objects)
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), { () -> Void in
+                CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
+                self.tryAddSerialsToSpotlight(objects)
+            })
         }
     }
     
@@ -374,26 +376,30 @@ class SMCatalogManager: NSObject {
     {
         if #available(iOS 9.0, *)
         {
-            var items = [CSSearchableItem]()
-            let bundleId = NSBundle.mainBundle().infoDictionary?["CFBundleIdentifier"] as? String
-            for object in objects
-            {
-                let attributeSet = CSSearchableItemAttributeSet(itemContentType: "")
-                attributeSet.title = object.title
-                attributeSet.contentDescription = object.desc
-                attributeSet.thumbnailData = self.cahcedImageDataForURL(object.imageURL)
-                
-                let item = CSSearchableItem(uniqueIdentifier: object.identifier, domainIdentifier: bundleId, attributeSet: attributeSet)
-                items.append(item)
-            }
-            CSSearchableIndex.defaultSearchableIndex().indexSearchableItems(items, completionHandler: { (error) -> Void in
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), { () -> Void in
+                var items = [CSSearchableItem]()
+                let bundleId = NSBundle.mainBundle().infoDictionary?["CFBundleIdentifier"] as? String
+                for object in objects
+                {
+                    let attributeSet = CSSearchableItemAttributeSet(itemContentType: "")
+                    attributeSet.title = object.title
+                    attributeSet.contentDescription = object.desc
+                    if let urlStr = self.cahcedImageUrlForURL(object.imageURL)
+                    {
+                        attributeSet.thumbnailURL = NSURL(fileURLWithPath: urlStr)
+                    }
+                    let item = CSSearchableItem(uniqueIdentifier: object.identifier, domainIdentifier: bundleId, attributeSet: attributeSet)
+                    items.append(item)
+                }
+                CSSearchableIndex.defaultSearchableIndex().indexSearchableItems(items, completionHandler: { (error) -> Void in
+                })
             })
         }
     }
     
-    func updateSerialIndexWithSid(sid: Int, image: UIImage?)
+    func updateSerialIndexWithSid(sid: Int, imageURL: String?)
     {
-        if (image == nil)
+        if (imageURL == nil)
         {
             return
         }
@@ -402,15 +408,19 @@ class SMCatalogManager: NSObject {
             if let serial = self.getSerialWithSid(sid)
             {
                 let object = serial.indexedObject()
-                let bundleId = NSBundle.mainBundle().infoDictionary?["CFBundleIdentifier"] as? String
-                let attributeSet = CSSearchableItemAttributeSet(itemContentType: "")
-                attributeSet.title = object.title
-                attributeSet.contentDescription = object.desc
-                attributeSet.thumbnailData = UIImagePNGRepresentation(image!)
-                let item = CSSearchableItem(uniqueIdentifier: object.identifier, domainIdentifier: bundleId, attributeSet: attributeSet)
-                CSSearchableIndex.defaultSearchableIndex().indexSearchableItems([item], completionHandler: nil)
+                dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), { () -> Void in
+                    let bundleId = NSBundle.mainBundle().infoDictionary?["CFBundleIdentifier"] as? String
+                    let attributeSet = CSSearchableItemAttributeSet(itemContentType: "")
+                    attributeSet.title = object.title
+                    attributeSet.contentDescription = object.desc
+                    if let urlStr = self.cahcedImageUrlForURL(object.imageURL)
+                    {
+                        attributeSet.thumbnailURL = NSURL(fileURLWithPath: urlStr)
+                    }
+                    let item = CSSearchableItem(uniqueIdentifier: object.identifier, domainIdentifier: bundleId, attributeSet: attributeSet)
+                    CSSearchableIndex.defaultSearchableIndex().indexSearchableItems([item], completionHandler: nil)                
+                })
             }
-            
         }
     }
     
@@ -418,7 +428,9 @@ class SMCatalogManager: NSObject {
     {
         if #available(iOS 9.0, *)
         {
-            CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([String(format: "%ld", sid)], completionHandler: nil)
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), { () -> Void in
+                CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([String(format: "%ld", sid)], completionHandler: nil)
+            })
         }
     }
     
@@ -441,9 +453,9 @@ class SMCatalogManager: NSObject {
         }
     }
     
-    func cahcedImageDataForURL(imageUrl: String?) -> NSData?
+    func cahcedImageUrlForURL(imageUrl: String?) -> String?
     {
-        var data: NSData?
+        var path: String?
         if let _ = imageUrl
         {
             if let url = NSURL(string: imageUrl!, relativeToURL: nil)
@@ -451,12 +463,11 @@ class SMCatalogManager: NSObject {
                 if SDWebImageManager.sharedManager().cachedImageExistsForURL(url)
                 {
                     let key = SDWebImageManager.sharedManager().cacheKeyForURL(url)
-                    let path = SDImageCache.sharedImageCache().defaultCachePathForKey(key)
-                    data = NSData(contentsOfFile: path)
+                    path = SDImageCache.sharedImageCache().defaultCachePathForKey(key)
                 }
             }
         }
-        return data
+        return path
     }
     
     func apiGetSerialsAll() {

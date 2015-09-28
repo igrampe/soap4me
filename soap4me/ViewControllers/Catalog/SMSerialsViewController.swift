@@ -147,13 +147,17 @@ class SMSerialsViewController: SMCollectionViewController, SMAsyncImageViewDeleg
     
     func imageViewDidLoadImage(imageView: SMAsyncImageView)
     {
-        if let indexPath = imageView.indexPath
+        if (self.mySerials)
         {
-            let object = self.dataSource?.serialsCtl(self, objectAtIndexPath: indexPath)
-            
-            if let serial = object as? SMSerial
+            if let indexPath = imageView.indexPath
             {
-                SMCatalogManager.sharedInstance.updateSerialIndexWithSid(serial.sid, image: imageView.image)
+                let object = self.dataSource?.serialsCtl(self, objectAtIndexPath: indexPath)
+                
+                if let serial = object as? SMSerial
+                {
+                    let urlStr = String(format: SMApiHelper.ASSET_COVER_SERIAL_BIG, serial.sid)
+                    SMCatalogManager.sharedInstance.updateSerialIndexWithSid(serial.sid, imageURL: urlStr)
+                }
             }
         }
     }
