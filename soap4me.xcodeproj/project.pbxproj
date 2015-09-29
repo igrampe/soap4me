@@ -414,7 +414,12 @@
 				TargetAttributes = {
 					5343664C1B59809300C2C203 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = 5UBV5976ME;
+						DevelopmentTeam = ACWXJS77DW;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -693,7 +698,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Semyon Belokovkskii (VP2HD59A4B)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -760,7 +766,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = soap4me/Info.plist;
@@ -814,7 +821,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.appplus.soap4me;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0ec6567b-45b9-45af-bb5a-5b6b45fe2456";
+				PROVISIONING_PROFILE = "e7c7e7ba-74c5-486d-bf74-714610d567b9";
 				SWIFT_OBJC_BRIDGING_HEADER = "soap4me/Bridging-Headers/soap4me-Bridging-Header.h";
 			};
 			name = Release;

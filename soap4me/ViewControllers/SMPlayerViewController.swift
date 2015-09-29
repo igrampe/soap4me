@@ -16,7 +16,8 @@ protocol SMPlayerViewControllerDelegate: NSObjectProtocol {
     func getNextEpisodeForPlayer(ctl: SMPlayerViewController)
 }
 
-class SMPlayerViewController: AVPlayerViewController {
+class SMPlayerViewController: AVPlayerViewController, AVPlayerViewControllerDelegate
+{
     
     var eid: Int = 0
     var sid: Int = 0
@@ -26,12 +27,18 @@ class SMPlayerViewController: AVPlayerViewController {
     var shouldRequestLink: Bool = true
     var startPosition: Double = 0
     var timer: NSTimer?
+    
     weak var vcdelegate: SMPlayerViewControllerDelegate?
     
     private var сontext = 0
     
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
+        if #available(iOS 9.0, *)
+        {
+            self.delegate = self
+        }
         self.view.backgroundColor = UIColor.blackColor()
         
         self.observe(selector: "apiEpisodeGetLinkInfoSucceed:", name: SMCatalogManagerNotification.ApiEpisodeGetLinkInfoSucceed.rawValue)
@@ -42,7 +49,8 @@ class SMPlayerViewController: AVPlayerViewController {
         super.viewDidLayoutSubviews()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool)
+    {
         super.viewWillAppear(animated)
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
         if (self.shouldRequestLink) {
@@ -54,8 +62,15 @@ class SMPlayerViewController: AVPlayerViewController {
         super.viewDidAppear(animated)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        if let t = self.timer {
+    override func viewWillDisappear(animated: Bool)
+    {
+        self.clenup()
+    }
+    
+    func clenup()
+    {
+        if let t = self.timer
+        {
             t.invalidate()
             self.timer = nil
         }
@@ -66,12 +81,9 @@ class SMPlayerViewController: AVPlayerViewController {
         }
     }
     
-    func stopPlaying() {
+    func stopPlaying()
+    {
         self.dismissViewControllerAnimated(true, completion: nil)
-        if let t = self.timer {
-            t.invalidate()
-            self.timer = nil
-        }
     }
     
     func nextPlay() {
@@ -169,5 +181,12 @@ class SMPlayerViewController: AVPlayerViewController {
     
     deinit {
         self.stopObserve()
+    }
+    
+    // MARK: AVPlayerViewControllerDelegate
+    
+    func playerViewControllerShouldAutomaticallyDismissAtPictureInPictureStart(playerViewController: AVPlayerViewController) -> Bool
+    {
+        return false
     }
 }
