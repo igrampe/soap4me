@@ -38,9 +38,9 @@
 		534366841B59835900C2C203 /* SMRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534366821B59835900C2C203 /* SMRootViewController.swift */; };
 		534366891B59851F00C2C203 /* SMSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534366881B59851F00C2C203 /* SMSignInViewController.swift */; };
 		534C47FF1B6D408C00751CD9 /* SMSettingsCellBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534C47FE1B6D408C00751CD9 /* SMSettingsCellBool.swift */; };
-		5370FB271BAFD8D50021AF6A /* APLPluralize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5370FB261BAFD8D50021AF6A /* APLPluralize.swift */; settings = {ASSET_TAGS = (); }; };
-		5370FB291BAFE3380021AF6A /* SMCatalogNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5370FB281BAFE3380021AF6A /* SMCatalogNavigationController.swift */; settings = {ASSET_TAGS = (); }; };
-		5370FB2B1BAFE9CF0021AF6A /* SMIndexedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5370FB2A1BAFE9CF0021AF6A /* SMIndexedObject.swift */; settings = {ASSET_TAGS = (); }; };
+		5370FB271BAFD8D50021AF6A /* APLPluralize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5370FB261BAFD8D50021AF6A /* APLPluralize.swift */; };
+		5370FB291BAFE3380021AF6A /* SMCatalogNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5370FB281BAFE3380021AF6A /* SMCatalogNavigationController.swift */; };
+		5370FB2B1BAFE9CF0021AF6A /* SMIndexedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5370FB2A1BAFE9CF0021AF6A /* SMIndexedObject.swift */; };
 		537A49141B59B2BE00F81129 /* SMSignInTextFiled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49131B59B2BE00F81129 /* SMSignInTextFiled.swift */; };
 		537A49181B59BAFF00F81129 /* UIColor+APL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49171B59BAFF00F81129 /* UIColor+APL.swift */; };
 		537A491A1B59CACB00F81129 /* APLApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A49191B59CACB00F81129 /* APLApiHelper.swift */; };
@@ -414,9 +414,12 @@
 				TargetAttributes = {
 					5343664C1B59809300C2C203 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = ACWXJS77DW;
+						DevelopmentTeam = 5UBV5976ME;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -752,7 +755,7 @@
 					"-framework",
 					"\"protobuf_c\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.appplus.soap4me;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boloid.soap4me;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "soap4me/Bridging-Headers/soap4me-Bridging-Header.h";
@@ -819,9 +822,9 @@
 					"-framework",
 					"\"protobuf_c\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.appplus.soap4me;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boloid.soap4me;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e7c7e7ba-74c5-486d-bf74-714610d567b9";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "soap4me/Bridging-Headers/soap4me-Bridging-Header.h";
 			};
 			name = Release;
