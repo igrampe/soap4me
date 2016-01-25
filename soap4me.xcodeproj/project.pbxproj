@@ -414,7 +414,7 @@
 				TargetAttributes = {
 					5343664C1B59809300C2C203 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = 5UBV5976ME;
+						DevelopmentTeam = B3CRKJ8PJ6;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -755,7 +755,7 @@
 					"-framework",
 					"\"protobuf_c\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.boloid.soap4me;
+				PRODUCT_BUNDLE_IDENTIFIER = com.appplus.soap4me;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "soap4me/Bridging-Headers/soap4me-Bridging-Header.h";
@@ -769,8 +769,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hyperboloid OOO";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hyperboloid OOO";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = soap4me/Info.plist;
@@ -822,7 +822,7 @@
 					"-framework",
 					"\"protobuf_c\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.boloid.soap4me;
+				PRODUCT_BUNDLE_IDENTIFIER = com.appplus.soap4me;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "soap4me/Bridging-Headers/soap4me-Bridging-Header.h";
