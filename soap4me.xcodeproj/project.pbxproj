@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2174A8710ED3E904A6596842 /* Pods_soap4me.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6EB2B97E986C60F42D16DED /* Pods_soap4me.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		2174A8710ED3E904A6596842 /* Pods_soap4me.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6EB2B97E986C60F42D16DED /* Pods_soap4me.framework */; };
 		530AB3EC1B5ADE6900F5E6B5 /* SMSerialsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530AB3EB1B5ADE6900F5E6B5 /* SMSerialsViewController.swift */; };
 		531D9C6A1B5B54EB00014FFB /* SMPaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531D9C691B5B54EB00014FFB /* SMPaddingLabel.swift */; };
 		531D9C6C1B5C3EF900014FFB /* SMMySerial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531D9C6B1B5C3EF900014FFB /* SMMySerial.swift */; };
@@ -712,7 +712,6 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
-					"-l\"YandexMobileMetrica\"",
 					"-l\"c++\"",
 					"-l\"sqlite3\"",
 					"-l\"z\"",
@@ -779,7 +778,6 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
-					"-l\"YandexMobileMetrica\"",
 					"-l\"c++\"",
 					"-l\"sqlite3\"",
 					"-l\"z\"",
