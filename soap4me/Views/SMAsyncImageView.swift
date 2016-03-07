@@ -18,7 +18,7 @@ class SMAsyncImageView: UIImageView
 {
     
     
-    var activityIndicator: UIActivityIndicatorView!
+    var activityIndicator: UIActivityIndicatorView?
     weak var delegate: SMAsyncImageViewDelegate?
     var indexPath: NSIndexPath?
     
@@ -34,13 +34,19 @@ class SMAsyncImageView: UIImageView
     
     func commonInit() {
         self.activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
-        self.activityIndicator.hidesWhenStopped = true
-        self.addSubview(self.activityIndicator)
+        if let activityIndicator = self.activityIndicator
+        {
+            activityIndicator.hidesWhenStopped = true
+            self.addSubview(activityIndicator)
+        }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.activityIndicator.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2)
+        if let activityIndicator = self.activityIndicator
+        {
+            activityIndicator.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2)
+        }
     }
     
     func setImageUrl(urlStr: String) {
@@ -48,10 +54,16 @@ class SMAsyncImageView: UIImageView
     }
     
     func setImageUrl(urlStr: String, animated: Bool) {
-        self.activityIndicator.startAnimating()
+        if let activityIndicator = self.activityIndicator
+        {
+            activityIndicator.startAnimating()
+        }
         if let url = NSURL(string: urlStr) {
             self.sd_setImageWithURL(url, completed: { (image, error, _, _) -> Void in
-                self.activityIndicator.stopAnimating()
+                if let activityIndicator = self.activityIndicator
+                {
+                    activityIndicator.stopAnimating()
+                }
                 self.delegate?.imageViewDidLoadImage(self)
                 if animated {
                     self.layer.opacity = 0

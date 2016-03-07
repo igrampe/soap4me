@@ -341,8 +341,8 @@ class SMStateManager: NSObject, AppiraterDelegate {
     }
     
     func registerPush() {
-        let settings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes:[UIUserNotificationType.Badge, UIUserNotificationType.Alert, UIUserNotificationType.Sound], categories: nil)
-        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+//        let settings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes:[UIUserNotificationType.Badge, UIUserNotificationType.Alert, UIUserNotificationType.Sound], categories: nil)
+//        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
     }
     
     func checkPush() {

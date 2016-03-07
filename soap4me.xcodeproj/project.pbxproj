@@ -414,7 +414,7 @@
 				TargetAttributes = {
 					5343664C1B59809300C2C203 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = B3CRKJ8PJ6;
+						DevelopmentTeam = 5UBV5976ME;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -729,13 +729,9 @@
 					"-framework",
 					"\"Crashlytics\"",
 					"-framework",
-					"\"FMDB\"",
-					"-framework",
 					"\"Fabric\"",
 					"-framework",
 					"\"Foundation\"",
-					"-framework",
-					"\"KSCrash\"",
 					"-framework",
 					"\"KeychainAccess\"",
 					"-framework",
@@ -752,10 +748,8 @@
 					"\"SystemConfiguration\"",
 					"-framework",
 					"\"UIKit\"",
-					"-framework",
-					"\"protobuf_c\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.appplus.soap4me;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boloid.soap4me;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "soap4me/Bridging-Headers/soap4me-Bridging-Header.h";
@@ -769,8 +763,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -796,13 +790,9 @@
 					"-framework",
 					"\"Crashlytics\"",
 					"-framework",
-					"\"FMDB\"",
-					"-framework",
 					"\"Fabric\"",
 					"-framework",
 					"\"Foundation\"",
-					"-framework",
-					"\"KSCrash\"",
 					"-framework",
 					"\"KeychainAccess\"",
 					"-framework",
@@ -819,10 +809,8 @@
 					"\"SystemConfiguration\"",
 					"-framework",
 					"\"UIKit\"",
-					"-framework",
-					"\"protobuf_c\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.appplus.soap4me;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boloid.soap4me;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "soap4me/Bridging-Headers/soap4me-Bridging-Header.h";
